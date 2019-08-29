@@ -1,0 +1,479 @@
+.outline,
+mech-part img,
+wu-bar-based-sum-bar val {
+  -webkit-filter: drop-shadow(1px 1px 0 #000)
+                drop-shadow(-1px 1px 0 #000)
+                drop-shadow(1px -1px 0 #000)
+                drop-shadow(-1px -1px 0 #000);
+
+  filter: drop-shadow(1px 1px 0 #000)
+          drop-shadow(-1px 1px 0 #000)
+          drop-shadow(1px -1px 0 #000)
+          drop-shadow(-1px -1px 0 #000);
+}
+
+icon,
+gfx {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+wu-plus-button,
+wu-mech-summary,
+wu-item-slot {
+  /*border: 2px solid var(--c-text);*/
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  margin: calc(0.4vw + 0.4vh);
+  background-color: rgba(0, 0, 10, .8);
+  z-index: 200;
+}
+
+wu-stat-block {
+  display: grid;
+  position: relative;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: 100%;
+  grid-template-areas: "a b";
+}
+wu-stat-block icon {
+  grid-area: a;
+  display: block;
+  position: relative;
+  left: 20%;
+  top: 10%;
+  width: 80%;
+  height: 80%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+wu-stat-block value {
+  grid-area: b;
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin-left: 5%;
+}
+wu-stat-block quote {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  top: 50%;
+  right: 5%;
+  line-height: 0;
+}
+
+wu-mech-summary {
+  grid-area: c;
+  display: flex;
+  flex-direction: column;
+}
+wu-mech-summary wu-stat-block {
+  height: calc(100% / 9);
+  width: 100%;
+}
+
+wu-select-item-tab {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  grid-template-rows: 5% 40% 5% 45% 5%;
+  grid-template-areas:
+    ". . ."
+    ". b ."
+    ". . ."
+    ". a ."
+    ". . .";
+}
+
+wu-select-item-tab list {
+  position: relative;
+  display: block;
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  grid-area: a;
+  background-image: linear-gradient(rgba(5, 5, 15, 1), rgba(0, 0, 0, 0));
+  overflow-y: scroll;
+  padding-bottom: 1%;
+}
+wu-select-item-tab list wu-item-block {
+  display: inline-block;
+  margin: 1% 0 0 1%;
+  width: 8%;
+  padding-top: 8%;
+}
+wu-item-data-panel {
+  grid-area: b;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 20% 80%;
+  grid-template-areas:
+    "a c"
+    "b c";
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  background-color: rgba(5, 5, 15, 0.5);
+  border: calc(0.2vw + 0.2vh) solid #113;
+}
+wu-item-data-panel name {
+  grid-area: a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+wu-item-data-panel gfx {
+  grid-area: b;
+  margin-left: 10%;
+  width: 80%;
+  height: 80%;
+}
+wu-bar-based-sum {
+  grid-area: c;
+  display: flex;
+  flex-direction: column;
+  border-left: calc(0.2vw + 0.2vh) solid #113;
+}
+wu-bar-based-sum-bar {
+  position: relative;
+  margin-top: 1;
+  display: grid;
+  height: 8.333%;
+  grid-template-columns: 15% 85%;
+  grid-template-areas: "a b";
+  white-space: nowrap;
+  border-bottom: calc(0.1vw + 0.1vh) solid #080824;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+wu-bar-based-sum-bar icon {
+  grid-area: a;
+  margin: 5% 0 0 5%;
+  width: 90%;
+  height: 90%;
+}
+wu-bar-based-sum-bar val {
+  z-index: 1;
+}
+wu-bar-based-sum-bar val {
+  position: absolute;
+  left: 16%;
+  top: 50%;
+  line-height: 0;
+}
+wu-bar-based-sum-bar bar {
+  position: relative;
+  display: block;
+  top: 5%;
+  height: 90%;
+  background-image: url(../img/general/bar-frame.svg);
+  background-size: auto 100%;
+}
+
+wu-item-block {
+  position: relative;
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+wu-item-block.active,
+wu-item-block:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  -webkit-filter: brightness(1.3);
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+wu-item-block gfx {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+}
+wu-item-block hitbox {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+wu-item-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+wu-item-slot gfx {
+  display: block;
+  position: relative;
+  width: 90%;
+  height: 90%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+wu-modules-setup {
+  grid-area: d;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  grid-template-areas: 'a b c d e f g h';
+}
+
+wu-parts-setup {
+  grid-area: a;
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-rows: 25% 25% 25% 25%;
+  grid-template-areas:
+    "g i h"
+    "e a f"
+    "c b d"
+    "j k l";
+}
+
+wu-workshop {
+  position: relative;
+  width: 80%;
+  height: 90%;
+  display: grid;
+  grid-template-columns: 37.5% 37.5% 25%;
+  grid-template-rows: 10% 70% 20%;
+  grid-template-areas: "a b e" "a b c" "d d d";
+  transition: opacity 1s;
+}
+
+wu-plus-button {
+  grid-area: e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../img/icons/plus.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+wu-item-slot:hover,
+wu-plus-button:hover {
+  background-color: rgba(0, 0, 30, 0.8);
+  cursor: pointer;
+}
+
+wu-mech-display {
+  position: relative;
+  display: block;
+  grid-area: b;
+}
+
+wu-mech-display parts-container-wrapper {
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+wu-mech-display input[type=text] {
+  position: absolute;
+  display: block;
+  background: none;
+  background-image: linear-gradient(90deg, transparent 10%, rgba(0, 0, 0, 0.8) 30%, rgba(0, 0, 0, 0.8) 70%, transparent 90%);
+  border: none;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  left: 0;
+  top: 5%;
+  text-align: center;
+}
+
+wu-mech-display input[type=range] {
+  position: absolute;
+  display: block;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5%;
+  margin-top: calc(0.4vw + 0.4vh);
+  opacity: 0.2 !important;
+  z-index: 200;
+}
+wu-mech-display input[type=range]:hover {
+  opacity: 1 !important;
+}
+
+wu-mech-display mech-parts {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+wu-mech-display mech-parts mech-part {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+wu-mech-display mech-parts mech-part:hover {
+  filter: brightness(1.3);
+}
+
+wu-plus-n-settings-tab {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: 12% 76% 12%;
+  grid-template-areas:
+    ". . ."
+    ". a ."
+    ". . .";
+}
+
+wu-plus-n-settings-tab content-wrapper {
+  grid-area: a;
+  display: block;
+  position: relative;
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  background-color: rgba(5, 5, 15, 0.5);
+  border: calc(0.2vw + 0.2vh) solid #113;
+}
+
+wu-plus-n-settings-tab content-wrapper switch-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 2% 0 0 2%;
+}
+
+switch-container wu-switch-button {
+  margin-right: 2%;
+}
+
+wu-select-item-tab,
+wu-plus-n-settings-tab {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.9);
+  z-index: 300;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  background: none;
+  outline: none;
+  border: none;
+  opacity: 0.8;
+}
+input[type=range]:focus,
+input[type=range]:hover { opacity: 1 }
+input[type=range]::-webkit-slider-runnable-track {
+  margin: calc(0.4vw + 0.4vh);
+  border-radius: 100vh;
+  background: var(--c-text);
+  border: none;
+  overflow: hidden;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 100%;
+  width: 0;
+  padding-left: 20%;
+  border-radius: 100vh;
+  background: rgba(0, 0, 20, .9);
+  border: none;
+  cursor: pointer;
+}
+input[type=range]::-moz-range-track {
+  margin: calc(0.4vw + 0.4vh);
+  border-radius: 100vh;
+  background: var(--c-text);
+  border: none;
+  overflow: hidden;
+}
+input[type=range]::-moz-range-thumb {
+  -webkit-appearance: none;
+  height: 100%;
+  width: 0;
+  padding-left: 20%;
+  border-radius: 100vh;
+  background: rgba(0, 0, 20, .9);
+  border: none;
+  cursor: pointer;
+}
+
+@media
+  screen and (orientation : portrait),
+  screen and (max-height : 450px) {
+  wu-workshop {
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 50% 12.5% 12.5% 25%;
+    grid-template-rows: 14% 14% 58% 14%;
+    grid-template-areas:
+      "a a a e"
+      "a a a e"
+      "b b c c"
+      "d d d d";
+  }
+  wu-select-item-tab {
+    grid-template-columns: 100%;
+    grid-template-rows: 50%;
+    grid-template-areas:
+      "b"
+      "a";
+  }
+  wu-parts-setup {
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 16.666% 16.666% 16.666% 16.666% 16.666% 16.666%;
+    grid-template-areas:
+      "e a f g i h"
+      "c b d j k l";
+  }
+  wu-select-item-tab list,
+  wu-select-item-tab wu-item-data-panel {
+    border-radius: 0;
+  }
+  wu-select-item-tab list wu-item-block {
+    width: 13.13%;
+    padding-top: 13.13%;
+  }
+
+  wu-plus-button,
+  wu-mech-summary,
+  wu-item-slot {
+    /*border: 2px solid var(--c-text);*/
+    border-radius: calc(0.6vw + 0.6vh) 0;
+    margin: calc(0.2vw + 0.2vh);
+    background-color: rgba(0, 0, 10, .8);
+    z-index: 100;
+  }
+
+  wu-plus-n-settings-tab {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 90% 10%;
+    grid-template-areas:
+      "a"
+      ".";
+  }
+
+  @media screen and (min-width : 701px) {
+    wu-workshop {
+      grid-template-columns: 4fr 1.25fr 25%;
+      grid-template-areas:
+        "a a e"
+        "a a e"
+        "b b c"
+        "d d d";
+    }
+  }
+}

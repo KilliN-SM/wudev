@@ -1,0 +1,40 @@
+html, body { height:100%; margin:0 }
+body {
+  --c-text: #DDD;
+
+  background-color: #000;
+  background-image: url(../img/general/background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: var(--c-text);
+
+  font-family: 'Chakra Petch', sans-serif;
+  /*font-size: calc(1vh + 1vw);*/
+
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;
+  user-select: none;          /* Likely future */ 
+}
+
+app {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+loading-text {
+  position: fixed;
+  top: 50%;
+  text-align: center;
+  line-height: 0;
+}
