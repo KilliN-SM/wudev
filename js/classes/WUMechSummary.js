@@ -42,10 +42,15 @@ class WUMechSummary extends HTMLElement
                 if (s !== 'weight') this[s].quote('');
                 else
                 {
-                    if (statMap[s] > 994)  this[s].quote('good',    '#6F8');
+                    if (statMap[s] > 994)  this[s].quote('good', '#6F8');
+                    else
+                    {
+                        this[s].quote('');
+                        continue;
+                    }
                     if (statMap[s] > 999)  this[s].quote('perfect', '#86F');
-                    if (statMap[s] > 1000) this[s].quote('heavy',   '#FA8');
-                    if (statMap[s] > 1010) this[s].quote('over',    '#F66');
+                    if (statMap[s] > 1000) this[s].quote('heavy', '#FA8');
+                    if (statMap[s] > 1010) this[s].quote('over', '#F66');
                 }
             }
         }
