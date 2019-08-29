@@ -71,7 +71,8 @@ class WUWorkshop extends HTMLElement
         {
             const stat = this.statsData[key];
 
-            $.getBlob(`./img/icons/stats/${key}.svg`, blob => stat.src = blob);
+            // $.getBlob(`./img/icons/stats/${key}.svg`, blob => stat.src = blob);
+            $.toDataURL(`./img/icons/stats/${key}.svg`, data => stat.src = data);
 
             if (stat.type === 'boo')
             {
