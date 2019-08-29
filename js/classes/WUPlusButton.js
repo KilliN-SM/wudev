@@ -7,12 +7,14 @@ class WUPlusButton extends HTMLElement
         const app = document.querySelector('app');
         const tab = new WUPlusNSettingsTab();
 
-        tab.style.visibility = 'hidden';
-        
+        tab.hide();
         app.appendChild(tab);
         
         this.onclick = () => tab.show();
-        tab.onclick = e => e.target === tab && tab.hide();
+        tab.onclick = e =>
+        {
+            if (e.target === tab) tab.hide();
+        }
     }
 }
 window.customElements.define('wu-plus-button', WUPlusButton);

@@ -60,6 +60,7 @@ class WUWorkshop extends HTMLElement
         {
             name: '',
             type: 0,
+            element: 0,
             tiers: [0, 0],
             stats: {},
             attachment: {}
@@ -71,7 +72,6 @@ class WUWorkshop extends HTMLElement
         {
             const stat = this.statsData[key];
 
-            // $.getBlob(`./img/icons/stats/${key}.svg`, blob => stat.src = blob);
             $.toDataURL(`./img/icons/stats/${key}.svg`, data => stat.src = data);
 
             if (stat.type === 'boo')
@@ -2328,14 +2328,20 @@ class WUWorkshop extends HTMLElement
         for (const item of this.items)
         {
             // Set 'item.src' (Async)
-            //$.getBlob(`./img/items/${item.name.replace(/\s/g, '')}.${item.svg ? 'svg' : 'png'}`, blob => item.src = blob);
             $.toDataURL(`./img/items/${item.name.replace(/\s/g, '')}.${item.svg ? 'svg' : 'png'}`, data => item.src = data);
 
 
             // Make 'window.workshop.topStatMap', the map of the highest stats of each item type.
 
-            if (!this.topStatMap[item.type]) this.topStatMap[item.type] = { ...this.itemTemplate.stats, res:0, dmg:[0, 0] };
-            
+            if (!this.topStatMap[item.type])
+            {
+                this.topStatMap[item.type] = {
+                    ...this.itemTemplate.stats,
+                    res: 0,
+                    dmg: [0, 0]
+                };
+            }
+
             const itemStatNames = Object.keys(item.stats);
 
             for (const name of itemStatNames)

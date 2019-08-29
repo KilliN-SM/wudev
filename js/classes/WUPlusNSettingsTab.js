@@ -26,15 +26,10 @@ class WUPlusNSettingsTab extends HTMLElement
             window.workshop.toggleArenaBuffs(e.target.checked);
         });
 
-        this.onclick = e =>
-        {
-            if (e.target === this) this.style.visibility = 'hidden';
-        }
-
-        switchContainer.appendChild(arenaBuffsSwitch);
-        switchContainer.append(' Arena Buffs');
-        cw.appendChild(switchContainer);
         this.appendChild(cw);
+        cw.appendChild(switchContainer);
+        switchContainer.appendChild(arenaBuffsSwitch);
+        switchContainer.appendChild($.dom('text', { innerHTML:'Arena Buffs' }));
     }
 
     show ()
