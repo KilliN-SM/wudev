@@ -72,8 +72,6 @@ class WUSelectItemTab extends HTMLElement
 
     selectItem (item)
     {
-        console.log(item);
-
         const previous = this.heldSlot.currentItem;
         
         this.heldSlot.setItem(item);

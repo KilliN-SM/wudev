@@ -36,5 +36,15 @@ class WUPlusNSettingsTab extends HTMLElement
         cw.appendChild(switchContainer);
         this.appendChild(cw);
     }
+
+    show ()
+    {
+        this.style.visibility = 'visible';
+    }
+
+    hide ()
+    {
+        this.style.visibility = 'hidden';
+    }
 }
 window.customElements.define('wu-plus-n-settings-tab', WUPlusNSettingsTab);

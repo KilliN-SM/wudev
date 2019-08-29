@@ -280,7 +280,7 @@ wu-mech-display input[type=text] {
   position: absolute;
   display: block;
   background: none;
-  background-image: linear-gradient(90deg, transparent 10%, rgba(0, 0, 0, 0.8) 30%, rgba(0, 0, 0, 0.8) 70%, transparent 90%);
+  background-image: linear-gradient(90deg, transparent 10%, rgba(0, 0, 10, 0.8) 30%, rgba(0, 0, 10, 0.8) 70%, transparent 90%);
   border: none;
   font: inherit;
   color: inherit;

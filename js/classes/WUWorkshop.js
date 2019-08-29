@@ -1235,7 +1235,7 @@ class WUWorkshop extends HTMLElement
                 },
                 attachment: { x:58, y:38 },
             }, {
-                name: 'Hybrid energy Cannon',
+                name: 'Hybrid Energy Cannon',
                 type: 3,
                 element: 3,
                 tiers: [3, 5],
@@ -2327,7 +2327,8 @@ class WUWorkshop extends HTMLElement
         for (const item of this.items)
         {
             // Set 'item.src' (Async)
-            $.getBlob(`./img/items/${item.name.replace(/\s/g, '')}.${item.svg ? 'svg' : 'png'}`, blob => item.src = blob);
+            //$.getBlob(`./img/items/${item.name.replace(/\s/g, '')}.${item.svg ? 'svg' : 'png'}`, blob => item.src = blob);
+            $.toDataURL(`./img/items/${item.name.replace(/\s/g, '')}.${item.svg ? 'svg' : 'png'}`, data => item.src = data);
 
 
             // Make 'window.workshop.topStatMap', the map of the highest stats of each item type.
