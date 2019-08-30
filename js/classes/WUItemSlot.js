@@ -40,8 +40,8 @@ class WUItemSlot extends HTMLElement
             throw new Error(`Attempt of equipping an item of type '${item.type}' in a slot of type '${this.type}'`);
         }
 
-        this.title = item.name;
         this.currentItem = item;
+        this._gfx.hoverData = { item };
         this._gfx.classList.add('outline');
         this._gfx.style.backgroundImage = `url(${item.src})`;
         window.workshop.updateMechSummary();
@@ -49,8 +49,8 @@ class WUItemSlot extends HTMLElement
 
     clear ()
     {
-        this.title = '(Empty Slot)';
         this.currentItem = null;
+        this._gfx.hoverData = null;
         this._gfx.classList.remove('outline');
         this._gfx.style.backgroundImage = `url(${this._iconSrc})`;
         

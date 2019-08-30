@@ -4,10 +4,9 @@ class WUWorkshop extends HTMLElement
     {
         super();
 
-        const app = document.querySelector('app');
         const floatingInfo = new WUFloatingInfo();
 
-        app.appendChild(floatingInfo);
+        this.appendChild(floatingInfo);
         
 
         // Local Storage checking

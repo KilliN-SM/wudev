@@ -7,6 +7,9 @@ wu-floating-info {
   z-index: 300;
   padding: 4px;
 }
+wu-floating-info text {
+  text-align: center;
+}
 
 .outline,
 mech-part img,
@@ -147,12 +150,13 @@ wu-bar-based-sum {
   display: flex;
   flex-direction: column;
   border-left: calc(0.2vw + 0.2vh) solid #113;
+  width: 200px;
 }
 wu-bar-based-sum-bar {
   position: relative;
   margin-top: 1;
   display: grid;
-  height: 8.333%;
+  height: 25px;
   grid-template-columns: 15% 85%;
   grid-template-areas: "a b";
   white-space: nowrap;
