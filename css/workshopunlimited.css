@@ -3,11 +3,12 @@ wu-floating-info {
   display: block;
   border: 2px solid var(--c-text);
   border-radius: calc(0.6vw + 0.6vh) 0;
-  background-color: rgba(0, 0, 10, .8);
+  background-color: rgba(0, 0, 10, 0.8);
   z-index: 300;
   padding: 4px;
 }
 wu-floating-info text {
+  background-color: rgba(0, 0, 0, 0.5);
   position: relative;
   display: block;
   text-align: center;

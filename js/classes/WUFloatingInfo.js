@@ -24,7 +24,12 @@ class WUFloatingInfo extends HTMLElement
                 if (e.clientX > window.innerWidth / 2) this.x = e.clientX - this.offsetWidth - 20;
                 else this.x = e.clientX + 20;
 
-                this.y = e.clientY - this.offsetHeight / 2;
+                let y = e.clientY - this.offsetHeight / 2;
+
+                if (y < 20) y = 20;
+                if (y + this.offsetHeight > window.innerHeight - 20) y = window.innerHeight - this.offsetHeight - 20;
+                
+                this.y = y;
             }
         };
 
