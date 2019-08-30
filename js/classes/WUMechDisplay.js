@@ -149,7 +149,7 @@ class MechPart extends HTMLElement
         }
 
         this.style.visibility  = 'visible';
-        this.itemGfx.src       = item.src        || '';
+        this.itemGfx.src       = item.src;
         this.itemGfx.hoverData = item.stats;
         this.attachment        = item.attachment || { x:0, y:0 };
 
