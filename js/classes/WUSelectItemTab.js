@@ -5,7 +5,7 @@ class WUSelectItemTab extends HTMLElement
         super();
 
         this.heldSlot  = slot;
-        this.list      = $.dom('list');
+        this.list      = $.dom('item-list');
         this.panel     = new WUItemDataPanel();
 
         this.panel.setItem(slot.currentItem);

@@ -1,17 +1,35 @@
 class WUSwitchButton extends HTMLElement
 {
-    constructor (oninput)
+    constructor (checked, oninput)
     {
         super();
 
-        const checked = Boolean($.getLS('arena_buffs'));
+        const inputData = {
+            type: 'checkbox',
+            checked,
+            oninput,
+        }
 
-        this.appendChild($.dom('input', { type:'checkbox', oninput, checked }));
+        this.appendChild($.dom('input', inputData));
         this.appendChild($.dom('runnable-track'));
         this.appendChild($.dom('togglable-thumb'));
     }
 }
 window.customElements.define('wu-switch-button', WUSwitchButton);
+
+
+class WUSwitchContainer extends HTMLElement
+{
+    constructor (innerText, checked, oninput)
+    {
+        super();
+
+        this.appendChild(new WUSwitchButton(checked, oninput));
+        this.appendChild($.dom('text', { innerText }));
+    }
+}
+window.customElements.define('wu-switch-container', WUSwitchContainer);
+
 
 class WUPlusNSettingsTab extends HTMLElement
 {
@@ -19,17 +37,45 @@ class WUPlusNSettingsTab extends HTMLElement
     {
         super();
 
-        const switchContainer = $.dom('switch-container');
+        const app = document.querySelector('app');
+        const customItemsTab = new WUCustomItemsTab();
+        
+        app.appendChild(customItemsTab);
+
         const cw = $.dom('content-wrapper');
-        const arenaBuffsSwitch = new WUSwitchButton(e =>
+        const switchsContainer = $.dom('switchs-container');
+        const arenaBuffsSwitch = new WUSwitchContainer('Arena Buffs', $.getLS('arena_buffs'), e =>
         {
-            window.workshop.toggleArenaBuffs(e.target.checked);
+            $.setLS('arena_buffs', Boolean(e.target.checked));
+            window.workshop.updateMechSummary();
+        });
+        const divineTierSwitch = new WUSwitchContainer('Divine Tier', $.getLS('divine_tier'), e =>
+        {
+            $.setLS('divine_tier', Boolean(e.target.checked));
+            window.workshop.updateMechSummary();
+        });
+        const customItemsButton = new WUButton('Custom Items', './img/general/customitems.png', () =>
+        {
+            this.hide();
+            customItemsTab.show();
+        });
+        const mechsListButton = new WUButton('Your Mechs', './img/general/mech.svg', () =>
+        {
+            console.log('mechsListTab.show();');
         });
 
+        switchsContainer.style.gridArea  = 'a';
+        customItemsButton.style.gridArea = 'b';
+        mechsListButton.style.gridArea   = 'c';
+
+        switchsContainer.appendChild(arenaBuffsSwitch);
+        switchsContainer.appendChild(divineTierSwitch);
+
+        cw.appendChild(switchsContainer);
+        cw.appendChild(customItemsButton);
+        cw.appendChild(mechsListButton);
+
         this.appendChild(cw);
-        cw.appendChild(switchContainer);
-        switchContainer.appendChild(arenaBuffsSwitch);
-        switchContainer.appendChild($.dom('text', { innerHTML:'Arena Buffs' }));
     }
 
     show ()
@@ -43,3 +89,11 @@ class WUPlusNSettingsTab extends HTMLElement
     }
 }
 window.customElements.define('wu-plus-n-settings-tab', WUPlusNSettingsTab);
+
+/*
+arena buffs
+divine tier
+mechs list
+share mech
+custom items
+*/

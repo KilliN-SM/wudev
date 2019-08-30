@@ -4,12 +4,24 @@ class WUWorkshop extends HTMLElement
     {
         super();
 
+        const app = document.querySelector('app');
+        const floatingInfo = new WUFloatingInfo();
+
+        app.appendChild(floatingInfo);
+        
+
         // Local Storage checking
+
         if (typeof $.getLS('arena_buffs') !== 'boolean') $.setLS('arena_buffs', false);
+
         if (typeof $.getLS('main_mech_scale') !== 'number') $.setLS('main_mech_scale', 50);
         else if ($.getLS('main_mech_scale') > 100) $.setLS('main_mech_scale', 100);
         else if ($.getLS('main_mech_scale') < 1) $.setLS('main_mech_scale', 1);
+
+        if (!Array.isArray($.getLS('custom_items'))) $.setLS('custom_items', []);
+
         // End of Local Storage Checking
+
 
         this.ready = false;
         this.itemSlots = [];
@@ -2501,19 +2513,6 @@ class WUWorkshop extends HTMLElement
                 return item;
             }
         }
-    }
-
-    toggleArenaBuffs (bool)
-    {
-        bool = typeof bool !== 'undefined' ? Boolean(bool) : !$.getLS('arena_buffs');
-
-        const prev = $.getLS('arena_buffs');
-
-        if (bool === prev) return;
-        
-        $.setLS('arena_buffs', bool);
-
-        this.updateMechSummary();
     }
 }
 window.customElements.define('wu-workshop', WUWorkshop);

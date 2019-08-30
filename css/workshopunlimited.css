@@ -1,3 +1,13 @@
+wu-floating-info {
+  position: fixed;
+  display: block;
+  border: 2px solid var(--c-text);
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  background-color: rgba(0, 0, 10, .8);
+  z-index: 300;
+  padding: 4px;
+}
+
 .outline,
 mech-part img,
 wu-bar-based-sum-bar val {
@@ -85,22 +95,28 @@ wu-select-item-tab {
     ". a ."
     ". . .";
 }
+wu-select-item-tab item-list {
+  grid-area: a;
+}
 
-wu-select-item-tab list {
+
+item-list,
+item-list {
   position: relative;
   display: block;
   border-radius: calc(0.6vw + 0.6vh) 0;
-  grid-area: a;
   background-image: linear-gradient(rgba(5, 5, 15, 1), rgba(0, 0, 0, 0));
   overflow-y: scroll;
   padding-bottom: 1%;
 }
-wu-select-item-tab list wu-item-block {
+item-list wu-item-block {
   display: inline-block;
   margin: 1% 0 0 1%;
   width: 8%;
   padding-top: 8%;
 }
+
+
 wu-item-data-panel {
   grid-area: b;
   display: grid;
@@ -334,35 +350,90 @@ wu-plus-n-settings-tab {
 
 wu-plus-n-settings-tab content-wrapper {
   grid-area: a;
-  display: block;
+  display: grid;
+  grid-template-rows: 10% 20% 10% 20% 10% 20% 10%;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-areas:
+    ". . ."
+    ". a ."
+    ". . ."
+    ". b ."
+    ". . ."
+    ". c ."
+    ". . .";
   position: relative;
   border-radius: calc(0.6vw + 0.6vh) 0;
   background-color: rgba(5, 5, 15, 0.5);
   border: calc(0.2vw + 0.2vh) solid #113;
 }
 
-wu-plus-n-settings-tab content-wrapper switch-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 2% 0 0 2%;
-}
-
-switch-container wu-switch-button {
-  margin-right: 2%;
-}
-
 wu-select-item-tab,
-wu-plus-n-settings-tab {
+wu-plus-n-settings-tab,
+wu-custom-items-tab {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 300;
 }
+
+
+wu-switch-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 2%;
+  white-space: nowrap;
+}
+wu-switch-container text {
+  position: relative;
+  display: block;
+  line-height: 0;
+  margin-left: 10px;
+}
+
+
+wu-button {
+  position: relative;
+  display: block;
+  border: 2px solid var(--c-text);
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  margin: calc(0.4vw + 0.4vh);
+  background-color: rgba(0, 0, 10, .8);
+  cursor: pointer;
+}
+wu-button:hover {
+  -webkit-filter: contrast(0.9) brightness(1.1);
+  filter: contrast(0.9) brightness(1.1);
+}
+wu-button gfx {
+  position: absolute;
+  display: block;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+}
+
+
+wu-custom-items-tab {
+  display: grid;
+  grid-template-columns: 15% 25% 20% 25% 15%;
+  grid-template-rows: 5% 40% 5% 45% 5%;
+  grid-template-areas:
+    ". . . . ."
+    ". . b . ."
+    ". . . . ."
+    ". a a a ."
+    ". . . . .";
+}
+
+wu-custom-items-tab item-list {
+  grid-area: a;
+}
+
 
 input[type=range] {
   -webkit-appearance: none;
@@ -438,11 +509,11 @@ input[type=range]::-moz-range-thumb {
       "e a f g i h"
       "c b d j k l";
   }
-  wu-select-item-tab list,
+  item-list,
   wu-select-item-tab wu-item-data-panel {
     border-radius: 0;
   }
-  wu-select-item-tab list wu-item-block {
+  item-list wu-item-block {
     width: 13.13%;
     padding-top: 13.13%;
   }
@@ -458,12 +529,31 @@ input[type=range]::-moz-range-thumb {
   }
 
   wu-plus-n-settings-tab {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 90% 10%;
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: 10% 80% 10%;
     grid-template-areas:
-      "a"
-      ".";
+      ". . ."
+      ". a ."
+      ". . .";
+  }
+  
+  wu-plus-n-settings-tab content-wrapper {
+    grid-area: a;
+    display: grid;
+    grid-template-rows: 6% 26% 5% 26% 5% 26% 6%;
+    grid-template-columns: 10% 80% 10%;
+    grid-template-areas:
+      ". . ."
+      ". a ."
+      ". . ."
+      ". b ."
+      ". . ."
+      ". c ."
+      ". . .";
+    position: relative;
+    border-radius: calc(0.6vw + 0.6vh) 0;
+    background-color: rgba(5, 5, 15, 0.5);
+    border: calc(0.2vw + 0.2vh) solid #113;
   }
 
   @media screen and (min-width : 701px) {

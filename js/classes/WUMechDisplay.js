@@ -148,10 +148,10 @@ class MechPart extends HTMLElement
             return;
         }
 
-        this.style.visibility = 'visible';
-        this.itemGfx.src      = item.src        || '';
-        this.title            = item.name       || '(no name)';
-        this.attachment       = item.attachment || { x:0, y:0 };
+        this.style.visibility  = 'visible';
+        this.itemGfx.src       = item.src        || '';
+        this.itemGfx.hoverData = item.stats;
+        this.attachment        = item.attachment || { x:0, y:0 };
 
         if (item.width)  this.itemGfx.width  = item.width;
         if (item.height) this.itemGfx.height = item.height;
@@ -159,10 +159,10 @@ class MechPart extends HTMLElement
 
     clear ()
     {
-        this.style.visibility = 'hidden';
-        this.itemGfx.src      = '';
-        this.title            = '';
-        this.attachment       = null;
+        this.style.visibility  = 'hidden';
+        this.itemGfx.src       = '';
+        this.itemGfx.hoverData = null;
+        this.attachment        = null;
     }
 
     set x (x) { this.style.left = Number(x) + 'px' }
