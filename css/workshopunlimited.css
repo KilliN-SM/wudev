@@ -8,7 +8,10 @@ wu-floating-info {
   padding: 4px;
 }
 wu-floating-info text {
+  position: relative;
+  display: block;
   text-align: center;
+  width: 100%;
 }
 
 .outline,
@@ -156,7 +159,7 @@ wu-bar-based-sum-bar {
   position: relative;
   margin-top: 1;
   display: grid;
-  height: 25px;
+  height: 26px;
   grid-template-columns: 15% 85%;
   grid-template-areas: "a b";
   white-space: nowrap;
