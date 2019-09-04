@@ -8,6 +8,7 @@ wu-floating-info {
   padding: 6px;
   width: 200px;
 }
+
 wu-floating-info text {
   background-color: rgba(0, 0, 0, 0.5);
   position: relative;
