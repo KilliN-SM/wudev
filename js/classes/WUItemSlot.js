@@ -4,7 +4,8 @@ class WUItemSlot extends HTMLElement
     {
         super();
 
-        this.ready = false;
+        this.hoverData = { text:'(empty slot)' };
+        this.ready     = false;
 
         $.getBlob(icon, blob =>
         {
@@ -13,9 +14,9 @@ class WUItemSlot extends HTMLElement
             this.ready = true;
         });
 
-        this.type = type;
+        this.type  = type;
         this._tips = $.dom('tips');
-        this._gfx = $.dom('gfx');
+        this._gfx  = $.dom('gfx');
 
         this.appendChild(this._gfx);
         this.appendChild(this._tips);
@@ -40,8 +41,10 @@ class WUItemSlot extends HTMLElement
             throw new Error(`Attempt of equipping an item of type '${item.type}' in a slot of type '${this.type}'`);
         }
 
-        this.currentItem = item;
+        this.currentItem    = item;
+        this.hoverData      = { item };
         this._gfx.hoverData = { item };
+
         this._gfx.classList.add('outline');
         this._gfx.style.backgroundImage = `url(${item.src})`;
         window.workshop.updateMechSummary();
@@ -49,8 +52,10 @@ class WUItemSlot extends HTMLElement
 
     clear ()
     {
-        this.currentItem = null;
+        this.currentItem    = null;
+        this.hoverData      = { text:'(empty slot)' };
         this._gfx.hoverData = null;
+
         this._gfx.classList.remove('outline');
         this._gfx.style.backgroundImage = `url(${this._iconSrc})`;
         

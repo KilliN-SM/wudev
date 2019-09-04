@@ -1,13 +1,14 @@
 class WUButton extends HTMLElement
 {
-    constructor (title, icon, onclick)
+    constructor (hoverData, src, onclick)
     {
         super();
 
-        const gfx = $.dom('gfx', { title, onclick });
-        gfx.style.backgroundImage = `url(${icon})`;
+        this.hoverData = hoverData;
+        this.onclick   = onclick;
 
-        this.appendChild(gfx);
+        this.appendChild($.dom('gfx', { hoverData }));
+        this.lastChild.style.backgroundImage = `url(${src})`;
     }
 }
 window.customElements.define('wu-button', WUButton);

@@ -12,13 +12,13 @@ class WUMechDisplay extends HTMLElement
 
         this._partsContainer = $.dom('mech-parts');
 
-        this.nameInput = $.dom('input',
-        {
-            value: mech.name,
-            type: 'text',
-            placeholder: '(Mech Name)',
-            spellcheck: false
-        });
+        //this.nameInput = $.dom('input',
+        //{
+        //    value: mech.name,
+        //    type: 'text',
+        //    placeholder: '(Mech Name)',
+        //    spellcheck: false
+        //});
 
         const scaleInput = $.dom('input',
         {
@@ -42,7 +42,7 @@ class WUMechDisplay extends HTMLElement
 
         this.appendChild(partsContainerWrapper);
         this.appendChild(scaleInput);
-        this.appendChild(this.nameInput);
+        //this.appendChild(this.nameInput);
 
         mech && this.setup(mech.setup);
 

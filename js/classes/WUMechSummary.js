@@ -21,39 +21,56 @@ class WUMechSummary extends HTMLElement
     {
         const statMap = {};
 
-        for (const s of this.statNames)
+        for (const statName of this.statNames)
         {
-            statMap[s] = 0;
-            for (const item of setup) if (item.stats[s]) statMap[s] += item.stats[s];
+            statMap[statName] = 0;
 
-            if (statMap[s] && $.getLS('arena_buffs') && this[s].statData.buff)
+            for (const item of setup)
             {
-                let val = Math.round(eval(`${statMap[s]} ${this[s].statData.buff.mode} ${this[s].statData.buff.amount}`));
-
-                if (s === 'health' && statMap.weight - 1000 > 0) val -= (statMap.weight - 1000) * 15;
-
-                this[s].value(val);
-                this[s].quote(`(+${val - statMap[s]})`, '#6F8');
-            }
-            else
-            {
-                this[s].value(statMap[s]);
-
-                if (s !== 'weight') this[s].quote('');
-                else
+                if (item.stats[statName])
                 {
-                    if (statMap[s] > 994)  this[s].quote('good', '#6F8');
-                    else
-                    {
-                        this[s].quote('');
-                        continue;
-                    }
-                    if (statMap[s] > 999)  this[s].quote('perfect', '#86F');
-                    if (statMap[s] > 1000) this[s].quote('heavy', '#FA8');
-                    if (statMap[s] > 1010) this[s].quote('over', '#F66');
+                    statMap[statName] += item.stats[statName];
                 }
             }
+
+            this[statName].quote('');
         }
+
+        if ($.getLS('arena_buffs'))
+        {
+            for (const statName of this.statNames)
+            {
+                if (!statMap[statName] || !this[statName].statData.buff) continue;
+
+                const buffData  = this[statName].statData.buff;
+                const buffedVal = Math.round(eval(statMap[statName] + buffData.mode + buffData.amount));
+                const buffExtra = buffedVal - statMap[statName];
+
+                this[statName].quote(`(+${ buffExtra })`);
+                this[statName]._quote.hoverData = { text:`+${buffExtra} ${this[statName].statData.context} from Arena Buffs` };
+
+                statMap[statName] = buffedVal;
+            }
+        }
+
+        if (statMap.weight > 1000)
+        {
+            const healthNerf = (statMap.weight - 1000) * 15;
+            
+            statMap.health -= healthNerf;
+
+            if (statMap.weight > 1010) this.weight.quote('over', '#F66');
+            else this.weight.quote('heavy', '#FA8');
+        }
+        else if (statMap.weight > 994)
+        {
+            if (statMap.weight === 1000) this.weight.quote('perfect', '#86F');
+            else this.weight.quote('good', '#6F8');
+        }
+        else this.weight.quote('');
+
+        for (const statName of this.statNames) this[statName].value(statMap[statName]);
+        console.log(statMap);
     }
 }
 window.customElements.define('wu-mech-summary', WUMechSummary);

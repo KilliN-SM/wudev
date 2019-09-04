@@ -4,12 +4,12 @@ class WUStatBlock extends HTMLElement
     {
         super();
 
-        this.title = data.context;
+        this.hoverData = { text:data.context };
         this.statData = data;
 
-        this._icon = $.dom('icon');
-        this._value = $.dom('value');
-        this._quote = $.dom('quote');
+        this._icon  = $.dom('icon',  { hoverData:{ text:data.context }});
+        this._value = $.dom('value', { hoverData:{ text:data.context }});
+        this._quote = $.dom('quote', { hoverData:{ text:data.context }});
 
         this._icon.style.backgroundImage = `url(${data.src})`;
 
@@ -20,15 +20,15 @@ class WUStatBlock extends HTMLElement
 
     value (any)
     {
-        if (typeof any !== 'undefined') this._value.innerHTML = String(any);
-        return this._value.innerHTML;
+        if (typeof any !== 'undefined') this._value.innerText = String(any);
+        return this._value.innerText;
     }
 
     quote (any, color)
     {
         if (color) this._quote.style.color = color;
-        if (typeof any !== 'undefined') this._quote.innerHTML = String(any);
-        return this._quote.innerHTML;
+        if (typeof any !== 'undefined') this._quote.innerText = String(any);
+        return Number(this._quote.innerText);
     }
 }
 window.customElements.define('wu-stat-block', WUStatBlock);

@@ -54,12 +54,12 @@ class WUPlusNSettingsTab extends HTMLElement
             $.setLS('divine_tier', Boolean(e.target.checked));
             window.workshop.updateMechSummary();
         });
-        const customItemsButton = new WUButton('Custom Items', './img/general/customitems.png', () =>
+        const customItemsButton = new WUButton({ text:'Custom Items' }, './img/general/customitems.png', () =>
         {
             this.hide();
             customItemsTab.show();
         });
-        const mechsListButton = new WUButton('Your Mechs', './img/general/mech.svg', () =>
+        const mechsListButton = new WUButton({ text:'Your Mechs' }, './img/general/mech.svg', () =>
         {
             console.log('mechsListTab.show();');
         });

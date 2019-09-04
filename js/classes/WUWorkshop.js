@@ -2469,11 +2469,6 @@ class WUWorkshop extends HTMLElement
             this.appendChild(this.plusButton);
 
             this.mechDisplay = new WUMechDisplay(this.mechsManager.active);
-            this.mechDisplay.nameInput.oninput = e =>
-            {
-                this.mechsManager.active.name === e.target.value;
-                this.mechsManager.save();
-            };
             this.appendChild(this.mechDisplay);
 
             this.updateMechSummary();

@@ -66,6 +66,8 @@ class WUBarBasedSum extends HTMLElement
     {
         while (this.lastChild) this.lastChild.remove();
 
+        if (!item || !item.stats) return;
+
         const statNames = Object.keys(item.stats);
 
         for (const name of statNames)

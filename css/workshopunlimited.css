@@ -4,8 +4,9 @@ wu-floating-info {
   border: 2px solid var(--c-text);
   border-radius: calc(0.6vw + 0.6vh) 0;
   background-color: rgba(0, 0, 10, 0.8);
-  z-index: 300;
-  padding: 4px;
+  z-index: 9999;
+  padding: 6px;
+  width: 200px;
 }
 wu-floating-info text {
   background-color: rgba(0, 0, 0, 0.5);
@@ -79,6 +80,10 @@ wu-stat-block quote {
   top: 50%;
   right: 5%;
   line-height: 0;
+  color: #6F8;
+}
+wu-stat-block quote:hover {
+  color: #DDD;
 }
 
 wu-mech-summary {
@@ -93,8 +98,8 @@ wu-mech-summary wu-stat-block {
 
 wu-select-item-tab {
   display: grid;
-  grid-template-columns: 15% 70% 15%;
-  grid-template-rows: 5% 40% 5% 45% 5%;
+  grid-template-columns: 1fr 700px 1fr;
+  grid-template-rows: 1fr 260px 1fr 45% 1fr;
   grid-template-areas:
     ". . ."
     ". b ."
@@ -144,17 +149,26 @@ wu-item-data-panel name {
   text-align: center;
 }
 wu-item-data-panel gfx {
+  position: relative;
   grid-area: b;
-  margin-left: 10%;
-  width: 80%;
-  height: 80%;
+  left: 15%;
+  top: 5%;
+  width: 70%;
+  height: 70%;
 }
-wu-bar-based-sum {
+wu-item-data-panel wu-bar-based-sum {
   grid-area: c;
+  width: 99%;
+  height: 100%;
+}
+wu-item-data-panel wu-bar-based-sum-bar {
+  height: 8.33%;
+}
+
+wu-bar-based-sum {
   display: flex;
   flex-direction: column;
   border-left: calc(0.2vw + 0.2vh) solid #113;
-  width: 200px;
 }
 wu-bar-based-sum-bar {
   position: relative;
@@ -205,14 +219,14 @@ wu-item-block:hover {
 }
 wu-item-block gfx {
   position: absolute;
-  top: 5%;
   left: 5%;
+  top: 5%;
   width: 90%;
   height: 90%;
 }
 wu-item-block hitbox {
-  display: block;
   position: absolute;
+  display: block;
   top: 0;
   left: 0;
   width: 100%;
@@ -220,20 +234,20 @@ wu-item-block hitbox {
   z-index: 1;
 }
 
+
 wu-item-slot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  display: block;
 }
 wu-item-slot gfx {
+  position: absolute;
   display: block;
-  position: relative;
+  left: 5%;
+  top: 5%;
   width: 90%;
   height: 90%;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
 }
+
 
 wu-modules-setup {
   grid-area: d;
@@ -271,7 +285,7 @@ wu-plus-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(../img/icons/plus.svg);
+  background-image: url(../img/general/plus.svg);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -343,7 +357,8 @@ wu-mech-display mech-parts mech-part {
   height: 0;
 }
 wu-mech-display mech-parts mech-part:hover {
-  filter: brightness(1.3);
+  -webkit-filter: brightness(1.5) contrast(0.9);
+  filter: brightness(1.5) contrast(0.9);
 }
 
 wu-plus-n-settings-tab {
@@ -411,6 +426,7 @@ wu-button {
   margin: calc(0.4vw + 0.4vh);
   background-color: rgba(0, 0, 10, .8);
   cursor: pointer;
+  overflow: hidden;
 }
 wu-button:hover {
   -webkit-filter: contrast(0.9) brightness(1.1);
@@ -419,17 +435,16 @@ wu-button:hover {
 wu-button gfx {
   position: absolute;
   display: block;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
+  left: 5%;
+  top: 5%;
+  width: 90%;
+  height: 90%;
 }
-
 
 wu-custom-items-tab {
   display: grid;
-  grid-template-columns: 15% 25% 20% 25% 15%;
-  grid-template-rows: 5% 40% 5% 45% 5%;
+  grid-template-columns: 1fr 300px 100px 300px 1fr;
+  grid-template-rows: 1fr 100px 1fr 45% 0.5fr;
   grid-template-areas:
     ". . . . ."
     ". . b . ."
@@ -440,6 +455,10 @@ wu-custom-items-tab {
 
 wu-custom-items-tab item-list {
   grid-area: a;
+}
+
+wu-custom-items-tab wu-button {
+  grid-area: b;
 }
 
 
@@ -489,6 +508,47 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 
+
+
+@media screen and (orientation : portrait), screen and (max-width : 700px) {
+  wu-workshop {
+    width: 100%;
+    height: 100%;
+    grid-template-rows: 14% 14% 58% 14%;
+    grid-template-columns: 4fr 1.25fr 25%;
+    grid-template-areas:
+      "a a e"
+      "a a e"
+      "b b c"
+      "d d d";
+  }
+  
+  wu-parts-setup {
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 16.666% 16.666% 16.666% 16.666% 16.666% 16.666%;
+    grid-template-areas:
+      "e a f g i h"
+      "c b d j k l";
+  }
+
+  @media screen and (max-width : 550px) {
+    wu-workshop {
+      width: 100%;
+      height: 100%;
+      grid-template-columns: 50% 12.5% 12.5% 25%;
+      grid-template-rows: 14% 14% 58% 14%;
+      grid-template-areas:
+        "a a a e"
+        "a a a e"
+        "b b c c"
+        "d d d d";
+    }
+  }
+}
+
+
+
+/*
 @media
   screen and (orientation : portrait),
   screen and (max-height : 450px) {
@@ -529,7 +589,7 @@ input[type=range]::-moz-range-thumb {
   wu-plus-button,
   wu-mech-summary,
   wu-item-slot {
-    /*border: 2px solid var(--c-text);*/
+    /*border: 2px solid var(--c-text);*
     border-radius: calc(0.6vw + 0.6vh) 0;
     margin: calc(0.2vw + 0.2vh);
     background-color: rgba(0, 0, 10, .8);
@@ -575,3 +635,5 @@ input[type=range]::-moz-range-thumb {
     }
   }
 }
+
+*/

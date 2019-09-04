@@ -21,8 +21,8 @@ class WUFloatingInfo extends HTMLElement
 
             if (this.visible)
             {
-                if (e.clientX > window.innerWidth / 2) this.x = e.clientX - this.offsetWidth - 20;
-                else this.x = e.clientX + 20;
+                if (e.clientX > window.innerWidth / 2) this.x = e.clientX - this.offsetWidth - 40;
+                else this.x = e.clientX + 40;
 
                 let y = e.clientY - this.offsetHeight / 2;
 
@@ -60,7 +60,11 @@ class WUFloatingInfo extends HTMLElement
             this._bars.setItem(data.item);
             this._text.innerText = data.item.name;
         }
-        else if (data.text) this._text.innerText = data.text;
+        else if (data.text)
+        {
+            this._text.innerText = data.text;
+            this._bars.setItem();
+        }
 
         this.currentData = data;
         this.style.visibility = 'visible';
