@@ -364,8 +364,8 @@ wu-mech-display mech-parts mech-part:hover {
 
 wu-plus-n-settings-tab {
   display: grid;
-  grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 12% 76% 12%;
+  grid-template-columns: 1fr 300px 1fr;
+  grid-template-rows: 1fr 500px 1fr;
   grid-template-areas:
     ". . ."
     ". a ."
@@ -376,7 +376,7 @@ wu-plus-n-settings-tab content-wrapper {
   grid-area: a;
   display: grid;
   grid-template-rows: 10% 20% 10% 20% 10% 20% 10%;
-  grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 10% 80% 10%;
   grid-template-areas:
     ". . ."
     ". a ."
@@ -511,7 +511,12 @@ input[type=range]::-moz-range-thumb {
 
 
 
-@media screen and (orientation : portrait), screen and (max-width : 700px) {
+@media screen and (orientation : portrait), screen and (max-width : 812px) {
+
+  wu-floating-info {
+    display: none;
+  }
+  
   wu-workshop {
     width: 100%;
     height: 100%;
@@ -544,10 +549,24 @@ input[type=range]::-moz-range-thumb {
   wu-select-item-tab wu-item-data-panel {
     border-radius: 0;
   }
-  
+
   item-list wu-item-block {
     width: 13.13%;
     padding-top: 13.13%;
+  }
+
+  wu-plus-n-settings-tab {
+    display: grid;
+    grid-template-columns: 1fr 80%px 1fr;
+    grid-template-rows: 1fr 90% 1fr;
+    grid-template-areas:
+      ". . ."
+      ". a ."
+      ". . .";
+  }
+
+  wu-plus-n-settings-tab content-wrapper {
+    max-width: 300px;
   }
 
   @media screen and (max-width : 550px) {
