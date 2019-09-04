@@ -49,7 +49,7 @@ class WUPlusNSettingsTab extends HTMLElement
             $.setLS('arena_buffs', Boolean(e.target.checked));
             window.workshop.updateMechSummary();
         });
-        const divineTierSwitch = new WUSwitchContainer('Divine Tier', $.getLS('divine_tier'), e =>
+        const divineTierSwitch = new WUSwitchContainer('Divine Tier (off)', $.getLS('divine_tier'), e =>
         {
             $.setLS('divine_tier', Boolean(e.target.checked));
             window.workshop.updateMechSummary();

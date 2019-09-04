@@ -70,7 +70,6 @@ class WUMechSummary extends HTMLElement
         else this.weight.quote('');
 
         for (const statName of this.statNames) this[statName].value(statMap[statName]);
-        console.log(statMap);
     }
 }
 window.customElements.define('wu-mech-summary', WUMechSummary);

@@ -4,6 +4,8 @@ class WUPlusButton extends HTMLElement
     {
         super();
 
+        this.hoverData = { text:'More' };
+
         const app = document.querySelector('app');
         const tab = new WUPlusNSettingsTab();
 

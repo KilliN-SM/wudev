@@ -13,6 +13,8 @@ class WUFloatingInfo extends HTMLElement
 
         const update = e =>
         {
+            if (window.innerWidth < window.innerHeight || window.innerWidth < 701) return;
+
             if (e.target.hoverData)
             {
                 if (e.target.hoverData !== this.currentData) this.show(e.target.hoverData);
