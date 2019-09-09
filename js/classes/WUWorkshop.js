@@ -2389,10 +2389,10 @@ class WUWorkshop extends HTMLElement
                     top1:  { x:60,  y:51 },
                     top2:  { x:131, y:51 }
                 }
-            }, {//(69)1-2 R 173-350 D 67 En  -10 Res 1 Push/1 Recoil 3 Uses (56/25)
+            }, {
                 name: 'Lightning Recoiler',
                 type: 3,
-                element: 1,
+                element: 3,
                 tiers: [2, 5],
                 stats: {
                     weight: 69,
