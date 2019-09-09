@@ -60,11 +60,11 @@ class WUFloatingInfo extends HTMLElement
         if (data.item)
         {
             this._bars.setItem(data.item);
-            this._text.innerText = data.item.name;
+            this._text.innerHTML = data.item.name;
         }
         else if (data.text)
         {
-            this._text.innerText = data.text;
+            this._text.innerHTML = data.text;
             this._bars.setItem();
         }
 

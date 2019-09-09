@@ -4,6 +4,8 @@ class WUPlusButton extends HTMLElement
     {
         super();
 
+        this.className = 'box ui';
+
         this.hoverData = { text:'More' };
 
         const app = document.querySelector('app');

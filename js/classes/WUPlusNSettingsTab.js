@@ -37,12 +37,14 @@ class WUPlusNSettingsTab extends HTMLElement
     {
         super();
 
+        this.className = 'tab';
+
         const app = document.querySelector('app');
         const customItemsTab = new WUCustomItemsTab();
         
         app.appendChild(customItemsTab);
 
-        const cw = $.dom('content-wrapper');
+        const cw = $.dom('content-wrapper', { className:'box border' });
         const switchsContainer = $.dom('switchs-container');
         const arenaBuffsSwitch = new WUSwitchContainer('Arena Buffs', $.getLS('arena_buffs'), e =>
         {
@@ -76,6 +78,11 @@ class WUPlusNSettingsTab extends HTMLElement
         cw.appendChild(mechsListButton);
 
         this.appendChild(cw);
+
+        const onclick = e => { e.target === this && this.hide() };
+
+        this.addEventListener('click', onclick);
+        this.hide();
     }
 
     show ()

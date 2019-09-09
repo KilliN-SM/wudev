@@ -135,7 +135,7 @@ class MechPart extends HTMLElement
 
         this.style.visibility = 'hidden';
         this.attachment       = null;
-        this.itemGfx          = $.dom('img');
+        this.itemGfx          = new Image();
 
         this.appendChild(this.itemGfx);
     }
@@ -148,13 +148,12 @@ class MechPart extends HTMLElement
             return;
         }
 
-        this.style.visibility  = 'visible';
-        this.itemGfx.src       = item.src;
-        this.itemGfx.hoverData = { item };
-        this.attachment        = item.attachment || { x:0, y:0 };
-
-        if (item.width)  this.itemGfx.width  = item.width;
-        if (item.height) this.itemGfx.height = item.height;
+        this.style.visibility     = 'visible';
+        this.itemGfx.src          = item.src;
+        this.itemGfx.hoverData    = { item };
+        this.itemGfx.style.width  = item.width  ? item.width  : '';
+        this.itemGfx.style.height = item.height ? item.height : '';
+        this.attachment           = item.attachment || { x:0, y:0 };
     }
 
     clear ()

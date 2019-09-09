@@ -21,14 +21,14 @@ class WUStatBlock extends HTMLElement
     value (any)
     {
         if (typeof any !== 'undefined') this._value.innerText = String(any);
-        return this._value.innerText;
+        return Number(this._value.innerText);
     }
 
     quote (any, color)
     {
         if (color) this._quote.style.color = color;
         if (typeof any !== 'undefined') this._quote.innerText = String(any);
-        return Number(this._quote.innerText);
+        return this._quote.innerText;
     }
 }
 window.customElements.define('wu-stat-block', WUStatBlock);

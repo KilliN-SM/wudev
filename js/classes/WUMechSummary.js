@@ -4,6 +4,8 @@ class WUMechSummary extends HTMLElement
     {
         super();
 
+        this.className = 'box ui';
+
         this.statNames = [];
 
         for (const stat of stats)
@@ -14,7 +16,7 @@ class WUMechSummary extends HTMLElement
             this.appendChild(this[stat.name]);
         }
 
-        this.set(setup || []);
+        this.set(setup);
     }
 
     set (setup)
@@ -26,18 +28,13 @@ class WUMechSummary extends HTMLElement
             statMap[statName] = 0;
 
             for (const item of setup)
-            {
-                if (item.stats[statName])
-                {
+                if (item && item.stats[statName])
                     statMap[statName] += item.stats[statName];
-                }
-            }
 
             this[statName].quote('');
         }
 
         if ($.getLS('arena_buffs'))
-        {
             for (const statName of this.statNames)
             {
                 if (!statMap[statName] || !this[statName].statData.buff) continue;
@@ -47,11 +44,10 @@ class WUMechSummary extends HTMLElement
                 const buffExtra = buffedVal - statMap[statName];
 
                 this[statName].quote(`(+${ buffExtra })`);
-                this[statName]._quote.hoverData = { text:`+${buffExtra} ${this[statName].statData.context} from Arena Buffs` };
+                this[statName]._quote.hoverData = { text:`${statMap[statName]}<c1> + ${buffExtra} ${this[statName].statData.context} from Arena Buffs</c1>` };
 
                 statMap[statName] = buffedVal;
             }
-        }
 
         if (statMap.weight > 1000)
         {

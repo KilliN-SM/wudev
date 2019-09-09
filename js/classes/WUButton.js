@@ -5,7 +5,9 @@ class WUButton extends HTMLElement
         super();
 
         this.hoverData = hoverData;
-        this.onclick   = onclick;
+        this.className = 'box border';
+
+        this.addEventListener('click', onclick);
 
         this.appendChild($.dom('gfx', { hoverData }));
         this.lastChild.style.backgroundImage = `url(${src})`;

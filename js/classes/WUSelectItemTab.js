@@ -1,13 +1,44 @@
 class WUSelectItemTab extends HTMLElement
 {
-    constructor (slot)
+    constructor ()
     {
         super();
 
-        this.heldSlot  = slot;
-        this.list      = $.dom('item-list');
-        this.panel     = new WUItemDataPanel();
+        this.className = 'tab';
 
+        this.list  = $.dom('item-list');
+        this.panel = new WUItemDataPanel();
+
+        this.appendChild(this.list);
+        this.appendChild(this.panel);
+
+        this.hide();
+    }
+
+    selectItem (item)
+    {
+        const previous = this.heldSlot.currentItem;
+
+        this.heldSlot.setItem(item);
+
+        if (item !== previous) window.workshop.updateMechSummary();
+        if (this.heldSlot.type < 6) window.workshop.updateMechDisplay();
+
+        this.hide();
+    }
+
+    hide ()
+    {
+        this.style.visibility = 'hidden';
+
+        while (this.list.lastChild) this.list.lastChild.remove();
+    }
+
+    show (slot)
+    {
+        this.style.visibility = 'visible';
+
+        this.heldSlot = slot;
         this.panel.setItem(slot.currentItem);
 
         const itemMap = {};
@@ -42,10 +73,14 @@ class WUSelectItemTab extends HTMLElement
                         else
                         {
                             this.panel.setItem(item);
-                            for (const block of Array.from(document.querySelectorAll('wu-item-block')))
+
+                            const itemBlocks = Array.from(document.querySelectorAll('wu-item-block'));
+
+                            for (const block of itemBlocks)
                             {
                                 block.classList.contains('active') && block.classList.toggle('active');
                             }
+
                             block.classList.toggle('active');
                         }
                     }
@@ -60,25 +95,11 @@ class WUSelectItemTab extends HTMLElement
             if (e.target.nodeName !== 'HITBOX')
             {
                 this.selectItem(null);
-                this.remove();
+                this.hide();
             };
             
             window.workshop.updateActiveMech();
         };
-
-        this.appendChild(this.list);
-        this.appendChild(this.panel);
-    }
-
-    selectItem (item)
-    {
-        const previous = this.heldSlot.currentItem;
-        
-        this.heldSlot.setItem(item);
-
-        if (item !== previous) window.workshop.updateMechDisplay();
-
-        this.remove();
     }
 }
 window.customElements.define('wu-select-item-tab', WUSelectItemTab);

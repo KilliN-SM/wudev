@@ -21,7 +21,7 @@ class WUPartsSetup extends HTMLElement
         for (let i = 0; i < slotsData.count; i++)
         {
             const src = `./img/icons/slots/${slotsData.icons[i]}.svg`;
-            const slot = new WUItemSlot( Number(slotsData.types[i]), src, setup[i]);
+            const slot = new WUItemSlot(Number(slotsData.types[i]), src, setup[i]);
             slot.style.gridArea = slotsData.areas[i];
             this.slots.push(slot);
             this.appendChild(slot);

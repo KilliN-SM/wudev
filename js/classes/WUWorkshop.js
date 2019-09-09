@@ -4,9 +4,15 @@ class WUWorkshop extends HTMLElement
     {
         super();
 
-        const floatingInfo = new WUFloatingInfo();
+        window.workshop = this;
 
-        this.appendChild(floatingInfo);
+        this.ready = false;
+        this.itemSlots = [];
+
+        this._selectItemTab = new WUSelectItemTab();
+
+        this.appendChild(new WUFloatingInfo());
+        this.appendChild(this._selectItemTab);
         
 
         // Local Storage checking
@@ -20,12 +26,6 @@ class WUWorkshop extends HTMLElement
         if (!Array.isArray($.getLS('custom_items'))) $.setLS('custom_items', []);
 
         // End of Local Storage Checking
-
-
-        this.ready = false;
-        this.itemSlots = [];
-
-        window.workshop = this;
 
 
         // Define The data of every Stat
@@ -2331,6 +2331,81 @@ class WUWorkshop extends HTMLElement
                     heaCost: 100,
                 },
                 attachment: { x:63, y:35 }
+            }, {
+                name: 'Battery Armor',
+                width: 222,
+                height: 226,
+                type: 1,
+                element: 1,
+                tiers: [2, 5],
+                stats: {
+                    weight: 360,
+                    health: 1239,
+                    eneCap: 361,
+                    eneReg: 24,
+                    heaCap: 334,
+                    heaCol: 24,
+                    phyRes: 14,
+                    expRes: 14,
+                    eleRes: 14
+                },
+                divineBuff: {},
+                attachment: {
+                    leg1:  { x:66,  y:190 },
+                    leg2:  { x:136, y:190 },
+                    side1: { x:66,  y:149 },
+                    side2: { x:142, y:149 },
+                    side3: { x:60,  y:97 },
+                    side4: { x:142, y:97 },
+                    top1:  { x:60,  y:51 },
+                    top2:  { x:131, y:51 }
+                }
+            }, {
+                name: 'Flaming Battery Armor',
+                width: 222,
+                height: 226,
+                type: 1,
+                element: 2,
+                tiers: [2, 5],
+                stats: {
+                    weight: 346,
+                    health: 1136,
+                    eneCap: 313,
+                    eneReg: 24,
+                    heaCap: 401,
+                    heaCol: 24,
+                    phyRes: 14,
+                    expRes: 14,
+                    eleRes: 14
+                },
+                divineBuff: {},
+                attachment: {
+                    leg1:  { x:66,  y:200 },
+                    leg2:  { x:136, y:200 },
+                    side1: { x:66,  y:149 },
+                    side2: { x:142, y:149 },
+                    side3: { x:60,  y:97 },
+                    side4: { x:142, y:97 },
+                    top1:  { x:60,  y:51 },
+                    top2:  { x:131, y:51 }
+                }
+            }, {//(69)1-2 R 173-350 D 67 En  -10 Res 1 Push/1 Recoil 3 Uses (56/25)
+                name: 'Lightning Recoiler',
+                type: 3,
+                element: 1,
+                tiers: [2, 5],
+                stats: {
+                    weight: 69,
+                    eleDmg: [173, 350],
+                    eleResDmg: 10,
+                    push: 1,
+                    recoil: 1,
+                    range: [1, 2],
+                    uses: 3,
+                    eneCost: 56,
+                    heaCost: 25
+                },
+                attachment: { x:63, y:35 }
             }
         ];
         
@@ -2442,21 +2517,21 @@ class WUWorkshop extends HTMLElement
             
             clearInterval(onWorkshopReady);
 
+            this.mechsManager = new WUMechsManager();
+            const setup = this.mechsManager.active.setup;
 
             // Mech Summary
 
             const MSStats = [];
             const MSStatNames = 'weight,health,eneCap,eneReg,heaCap,heaCol,phyRes,expRes,eleRes'.split(',');
             for (const s of MSStatNames) MSStats.push(this.statsData[s]);
-            this.mechSummary = new WUMechSummary(MSStats);
+            this.mechSummary = new WUMechSummary(MSStats, setup);
             this.appendChild(this.mechSummary);
 
             // End of Mech Summary
 
 
-            this.mechsManager = new WUMechsManager();
-
-            const setup = this.mechsManager.active.setup;
+            
 
             this.partsSetup = new WUPartsSetup(setup);
             this.appendChild(this.partsSetup);
@@ -2465,13 +2540,14 @@ class WUWorkshop extends HTMLElement
 
             this.itemSlots.push(...this.partsSetup.slots, ...this.modulesSetup.slots);
 
-            this.plusButton = new WUPlusButton();
-            this.appendChild(this.plusButton);
+            this._plusTab = new WUPlusNSettingsTab();
+            this._plusBtn = new WUButton({ text:'more' }, '../img/general/plus.svg', () => this._plusTab.show());
+            this._plusBtn.style.gridArea = 'e';
+            this.appendChild(this._plusTab);
+            this.appendChild(this._plusBtn);
 
             this.mechDisplay = new WUMechDisplay(this.mechsManager.active);
             this.appendChild(this.mechDisplay);
-
-            this.updateMechSummary();
         }, 100);
     }
 
@@ -2496,17 +2572,16 @@ class WUWorkshop extends HTMLElement
         this.mechsManager.save();
     }
 
+    selectItemTab (slot)
+    {
+        this._selectItemTab.show(slot);
+    }
+
     getItem (data)
     {
         const keys = Object.keys(data);
 
-        for (const item of this.items)
-        {
-            if (keys.every(key => item[key] === data[key]))
-            {
-                return item;
-            }
-        }
+        for (const item of this.items) if (keys.every(key => item[key] === data[key])) return item;
     }
 }
 window.customElements.define('wu-workshop', WUWorkshop);

@@ -4,27 +4,26 @@ class WUItemSlot extends HTMLElement
     {
         super();
 
+        this.className = 'box ui';
+
         this.hoverData = { text:'(empty slot)' };
         this.ready     = false;
+
+        this.type = type;
+        this._tips = $.dom('tips');
+        this._gfx = $.dom('gfx');
 
         $.getBlob(icon, blob =>
         {
             this._iconSrc = blob;
-            item ? this.setItem(item) : this.clear();
+            item ? this.setItem(item) : this.clear(true);
             this.ready = true;
         });
-
-        this.type  = type;
-        this._tips = $.dom('tips');
-        this._gfx  = $.dom('gfx');
 
         this.appendChild(this._gfx);
         this.appendChild(this._tips);
 
-        const app = document.querySelector('app');
-        const tab = new WUSelectItemTab(this);
-
-        this.onclick = () => app.appendChild(tab);
+        this.onclick = () => window.workshop.selectItemTab(this);
     }
 
     setItem (item)
@@ -47,19 +46,16 @@ class WUItemSlot extends HTMLElement
 
         this._gfx.classList.add('outline');
         this._gfx.style.backgroundImage = `url(${item.src})`;
-        window.workshop.updateMechSummary();
     }
 
     clear ()
     {
         this.currentItem    = null;
         this.hoverData      = { text:'(empty slot)' };
-        this._gfx.hoverData = null;
+        this._gfx.hoverData = { text:'(empty slot)' };
 
         this._gfx.classList.remove('outline');
         this._gfx.style.backgroundImage = `url(${this._iconSrc})`;
-        
-        window.workshop.updateMechSummary();
     }
 }
 window.customElements.define('wu-item-slot', WUItemSlot);
