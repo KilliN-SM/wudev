@@ -215,6 +215,7 @@ wu-bar-based-sum-bar bar {
   background-size: auto 100%;
 }
 
+
 wu-item-block {
   position: relative;
   border-radius: calc(0.6vw + 0.6vh) 0;
@@ -267,6 +268,7 @@ wu-modules-setup {
   grid-template-areas: 'a b c d e f g h';
 }
 
+
 wu-parts-setup {
   grid-area: a;
   display: grid;
@@ -278,6 +280,7 @@ wu-parts-setup {
     "c b d"
     "j k l";
 }
+
 
 wu-workshop {
   position: relative;
@@ -427,13 +430,46 @@ wu-custom-items-tab {
     ". a a a ."
     ". . . . .";
 }
-
 wu-custom-items-tab item-list {
   grid-area: a;
 }
-
 wu-custom-items-tab wu-button {
   grid-area: b;
+}
+
+
+wu-create-item-tab {
+  display: grid;
+  grid-template-rows: 5fr 10% 1fr 30% 5fr;
+  grid-template-columns: 1fr 80% 1fr;
+  grid-template-areas: '. . .' '. a .' '. . .' '. b .' '. . .';
+}
+wu-create-item-tab inputs-container {
+  grid-area: a;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+wu-create-item-tab inputs-container input[type=text],
+wu-create-item-tab inputs-container select {
+  position: relative;
+  display: inline;
+  background: #DDD;
+  border-radius: calc(0.6vw + 0.6vh) 0;
+  border: none;
+  font: inherit;
+  font-size: inherit;
+  color: #111;
+  text-align: center;
+  outline: none;
+}
+wu-create-item-tab inputs-container input[type=text] {
+  margin-right: calc(0.6vw + 0.6vh);
+}
+wu-create-item-tab inputs-container select {
+  margin-left: calc(0.6vw + 0.6vh);
 }
 
 

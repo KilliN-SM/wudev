@@ -39,11 +39,7 @@ class WUPlusNSettingsTab extends HTMLElement
 
         this.className = 'tab';
 
-        const app = document.querySelector('app');
         const customItemsTab = new WUCustomItemsTab();
-        
-        app.appendChild(customItemsTab);
-
         const cw = $.dom('content-wrapper', { className:'box border' });
         const switchsContainer = $.dom('switchs-container');
         const arenaBuffsSwitch = new WUSwitchContainer('Arena Buffs', $.getLS('arena_buffs'), e =>
@@ -70,24 +66,22 @@ class WUPlusNSettingsTab extends HTMLElement
         customItemsButton.style.gridArea = 'b';
         mechsListButton.style.gridArea   = 'c';
 
+        this.onclick = e => { e.target === this && this.hide() };
+
         switchsContainer.appendChild(arenaBuffsSwitch);
         switchsContainer.appendChild(divineTierSwitch);
-
         cw.appendChild(switchsContainer);
         cw.appendChild(customItemsButton);
         cw.appendChild(mechsListButton);
-
         this.appendChild(cw);
+        window.workshop.appendChild(customItemsTab);
 
-        const onclick = e => { e.target === this && this.hide() };
-
-        this.addEventListener('click', onclick);
         this.hide();
     }
 
     show ()
     {
-        this.style.visibility = 'visible';
+        this.style.visibility = '';
     }
 
     hide ()
@@ -96,11 +90,3 @@ class WUPlusNSettingsTab extends HTMLElement
     }
 }
 window.customElements.define('wu-plus-n-settings-tab', WUPlusNSettingsTab);
-
-/*
-arena buffs
-divine tier
-mechs list
-share mech
-custom items
-*/

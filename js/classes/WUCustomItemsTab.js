@@ -20,8 +20,8 @@ class WUCustomItemsTab extends HTMLElement
         });
         
         this.appendChild(this._list);
-        this.appendChild(this._createItemTab);
         this.appendChild(this._createItemBtn);
+        window.workshop.appendChild(this._createItemTab);
 
         this.hide();
     }
