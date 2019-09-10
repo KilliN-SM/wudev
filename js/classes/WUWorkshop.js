@@ -19,7 +19,7 @@ class WUWorkshop extends HTMLElement
 
         if (typeof $.getLS('arena_buffs') !== 'boolean') $.setLS('arena_buffs', false);
 
-        if (typeof $.getLS('main_mech_scale') !== 'number') $.setLS('main_mech_scale', 50);
+        if (typeof $.getLS('main_mech_scale') !== 'number') $.setLS('main_mech_scale', 60);
         else if ($.getLS('main_mech_scale') > 100) $.setLS('main_mech_scale', 100);
         else if ($.getLS('main_mech_scale') < 1) $.setLS('main_mech_scale', 1);
 
@@ -2391,6 +2391,8 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'Lightning Recoiler',
+                width: 193,
+                height: 76,
                 type: 3,
                 element: 3,
                 tiers: [2, 5],
@@ -2541,7 +2543,7 @@ class WUWorkshop extends HTMLElement
             this.itemSlots.push(...this.partsSetup.slots, ...this.modulesSetup.slots);
 
             this._plusTab = new WUPlusNSettingsTab();
-            this._plusBtn = new WUButton({ text:'more' }, '../img/general/plus.svg', () => this._plusTab.show());
+            this._plusBtn = new WUButton({ text:'more' }, './img/general/plus.svg', () => this._plusTab.show());
             this._plusBtn.style.gridArea = 'e';
             this.appendChild(this._plusTab);
             this.appendChild(this._plusBtn);
