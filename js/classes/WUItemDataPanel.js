@@ -5,7 +5,7 @@ class WUItemDataPanel extends HTMLElement
         super();
         
         this._name = $.dom('name');
-        this._gfx  = $.dom('gfx');
+        this._gfx  = new Image();
         this._sum  = new WUBarBasedSum();
 
         this.appendChild(this._name);
@@ -15,14 +15,19 @@ class WUItemDataPanel extends HTMLElement
 
     setItem (item)
     {
-        if (!item)
+        if (item)
+        {
+            this._name.innerText = item.name;
+            this._gfx.src = item.src;
+            this._gfx.style.visibility = '';
+            this._sum.setItem(item);
+        }
+        else
         {
             this._name.innerText = '(Empty Slot)';
-            return
+            this._gfx.style.visibility = 'hidden';
+            this._sum.setItem(null);
         }
-        this._name.innerText = item.name;
-        this._gfx.style.backgroundImage = `url(${item.src})`;
-        this._sum.setItem(item);
     }
 }
 window.customElements.define('wu-item-data-panel', WUItemDataPanel);

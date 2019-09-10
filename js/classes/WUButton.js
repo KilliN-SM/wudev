@@ -7,10 +7,13 @@ class WUButton extends HTMLElement
         this.hoverData = hoverData;
         this.className = 'box border';
 
+        const img = new Image();
+        img.hoverData = hoverData;
+        img.src = src;
+
         this.addEventListener('click', onclick);
 
-        this.appendChild($.dom('gfx', { hoverData }));
-        this.lastChild.style.backgroundImage = `url(${src})`;
+        this.appendChild(img);
     }
 }
 window.customElements.define('wu-button', WUButton);

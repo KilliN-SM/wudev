@@ -135,7 +135,7 @@ class MechPart extends HTMLElement
 
         this.style.visibility = 'hidden';
         this.attachment       = null;
-        this.itemGfx          = new Image();
+        this.itemGfx          = $.dom('img', { className:'outline' });
 
         this.appendChild(this.itemGfx);
     }
@@ -148,7 +148,7 @@ class MechPart extends HTMLElement
             return;
         }
 
-        this.style.visibility     = 'visible';
+        this.style.visibility     = '';
         this.itemGfx.src          = item.src;
         this.itemGfx.hoverData    = { item };
         this.itemGfx.style.width  = item.width  ? item.width  : '';

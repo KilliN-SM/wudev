@@ -7,11 +7,11 @@ class WUBarBasedSumBar extends HTMLElement
         if (typeof item.stats[stat.name] === 'undefined') console.log(stat.name) || console.table(item);
 
         this.title = stat.context;
-        this.ico = $.dom('gfx');
+        this.ico = new Image();
         this.bar = $.dom('bar');
-        this.val = $.dom('val');
+        this.val = $.dom('val', { className:'outline' });
 
-        this.ico.style.backgroundImage = `url(${ stat.src })`;
+        this.ico.src = stat.src;
         this.bar.style.backgroundColor = stat.color;
 
         const top = window.workshop.topStatMap[item.type][stat.name];

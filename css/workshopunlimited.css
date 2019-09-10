@@ -1,6 +1,12 @@
+wu-workshop img {
+  object-fit: contain;
+}
+
+
 c1 {
   color: #6F8;
 }
+
 
 wu-floating-info {
   position: fixed;
@@ -21,24 +27,9 @@ wu-floating-info text {
   width: 100%;
 }
 
-.outline,
-mech-part img,
-wu-bar-based-sum-bar val {
-  -webkit-filter: drop-shadow(1px 1px 0 #000)
-                  drop-shadow(-1px 1px 0 #000)
-                  drop-shadow(1px -1px 0 #000)
-                  drop-shadow(-1px -1px 0 #000);
-
-  filter: drop-shadow(1px 1px 0 #000)
-          drop-shadow(-1px 1px 0 #000)
-          drop-shadow(1px -1px 0 #000)
-          drop-shadow(-1px -1px 0 #000);
-}
-
-gfx {
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+.outline {
+  -webkit-filter: drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000);
+  filter: drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000) drop-shadow(0 0 0.5px #000);
 }
 
 
@@ -76,17 +67,14 @@ wu-stat-block {
   grid-template-rows: 100%;
   grid-template-areas: "a b";
 }
-wu-stat-block icon {
+wu-stat-block img {
   grid-area: a;
   display: block;
   position: relative;
-  left: 20%;
+  left: 10%;
   top: 10%;
   width: 80%;
   height: 80%;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 wu-stat-block value {
   grid-area: b;
@@ -171,7 +159,7 @@ wu-item-data-panel name {
   justify-content: center;
   text-align: center;
 }
-wu-item-data-panel gfx {
+wu-item-data-panel img {
   position: relative;
   grid-area: b;
   left: 15%;
@@ -195,7 +183,6 @@ wu-bar-based-sum {
 }
 wu-bar-based-sum-bar {
   position: relative;
-  margin-top: 1;
   display: grid;
   height: 26px;
   grid-template-columns: 15% 85%;
@@ -204,9 +191,9 @@ wu-bar-based-sum-bar {
   border-bottom: calc(0.1vw + 0.1vh) solid #080824;
   background-color: rgba(0, 0, 0, 0.8);
 }
-wu-bar-based-sum-bar gfx {
+wu-bar-based-sum-bar img {
   grid-area: a;
-  position: static;
+  position: relative;
   width: 90%;
   height: 90%;
 }
@@ -240,7 +227,7 @@ wu-item-block:hover {
   filter: brightness(1.2);
   transform: scale(1.05);
 }
-wu-item-block gfx {
+wu-item-block img {
   position: absolute;
   left: 5%;
   top: 5%;
@@ -262,7 +249,7 @@ wu-item-slot {
   position: relative;
   display: block;
 }
-wu-item-slot gfx {
+wu-item-slot img {
   position: absolute;
   display: block;
   left: 5%;
@@ -368,7 +355,7 @@ wu-mech-display mech-parts mech-part:hover {
 
 wu-plus-n-settings-tab {
   display: grid;
-  grid-template-columns: 1fr 300px 1fr;
+  grid-template-columns: 1fr 500px 1fr;
   grid-template-rows: 1fr 500px 1fr;
   grid-template-areas:
     ". . ."
@@ -415,18 +402,19 @@ wu-button {
   cursor: pointer;
   overflow: hidden;
 }
+wu-button img {
+  position: relative;
+  display: block;
+  width: 80%;
+  height: 80%;
+  left: 10%;
+  top: 10%;
+}
 wu-button:hover {
   -webkit-filter: contrast(0.9) brightness(1.1);
   filter: contrast(0.9) brightness(1.1);
 }
-wu-button gfx {
-  position: absolute;
-  display: block;
-  left: 5%;
-  top: 5%;
-  width: 90%;
-  height: 90%;
-}
+
 
 wu-custom-items-tab {
   display: grid;
@@ -543,7 +531,7 @@ input[type=range]::-moz-range-thumb {
 
   wu-plus-n-settings-tab {
     display: grid;
-    grid-template-columns: 1fr 80%px 1fr;
+    grid-template-columns: 1fr 80% 1fr;
     grid-template-rows: 1fr 90% 1fr;
     grid-template-areas:
       ". . ."
@@ -568,71 +556,25 @@ input[type=range]::-moz-range-thumb {
         "d d d d";
     }
   }
-}
+
+  @media screen and (max-width : 420px) {
+    @media screen and (min-height : 650px) {
+      wu-workshop {
+        grid-template-columns: 62.5% 37.5%;
+        grid-template-rows: 20% 10% 50% 20%;
+        grid-template-areas:
+          "a a"
+          "b e"
+          "b c"
+          "d d";
+      }
 
 
-
-/*
-@media
-  screen and (orientation : portrait),
-  screen and (max-height : 450px) {
-  item-list,
-  wu-select-item-tab wu-item-data-panel {
-    border-radius: 0;
-  }
-  item-list wu-item-block {
-    width: 13.13%;
-    padding-top: 13.13%;
-  }
-
-  wu-plus-button,
-  wu-mech-summary,
-  wu-item-slot {
-    /*border: 2px solid var(--c-text);*
-    border-radius: calc(0.6vw + 0.6vh) 0;
-    margin: calc(0.2vw + 0.2vh);
-    background-color: rgba(0, 0, 10, .8);
-    z-index: 100;
-  }
-
-  wu-plus-n-settings-tab {
-    grid-template-columns: 10% 80% 10%;
-    grid-template-rows: 10% 80% 10%;
-    grid-template-areas:
-      ". . ."
-      ". a ."
-      ". . .";
-  }
-  
-  wu-plus-n-settings-tab content-wrapper {
-    grid-area: a;
-    display: grid;
-    grid-template-rows: 6% 26% 5% 26% 5% 26% 6%;
-    grid-template-columns: 10% 80% 10%;
-    grid-template-areas:
-      ". . ."
-      ". a ."
-      ". . ."
-      ". b ."
-      ". . ."
-      ". c ."
-      ". . .";
-    position: relative;
-    border-radius: calc(0.6vw + 0.6vh) 0;
-    background-color: rgba(5, 5, 15, 0.5);
-    border: calc(0.2vw + 0.2vh) solid #113;
-  }
-
-  @media screen and (min-width : 701px) {
-    wu-workshop {
-      grid-template-columns: 4fr 1.25fr 25%;
-      grid-template-areas:
-        "a a e"
-        "a a e"
-        "b b c"
-        "d d d";
+      wu-modules-setup {
+        grid-template-rows: 50% 50%;
+        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-areas: 'a b c d' 'e f g h';
+      }
     }
   }
 }
-
-*/

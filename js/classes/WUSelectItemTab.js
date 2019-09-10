@@ -63,6 +63,7 @@ class WUSelectItemTab extends HTMLElement
                 if (item === slot.currentItem) block.classList.toggle('active');
 
                 block.onmouseover = () => this.panel.setItem(block.item);
+                block.onmouseout  = () => this.panel.setItem(slot.currentItem);
 
                 block.onclick = () =>
                 {

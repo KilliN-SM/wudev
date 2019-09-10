@@ -11,7 +11,7 @@ class WUItemSlot extends HTMLElement
 
         this.type = type;
         this._tips = $.dom('tips');
-        this._gfx = $.dom('gfx');
+        this._gfx = new Image();
 
         $.getBlob(icon, blob =>
         {
@@ -45,7 +45,7 @@ class WUItemSlot extends HTMLElement
         this._gfx.hoverData = { item };
 
         this._gfx.classList.add('outline');
-        this._gfx.style.backgroundImage = `url(${item.src})`;
+        this._gfx.src = item.src;
     }
 
     clear ()
@@ -55,7 +55,7 @@ class WUItemSlot extends HTMLElement
         this._gfx.hoverData = { text:'(empty slot)' };
 
         this._gfx.classList.remove('outline');
-        this._gfx.style.backgroundImage = `url(${this._iconSrc})`;
+        this._gfx.src = this._iconSrc;
     }
 }
 window.customElements.define('wu-item-slot', WUItemSlot);

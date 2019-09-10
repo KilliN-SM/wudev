@@ -7,11 +7,11 @@ class WUStatBlock extends HTMLElement
         this.hoverData = { text:data.context };
         this.statData = data;
 
-        this._icon  = $.dom('icon',  { hoverData:{ text:data.context }});
+        this._icon  = $.dom('img',   { hoverData:{ text:data.context }});
         this._value = $.dom('value', { hoverData:{ text:data.context }});
         this._quote = $.dom('quote', { hoverData:{ text:data.context }});
 
-        this._icon.style.backgroundImage = `url(${data.src})`;
+        this._icon.src = data.src;
 
         this.appendChild(this._icon);
         this.appendChild(this._value);
