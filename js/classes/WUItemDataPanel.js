@@ -6,7 +6,8 @@ class WUItemDataPanel extends HTMLElement
         
         this._name = $.dom('name');
         this._gfx  = new Image();
-        this._sum  = new WUBarBasedSum();
+        this._sum  = new WUSummary();
+        //this._sum.style.gridArea = 'c';
 
         this.appendChild(this._name);
         this.appendChild(this._gfx);

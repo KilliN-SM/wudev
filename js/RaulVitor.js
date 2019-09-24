@@ -45,7 +45,15 @@
             reader.onerror = reject;
             reader.readAsDataURL(blob);
         }))
-        .then(b64 => { callback(b64) })
+        .then(b64 => { callback(b64) }),
+    
+    css: function (element, style) {
+        const properties = Object.keys(style);
+        for (const p of properties) {
+            element.style[p] = style[p];
+        }
+        return element;
+    },
 
     /*
 

@@ -60,6 +60,7 @@ class WUWorkshop extends HTMLElement
             walk:      { name:'walk',      type:'num', inputs:1, color:'DDDDDD', context:'Walking Distance' },
             jump:      { name:'jump',      type:'num', inputs:1, color:'DDDDDD', context:'Jumping Distance' },
             uses:      { name:'uses',      type:'num', inputs:1, color:'22FF22', context:'Max Uses' },
+            backFire:  { name:'backFire',  type:'num', inputs:1, color:'AA0000', context:'BackFire (Self Damage)' },
             heaCost:   { name:'heaCost',   type:'num', inputs:1, color:'882200', context:'Heat Generation' },
             eneCost:   { name:'eneCost',   type:'num', inputs:1, color:'005588', context:'Energy Consumption' },
             jumpReq:   { name:'jumpReq',   type:'boo', inputs:0, color:'FF6644', context:'Jumping Required' },
@@ -70,6 +71,7 @@ class WUWorkshop extends HTMLElement
         this.itemTemplate =
         {
             name: '',
+            svg: false,
             type: 0,
             element: 0,
             tiers: [0, 0],
@@ -438,6 +440,7 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'Lightning Platinum Vest',
+                svg: true,
                 type: 1,
                 element: 3,
                 tiers: [3, 5],
@@ -2408,6 +2411,28 @@ class WUWorkshop extends HTMLElement
                     heaCost: 25
                 },
                 attachment: { x:63, y:35 }
+            }, {
+                name: 'Unstable Power Cell',
+                svg: true,
+                type: 3,
+                element: 3,
+                tiers: [3, 5],
+                stats: {
+                    weight: 42,
+                    eleDmg: [144, 232],
+                    eneDmg: 246,
+                    eneCapDmg: 48,
+                    range: [1, 2],
+                    uses: 2,
+                    backFire: 152,
+                    eneCost: 19,
+                    heaCost: 31
+                },
+                divineBuff: {
+                    eleDmg: [153, 246],
+                    eneDmg: 260
+                },
+                attachment: { x:63, y:35 }
             }
         ];
         
@@ -2417,6 +2442,7 @@ class WUWorkshop extends HTMLElement
         {
             // Set 'item.src' (Async)
             $.toDataURL(`./img/items/${item.name.replace(/\s/g, '')}.${item.svg ? 'svg' : 'png'}`, data => item.src = data);
+            //$.toDataURL(`./img/items/${item.name.replace(/\s/g, '')}Mask.svg`, data => item.mask = data);
 
 
             // Make 'window.workshop.topStatMap', the map of the highest stats of each item type.
@@ -2544,7 +2570,7 @@ class WUWorkshop extends HTMLElement
 
             this._plusTab = new WUPlusNSettingsTab();
             this._plusBtn = new WUButton({ text:'more' }, './img/general/plus.svg', () => this._plusTab.show());
-            this._plusBtn.style.gridArea = 'e';
+            this._plusBtn.id = 'plus-button';
             this.appendChild(this._plusTab);
             this.appendChild(this._plusBtn);
 

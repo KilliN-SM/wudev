@@ -12,7 +12,7 @@ class WUMechSummary extends HTMLElement
         {
             if (!stat) console.error(`Unknown stat '${stat}'`);
             this.statNames.push(stat.name);
-            this[stat.name] = new WUStatBlock(stat);
+            this[stat.name] = new WUStatBlockQuoted(stat);
             this.appendChild(this[stat.name]);
         }
 

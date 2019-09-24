@@ -12,14 +12,6 @@ class WUMechDisplay extends HTMLElement
 
         this._partsContainer = $.dom('mech-parts');
 
-        //this.nameInput = $.dom('input',
-        //{
-        //    value: mech.name,
-        //    type: 'text',
-        //    placeholder: '(Mech Name)',
-        //    spellcheck: false
-        //});
-
         const scaleInput = $.dom('input',
         {
             type: 'range',
@@ -42,7 +34,6 @@ class WUMechDisplay extends HTMLElement
 
         this.appendChild(partsContainerWrapper);
         this.appendChild(scaleInput);
-        //this.appendChild(this.nameInput);
 
         mech && this.setup(mech.setup);
 
@@ -134,8 +125,8 @@ class MechPart extends HTMLElement
         super();
 
         this.style.visibility = 'hidden';
-        this.attachment       = null;
-        this.itemGfx          = $.dom('img', { className:'outline' });
+        this.attachment = null;
+        this.itemGfx = $.dom('img', { className:'outline' });
 
         this.appendChild(this.itemGfx);
     }
@@ -148,20 +139,22 @@ class MechPart extends HTMLElement
             return;
         }
 
-        this.style.visibility     = '';
         this.itemGfx.src          = item.src;
         this.itemGfx.hoverData    = { item };
         this.itemGfx.style.width  = item.width  ? item.width  : '';
         this.itemGfx.style.height = item.height ? item.height : '';
-        this.attachment           = item.attachment || { x:0, y:0 };
+
+        this.attachment = item.attachment || { x:0, y:0 };
+        this.style.visibility = '';
     }
 
     clear ()
     {
-        this.style.visibility  = 'hidden';
         this.itemGfx.src       = '';
         this.itemGfx.hoverData = null;
+
         this.attachment        = null;
+        this.style.visibility  = 'hidden';
     }
 
     set x (x) { this.style.left = Number(x) + 'px' }
