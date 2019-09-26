@@ -7,15 +7,15 @@ class WUItemSlot extends HTMLElement
         this.className = 'box ui';
 
         this.hoverData = { text:'(empty slot)' };
-        this.ready     = false;
+        this.ready = false;
 
         this.type = type;
         this._tips = $.dom('tips');
         this._gfx = new Image();
 
-        $.getBlob(icon, blob =>
+        $.toDataURL(icon, data =>
         {
-            this._iconSrc = blob;
+            this._iconSrc = data;
             item ? this.setItem(item) : this.clear(true);
             this.ready = true;
         });

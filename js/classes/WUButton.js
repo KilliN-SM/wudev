@@ -1,14 +1,14 @@
 class WUButton extends HTMLElement
 {
-    constructor (hoverData, src, onclick)
+    constructor (text, src, onclick)
     {
         super();
 
-        this.hoverData = hoverData;
+        this.hoverData = { text };
         this.className = 'box border';
 
         const img = new Image();
-        img.hoverData = hoverData;
+        img.hoverData = { text };
         img.src = src;
 
         this.addEventListener('click', onclick);

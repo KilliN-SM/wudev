@@ -68,10 +68,6 @@ wu-mech-summary wu-stat-block-quoted {
 }
 
 
-wu-workshop wu-button {
-  background-color: red;
-}
-
 wu-button {
   position: relative;
   display: block;
@@ -103,6 +99,17 @@ wu-button:hover {
 
 c1 {
   color: #6F8;
+}
+
+
+hitbox {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
 }
 
 
@@ -304,10 +311,7 @@ wu-stat-block-quoted quote {
   top: 50%;
   right: 5%;
   line-height: 0;
-  color: #6F8;
-}
-wu-stat-block-quoted quote:hover {
-  color: #DDD;
+  color: #66FF88;
 }
 
 /*
@@ -380,15 +384,6 @@ wu-item-block img {
   width: 90%;
   height: 90%;
 }
-wu-item-block hitbox {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
 
 
 wu-item-slot:hover {
@@ -454,48 +449,52 @@ wu-mech-display mech-parts mech-part:hover {
 
 
 wu-plus-n-settings-tab {
-  display: grid;
-  grid-template-columns: 1fr 500px 1fr;
-  grid-template-rows: 1fr 500px 1fr;
-  grid-template-areas:
-    ". . ."
-    ". a ."
-    ". . .";
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
 wu-plus-n-settings-tab content-wrapper {
   position: relative;
-  grid-area: a;
-  display: grid;
-  grid-template-rows: 10% 20% 10% 20% 10% 20% 10%;
-  grid-template-columns: 10% 80% 10%;
-  grid-template-areas:
-    ". . ."
-    ". a ."
-    ". . ."
-    ". b ."
-    ". . ."
-    ". c ."
-    ". . .";
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+}
+wu-plus-n-settings-tab content-wrapper > * {
+  width: 250px;
+  height: 30px;
+  margin: 5px;
+}
+wu-plus-n-settings-tab content-wrapper wu-button {
+  height: 50px;
+}
+wu-plus-n-settings-tab content-wrapper wu-button.close {
+  display: none;
+  width: 50px;
+  background-color: #660000;
 }
 
 
-wu-switch-container {
+.switch-container {
   position: relative;
+  display: -webkit-flex;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  margin: 2%;
+  border-radius: 15px;
+}
+.switch-container:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.switch-container switch-context {
+  margin-left: 5px;
   white-space: nowrap;
 }
-wu-switch-container text {
-  position: relative;
-  display: block;
-  line-height: 0;
-  margin-left: 10px;
-}
-
-
 
 
 
@@ -603,11 +602,6 @@ input[type=range]::-moz-range-thumb {
 
 @media screen and (orientation : portrait), screen and (max-width : 960px) {
 
-  #plus-button {
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-  }
-
   wu-summary {
     position: relative;
     display: -webkit-flex;
@@ -618,7 +612,9 @@ input[type=range]::-moz-range-thumb {
     width: 100%;
   }
 
-  wu-item-slot {
+  wu-item-slot,
+  #plus-button,
+  wu-mech-summary {
     width: calc(100% - 10px);
     height: calc(100% - 10px);
   }
@@ -667,17 +663,21 @@ input[type=range]::-moz-range-thumb {
   }
 
   wu-plus-n-settings-tab {
-    display: grid;
-    grid-template-columns: 1fr 80% 1fr;
-    grid-template-rows: 1fr 90% 1fr;
-    grid-template-areas:
-      ". . ."
-      ". a ."
-      ". . .";
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   wu-plus-n-settings-tab content-wrapper {
-    max-width: 300px;
+    width: 85%;
+    height: 85%;
+    max-width: 400px;
+    max-height: 600px;
+  }
+
+  wu-plus-n-settings-tab content-wrapper wu-button.close {
+    display: block;
   }
 
   @media screen and (max-width : 550px) {
@@ -694,7 +694,7 @@ input[type=range]::-moz-range-thumb {
     }
   }
 
-  @media screen and (max-width : 420px) {
+  @media screen and (max-width : 480px) {
     @media screen and (min-height : 650px) {
       wu-workshop {
         grid-template-columns: 62.5% 37.5%;

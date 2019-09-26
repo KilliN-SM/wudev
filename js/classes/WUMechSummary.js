@@ -34,20 +34,29 @@ class WUMechSummary extends HTMLElement
             this[statName].quote('');
         }
 
-        if ($.getLS('arena_buffs'))
-            for (const statName of this.statNames)
-            {
-                if (!statMap[statName] || !this[statName].statData.buff) continue;
+        for (const statName of this.statNames)
+        {
+            const statBlock = this[statName];
+            let hoverData = { text:statMap[statName] + ' ' + statBlock.statData.context };
 
-                const buffData  = this[statName].statData.buff;
+            if (!statMap[statName] || !statBlock.statData.buff) continue;
+
+            if ($.getLS('arena_buffs'))
+            {
+                const buffData  = statBlock.statData.buff;
                 const buffedVal = Math.round(eval(statMap[statName] + buffData.mode + buffData.amount));
                 const buffExtra = buffedVal - statMap[statName];
 
-                this[statName].quote(`(+${ buffExtra })`);
-                this[statName]._quote.hoverData = { text:`${statMap[statName]}<c1> + ${buffExtra} ${this[statName].statData.context} from Arena Buffs</c1>` };
-
+                hoverData = { text:`${statMap[statName]}<c1> + ${buffExtra} ${statBlock.statData.context} from Arena Buffs</c1>` };
+    
                 statMap[statName] = buffedVal;
+
+                if ($.getLS('arena_buffs_offset')) statBlock.quote(`(+${ buffExtra })`);
             }
+
+            statBlock._quote.hoverData = hoverData;
+            statBlock._value.hoverData = hoverData;
+        }
 
         if (statMap.weight > 1000)
         {

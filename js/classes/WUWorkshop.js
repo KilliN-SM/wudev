@@ -2569,7 +2569,7 @@ class WUWorkshop extends HTMLElement
             this.itemSlots.push(...this.partsSetup.slots, ...this.modulesSetup.slots);
 
             this._plusTab = new WUPlusNSettingsTab();
-            this._plusBtn = new WUButton({ text:'more' }, './img/general/plus.svg', () => this._plusTab.show());
+            this._plusBtn = new WUButton('More', './img/general/plus.svg', () => this._plusTab.show());
             this._plusBtn.id = 'plus-button';
             this.appendChild(this._plusTab);
             this.appendChild(this._plusBtn);

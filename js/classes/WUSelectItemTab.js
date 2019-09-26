@@ -6,23 +6,34 @@ class WUSelectItemTab extends HTMLElement
 
         this.className = 'tab';
 
-        this.list  = $.dom('item-list');
-        this.panel = new WUItemDataPanel();
+        this._currentSlot = null;
+        this._itemBlocks = [];
+        this._list = document.createElement('item-list');
+        this._panel = new WUItemDataPanel();
 
-        this.appendChild(this.list);
-        this.appendChild(this.panel);
+        this.appendChild(this._list);
+        this.appendChild(this._panel);
 
-        this.hide();
-    }
+        this.addEventListener('click', e =>
+        {
+            this.hide();
 
-    selectItem (item)
-    {
-        const previous = this.heldSlot.currentItem;
+            const previousItem = this._currentSlot.currentItem;
+            const item = e.target.currentItem || null;
 
-        this.heldSlot.setItem(item);
+            this._currentSlot.setItem(item);
 
-        if (item !== previous) window.workshop.updateMechSummary();
-        if (this.heldSlot.type < 6) window.workshop.updateMechDisplay();
+            if (item !== previousItem)
+            {
+                window.workshop.updateMechSummary();
+                window.workshop.updateActiveMech();
+                
+                if (this._currentSlot.type < 6)
+                {
+                    window.workshop.updateMechDisplay();
+                }
+            }
+        });
 
         this.hide();
     }
@@ -30,16 +41,64 @@ class WUSelectItemTab extends HTMLElement
     hide ()
     {
         this.style.visibility = 'hidden';
-
-        while (this.list.lastChild) this.list.lastChild.remove();
     }
 
     show (slot)
     {
         this.style.visibility = 'visible';
 
+        this._currentSlot = slot;
+        this._panel.setItem(slot.currentItem);
+        
+        const items = window.workshop.items;
+        const itemsOfSlotType = {
+            1:[], // Physical
+            2:[], // Explosive
+            3:[]  // Electric
+        };
+
+        for (let i = 0; i < items.length; i++)
+        {
+            const item = items[i];
+
+            if (item.type === slot.type)
+            {
+                itemsOfSlotType[item.element].push(item);
+            }
+        }
+
+        const finalItemList = [...itemsOfSlotType[1], ...itemsOfSlotType[2], ...itemsOfSlotType[3]];
+
+        for (let i = 0; i < finalItemList.length; i++)
+        {
+            if (this._itemBlocks[i])
+            {
+                this._itemBlocks[i].show(finalItemList[i]);
+            }
+            else
+            {
+                const block = new WUItemBlock(finalItemList[i]);
+                block.onmouseover = () => this._panel.setItem(block.currentItem);
+                block.onmouseout  = () => this._panel.setItem(slot.currentItem);
+                this._itemBlocks.push(block);
+                this._list.appendChild(block);
+            }
+        }
+
+        if (this._itemBlocks.length > finalItemList.length)
+        {
+            for (let i = finalItemList.length; i < this._itemBlocks.length; i++)
+            {
+                this._itemBlocks[i].hide();
+            }
+        }
+
+
+        /*
+        this.style.visibility = 'visible';
+
         this.heldSlot = slot;
-        this.panel.setItem(slot.currentItem);
+        this._panel.setItem(slot.currentItem);
 
         const itemMap = {};
 
@@ -62,8 +121,8 @@ class WUSelectItemTab extends HTMLElement
 
                 if (item === slot.currentItem) block.classList.toggle('active');
 
-                block.onmouseover = () => this.panel.setItem(block.item);
-                block.onmouseout  = () => this.panel.setItem(slot.currentItem);
+                block.onmouseover = () => this._panel.setItem(block.item);
+                block.onmouseout  = () => this._panel.setItem(slot.currentItem);
 
                 block.onclick = () =>
                 {
@@ -73,7 +132,7 @@ class WUSelectItemTab extends HTMLElement
                         if (block.classList.contains('active')) this.selectItem(item);
                         else
                         {
-                            this.panel.setItem(item);
+                            this._panel.setItem(item);
 
                             const itemBlocks = Array.from(document.querySelectorAll('wu-item-block'));
 
@@ -87,7 +146,7 @@ class WUSelectItemTab extends HTMLElement
                     }
                     else this.selectItem(item);
                 };
-                this.list.appendChild(block);
+                this._list.appendChild(block);
             }
         }
 
@@ -101,6 +160,7 @@ class WUSelectItemTab extends HTMLElement
             
             window.workshop.updateActiveMech();
         };
+        */
     }
 }
 window.customElements.define('wu-select-item-tab', WUSelectItemTab);
