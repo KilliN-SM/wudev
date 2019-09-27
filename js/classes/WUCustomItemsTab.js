@@ -6,14 +6,9 @@ class WUCustomItemsTab extends HTMLElement
 
         this.className = 'tab';
 
-        this.addEventListener('click', e =>
-        {
-            if (e.target === this) this.hide();
-        });
-
         this._list = document.createElement('item-list');
         this._createItemTab = new WUCreateItemTab();
-        this._createItemBtn = new WUButton({ text:'Create Custom Item' }, './img/general/plus.svg', () =>
+        this._createItemBtn = new WUButton('Create New Item', './img/general/plus.svg', () =>
         {
             this.hide();
             this._createItemTab.show();
@@ -21,7 +16,13 @@ class WUCustomItemsTab extends HTMLElement
         
         this.appendChild(this._list);
         this.appendChild(this._createItemBtn);
+        
         window.workshop.appendChild(this._createItemTab);
+
+        this.addEventListener('click', e =>
+        {
+            if (e.target === this) this.hide();
+        });
 
         this.hide();
     }

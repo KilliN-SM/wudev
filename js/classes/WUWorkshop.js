@@ -929,6 +929,7 @@ class WUWorkshop extends HTMLElement
                 },
             }, {
                 name: 'Magma Blast',
+                svg: true,
                 type: 3,
                 element: 2,
                 attachment: { x:54, y:39 },
@@ -1337,6 +1338,7 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'Mighty Cannon',
+                svg: true,
                 type: 4,
                 element: 1,
                 attachment: { x:56, y:35 },
@@ -1365,6 +1367,7 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'Frantic Brute',
+                svg: true,
                 type: 4,
                 element: 1,
                 attachment: { x:40, y:50 },
@@ -1443,6 +1446,7 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'Desert Snake',
+                svg: true,
                 type: 4,
                 element: 2,
                 attachment: { x:56, y:35 },
@@ -1543,7 +1547,6 @@ class WUWorkshop extends HTMLElement
                 name: 'Hysteria',
                 type: 4,
                 element: 3,
-                attachment: { x:48, y:56 },
                 tiers: [2, 5],
                 stats: {
                     weight: 55,
@@ -1553,7 +1556,8 @@ class WUWorkshop extends HTMLElement
                     range: [4, 8],
                     eneCost: 47,
                     heaCost: 16,
-                }
+                },
+                attachment: { x:48, y:56 },
             }, {
                 name: 'Valiant Sniper',
                 type: 4,
@@ -1572,6 +1576,7 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'SpineFall',
+                svg: true,
                 type: 4,
                 element: 3,
                 attachment: { x:56, y:35 },
@@ -2145,16 +2150,36 @@ class WUWorkshop extends HTMLElement
                 }
             }, {
                 name: 'Frantic Flame',
+                svg: true,
                 type: 4,
                 element: 2,
                 tiers: [2, 5],
                 stats: {
                     weight: 50,
                     expDmg: [76, 470],
+                    heaDmg: 78,
+                    expResDmg: 10,
                     range: [3, 6],
                     uses: 2,
                     eneCost: 10,
                     heaCost: 81,
+                },
+                attachment: { x:40, y:50 }
+            }, {
+                name: 'Frantic Lightning',
+                svg: true,
+                type: 4,
+                element: 3,
+                tiers: [2, 5],
+                stats: {
+                    weight: 50,
+                    eleDmg: [76, 451],
+                    eneDmg: 95,
+                    eleResDmg: 10,
+                    range: [3, 6],
+                    uses: 2,
+                    eneCost: 81,
+                    heaCost: 13,
                 },
                 attachment: { x:40, y:50 }
             }, {
@@ -2332,6 +2357,7 @@ class WUWorkshop extends HTMLElement
                     range: [4, 8],
                     uses: 2,
                     heaCost: 100,
+                    jumpReq: true,
                 },
                 attachment: { x:63, y:35 }
             }, {
@@ -2412,11 +2438,49 @@ class WUWorkshop extends HTMLElement
                 },
                 attachment: { x:63, y:35 }
             }, {
-                name: 'Unstable Power Cell',
+                name: 'Shadow Wolf',
+                svg: true,
+                type: 3,
+                element: 2,
+                tiers: [3, 5],
+                stats: {
+                    weight: 60,
+                    expDmg: [147, 376],
+                    heaDmg: 50,
+                    expResDmg: 10,
+                    range: [2, 4],
+                    push: 1,
+                    recoil: 1,
+                    uses: 3,
+                    eneCost: 25,
+                    heaCost: 56,
+                },
+                attachment: { x:40, y:50 }
+            }, {
+                name: 'Piercing Fox',
                 svg: true,
                 type: 3,
                 element: 3,
                 tiers: [3, 5],
+                stats: {
+                    weight: 64,
+                    eleDmg: [147, 376],
+                    eneDmg: 67,
+                    eleResDmg: 10,
+                    range: [2, 4],
+                    push: 1,
+                    recoil: 1,
+                    uses: 3,
+                    eneCost: 56,
+                    heaCost: 25,
+                },
+                attachment: { x:40, y:50 }
+            }, {
+                name: 'Unstable Power Cell',
+                svg: true,
+                type: 3,
+                element: 3,
+                tiers: [2, 5],
                 stats: {
                     weight: 42,
                     eleDmg: [144, 232],
@@ -2431,6 +2495,96 @@ class WUWorkshop extends HTMLElement
                 divineBuff: {
                     eleDmg: [153, 246],
                     eneDmg: 260
+                },
+                attachment: { x:63, y:35 }
+            }, {
+                name: 'Cockpit Piercer',
+                svg: true,
+                type: 4,
+                element: 1,
+                tiers: [3, 5],
+                stats: {
+                    weight: 27,
+                    phyDmg: [540, 866],
+                    phyResDmg: 10,
+                    range: [7],
+                    push: 1,
+                    uses: 1,
+                    eneCost: 22,
+                    heaCost: 22,
+                },
+                attachment: { x:48, y:56 },
+            }, {
+                name: 'Sacrifice Cannon',
+                svg: true,
+                type: 3,
+                element: 1,
+                tiers: [2, 5],
+                stats: {
+                    weight: 24,
+                    phyDmg: [209, 520],
+                    phyResDmg: 12,
+                    range: [2, 4],
+                    push: 1,
+                    uses: 1,
+                    backFire: 123,
+                    eneCost: 31,
+                    heaCost: 31,
+                },
+                divineBuff: { phyDmg:[214, 533] },
+                attachment: { x:40, y:50 }
+            }, {
+                name: 'Perimeter Protector',
+                svg: true,
+                type: 3,
+                element: 1,
+                tiers: [3, 5],
+                stats: {
+                    weight: 31,
+                    phyDmg: [152, 273],
+                    phyResDmg: 5,
+                    range: [1, 2],
+                    retreat: 6,
+                    uses: 2,
+                    heaCost: 38,
+                    jumpReq: true,
+                },
+                attachment: { x:40, y:40 }
+            }, {
+                name: 'Dark Eagle',
+                svg: true,
+                type: 3,
+                element: 1,
+                tiers: [3, 5],
+                stats: {
+                    weight: 60,
+                    phyDmg: [181, 456],
+                    phyResDmg: 10,
+                    range: [1, 2],
+                    push: 1,
+                    recoil: 2,
+                    uses: 3,
+                    eneCost: 25,
+                    heaCost: 38,
+                },
+                attachment: { x:40, y:40 }
+            }, {
+                name: 'Space Invader',
+                svg: true,
+                type: 4,
+                element: 2,
+                tiers: [3, 5],
+                stats: {
+                    weight: 41,
+                    expDmg: [162, 289],
+                    heaDmg: 36,
+                    expResDmg: 5,
+                    range: [4, 8],
+                    push: 1,
+                    advance: 3,
+                    uses: 2,
+                    heaCost: 63,
+                    jumpReq: true,
                 },
                 attachment: { x:63, y:35 }
             }
@@ -2557,9 +2711,6 @@ class WUWorkshop extends HTMLElement
             this.appendChild(this.mechSummary);
 
             // End of Mech Summary
-
-
-            
 
             this.partsSetup = new WUPartsSetup(setup);
             this.appendChild(this.partsSetup);

@@ -87,7 +87,7 @@ class WUPlusNSettingsTab extends HTMLElement
         const switchArenaBuffsOffset = newSwitchContainer('Arena Buffs Offset', $.getLS('arena_buffs_offset'), switchArenaBuffsOffsetEvent);
         const switchDivineTier = newSwitchContainer('Divine Tier', $.getLS('divine_tier'), switchDivineTierEvent);
         const buttonCustomItems = new WUButton('Custom Items', './img/general/customitems.png', buttonCustomItemsEvent);
-        const buttonMechsList = new WUButton('Custom Items', './img/general/mech.svg', buttonMechsListEvent);
+        const buttonMechsList = new WUButton('Your Mechs', './img/general/mech.svg', buttonMechsListEvent);
         const buttonCloseTab = new WUButton('Close', './img/general/x.svg', () => this.hide());
 
         buttonCloseTab.classList.add('close');

@@ -480,6 +480,94 @@ wu-plus-n-settings-tab content-wrapper wu-button.close {
 }
 
 
+wu-create-item-tab {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+wu-create-item-tab step-1-content-wrapper,
+wu-create-item-tab step-2-content-wrapper {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 85%;
+  height: 85%;
+  max-width: 400px;
+  max-height: 600px;
+  padding: 10px;
+}
+wu-create-item-tab step-1-content-wrapper input[type=text] {
+  min-width: 60%;
+}
+wu-create-item-tab step-1-content-wrapper img.img-preview {
+  max-width: 200px;
+  max-height: 150px;
+}
+wu-create-item-tab step-1-content-wrapper wu-button.continue-btn {
+  width: 50px;
+  height: 50px;
+}
+wu-create-item-tab step-1-content-wrapper select:last-of-type {
+  border-radius: 0 0 calc(0.6vw + 0.6vh) 0;
+}
+wu-create-item-tab step-2-content-wrapper stat-input-blocks-container {
+  position: relative;
+  display: block;
+  overflow-y: scroll;
+  width: 100%;
+  height: calc(100% - 100px);
+}
+wu-create-item-tab step-2-content-wrapper wu-button.continue-btn {
+  width: 50px;
+  height: 50px;
+}
+
+
+stat-input-block {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+stat-input-block img {
+  width: 26px;
+  height: 26px;
+}
+stat-input-block input[type=number] {
+  width: 70px;
+  margin: 5px;
+}
+stat-input-block wu-switch-button {
+  margin: 5px;
+}
+
+select {
+  font-size: inherit;
+  font-family: inherit;
+  border: none;
+  border-radius: calc(0.6vw + 0.6vh) 0 0 0;
+  background-color: #DDD;
+  color: rgb(0, 0, 0);
+}
+
+
+input[type=text],
+input[type=number] {
+  font-size: inherit;
+  font-family: inherit;
+  text-align: center;
+  border: none;
+  border-radius: 2px;
+  background-color: #DDD;
+  color: rgb(0, 0, 0);
+}
+
+
 .switch-container {
   position: relative;
   display: -webkit-flex;
@@ -495,7 +583,6 @@ wu-plus-n-settings-tab content-wrapper wu-button.close {
   margin-left: 5px;
   white-space: nowrap;
 }
-
 
 
 wu-custom-items-tab {
@@ -514,41 +601,6 @@ wu-custom-items-tab item-list {
 }
 wu-custom-items-tab wu-button {
   grid-area: b;
-}
-
-
-wu-create-item-tab {
-  display: grid;
-  grid-template-rows: 5fr 10% 1fr 30% 5fr;
-  grid-template-columns: 1fr 80% 1fr;
-  grid-template-areas: '. . .' '. a .' '. . .' '. b .' '. . .';
-}
-wu-create-item-tab inputs-container {
-  grid-area: a;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-wu-create-item-tab inputs-container input[type=text],
-wu-create-item-tab inputs-container select {
-  position: relative;
-  display: inline;
-  background: #DDD;
-  border-radius: calc(0.6vw + 0.6vh) 0;
-  border: none;
-  font: inherit;
-  font-size: inherit;
-  color: #111;
-  text-align: center;
-  outline: none;
-}
-wu-create-item-tab inputs-container input[type=text] {
-  margin-right: calc(0.6vw + 0.6vh);
-}
-wu-create-item-tab inputs-container select {
-  margin-left: calc(0.6vw + 0.6vh);
 }
 
 
