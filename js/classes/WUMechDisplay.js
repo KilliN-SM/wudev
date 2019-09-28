@@ -52,9 +52,6 @@ class WUMechDisplay extends HTMLElement
 
     setup (_setup)
     {
-        this._partsContainer.style.transition = 'opacity 0s';
-        this._partsContainer.style.opacity    = '0';
-
         if (!_setup[0]) return;
 
         const setup = [ ..._setup ];
@@ -67,8 +64,6 @@ class WUMechDisplay extends HTMLElement
             {
                 clearInterval(onImagesLoaded);
                 this.adjust();
-                this._partsContainer.style.transition = 'opacity .25s';
-                this._partsContainer.style.opacity    = '1';
             }
         });
 

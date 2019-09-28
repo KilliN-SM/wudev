@@ -257,27 +257,29 @@ wu-summary {
 wu-summary wu-stat-block {
   position: relative;
   display: grid;
-  grid-template-areas: 'icon text';
+  grid-template-areas: 'a b';
   grid-template-rows: 100%;
-  grid-template-columns: 25px 120px;
+  grid-template-columns: 25px 95px;
   width: 125px;
   height: 25px;
   margin: 2.5px;
   background-color: rgba(0, 0, 0, 0.5);
 }
-wu-summary wu-stat-block img {
+wu-summary wu-stat-block img.icon {
+  grid-area: a;
   position: relative;
   display: block;
-  width: 90%;
-  height: 90%;
-  margin: 5%;
+  width: 95%;
+  height: 95%;
+  margin: 2.5%;
 }
-wu-summary wu-stat-block div {
+wu-summary wu-stat-block div.text {
+  grid-area: b;
   position: relative;
   display: block;
   width: 100%;
   height: 0;
-  margin-left: 5px;
+  margin: 5px 0 0 0;
   line-height: 26px;
 }
 

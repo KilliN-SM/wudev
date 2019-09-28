@@ -16,8 +16,8 @@ class WUStatBlock extends HTMLElement
             }
         }
 
-        const icon = $.css($.dom('img', { hoverData, src:statData.src }), { gridArea:'icon' });
-        const text = $.css($.dom('div', { hoverData, innerText:String(value).replace(',', '-') }), { gridArea:'text' });
+        const icon = $.dom('img', { className:'icon', hoverData, src:statData.src });
+        const text = $.dom('div', { className:'text', hoverData, innerText:String(value).replace(',', '-') });
         
         this.appendChild(icon);
         this.appendChild(text);

@@ -55,6 +55,19 @@
         return element;
     },
 
+    arrayEvery: function (array, test)
+    {
+        let i = 0;
+        
+        while (i < array.length)
+        {
+            if (!test(array[i])) return false;
+            i++;
+        }
+        
+        return true;
+    },
+
     /*
 
     // Check if the object is DOM :boolean
