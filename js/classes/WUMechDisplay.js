@@ -60,7 +60,7 @@ class WUMechDisplay extends HTMLElement
         const partsArray     = Object.keys(this._parts).map(key => this._parts[key]);
         const onImagesLoaded = setInterval(() =>
         {
-            if (partsArray.every(part => part.itemGfx.complete))
+            if ($.arrayEvery(partsArray, function (part) { return part.itemGfx.complete }))
             {
                 clearInterval(onImagesLoaded);
                 this.adjust();

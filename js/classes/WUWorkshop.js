@@ -2296,7 +2296,7 @@ class WUWorkshop extends HTMLElement
                 tiers: [3, 5],
                 stats: {
                     weight: 34,
-                    expDmg: [254, 434],
+                    phyDmg: [254, 434],
                     phyResDmg: 5,
                     push: 1,
                     retreat: 2,
