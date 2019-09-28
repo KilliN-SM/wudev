@@ -7,7 +7,6 @@ wu-workshop {
   grid-template-rows: 1fr 7fr 120px;
   grid-template-areas: "a b e" "a b c" "d d d";
   transition: opacity 1s;
-  overflow: hidden;
 }
 wu-workshop img {
   object-fit: contain;
