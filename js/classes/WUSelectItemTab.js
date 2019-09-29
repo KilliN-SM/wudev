@@ -27,7 +27,7 @@ class WUSelectItemTab extends HTMLElement
             {
                 window.workshop.updateMechSummary();
                 window.workshop.updateActiveMech();
-                
+
                 if (this._currentSlot.type < 6)
                 {
                     window.workshop.updateMechDisplay();

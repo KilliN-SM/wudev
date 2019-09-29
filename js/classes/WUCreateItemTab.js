@@ -6,13 +6,20 @@ class WUCreateItemTab extends HTMLElement
 
         this.className = 'tab';
 
+        let item = {
+            custom: true,
+            tiers: [4, 5],
+            stats: {},
+        };
+
 
         // STEP 1
 
         const elemOptions = ['Physical', 'Explosive', 'Electric'];
         const typeOptions = [
-            'Torso', 'Leg', 'Side Weapon', 'Top Weapon',
-            'Drone', 'Charge Engine', 'Teleporter', 'Hook'
+            'Torso', 'Leg', 'Side Weapon',
+            'Top Weapon', 'Drone', 'Charge Engine',
+            'Teleporter', 'Hook', 'Module'
         ];
 
 
@@ -39,6 +46,7 @@ class WUCreateItemTab extends HTMLElement
             };
             imgPreview.src = inputImgSrc.value;
         };
+        
         const inputImgSrcEvent = e =>
         {
             imgPreview.style.display = 'block';
@@ -66,7 +74,7 @@ class WUCreateItemTab extends HTMLElement
         imgPreview.className = 'img-preview';
 
         for (let i = 0; i < elemOptions.length; i++) elemInput.appendChild($.dom('option', { value:i+1, innerText:elemOptions[i] }));
-        for (let i = 0; i < typeOptions.length; i++) typeInput.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
+        for (let i = 4; i < typeOptions.length; i++) typeInput.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
 
         inputImgSrc.type = 'text';
         inputImgSrc.placeholder = 'Image Link';
@@ -91,10 +99,31 @@ class WUCreateItemTab extends HTMLElement
         // STEP 2
 
         const statNames = Object.keys(window.workshop.statsData);
+        const statInputBlocks = [];
 
         const btnStep2ContinueEvent = () =>
         {
+            item.name    = nameInput.value || '(unnamed)';
+            item.url     = inputImgSrc.value;
+            item.type    = Number(typeInput.value);
+            item.element = Number(elemInput.value);
 
+            for (let i = statInputBlocks.length; i--;)
+            {
+                const e = statInputBlocks[i];
+                const value = e.getVal();
+
+                if ((Array.isArray(value) && (value[0] || value[1])) || (value && typeof value === 'number') || value === true) item.stats[e.stat.name] = value;
+            }
+
+            if (item.type > 4)
+            {
+                window.workshop.defineCustomItem(item);
+                this.hide();
+            }
+
+            this._step2ContentWrapper.style.display = 'none';
+            this._step3ContentWrapper.style.display = 'grid';
         };
 
         this._step2ContentWrapper = document.createElement('step-2-content-wrapper');
@@ -113,6 +142,7 @@ class WUCreateItemTab extends HTMLElement
             const icon = document.createElement('img');
 
             statInputBlock.inputs = [];
+            statInputBlock.stat = stat;
 
             icon.src = stat.src;
 
@@ -128,27 +158,29 @@ class WUCreateItemTab extends HTMLElement
                     statInputBlock.inputs.push(input);
                     if (statInputBlock.inputs.length > 1) statInputBlock.append('-');
                     statInputBlock.appendChild(input);
-                }
-                statInputBlock.getVal = () =>
-                {
-                    if (statInputBlock.inputs.length > 1)
+
+                    statInputBlock.getVal = () =>
                     {
-                        const val = [];
+                        if (statInputBlock.inputs.length > 1)
+                        {
+                            const val = [];
 
-                        for (let i = 0; i < statInputBlock.inputs.length; i++) val.push(statInputBlock.inputs[i].value);
+                            for (let i = 0; i < statInputBlock.inputs.length; i++) val.push(Number(statInputBlock.inputs[i].value));
 
-                        return val;
-                    }
-                    else return statInputBlock.inputs[0].value;
-
-                };
+                            return val;
+                        }
+                        else return Number(statInputBlock.inputs[0].value);
+                    };
+                }
             }
             else
             {
                 const input = new WUSwitchButton()
                 statInputBlock.appendChild(input);
-                statInputBlock.getVal = () => input.checked;
+                statInputBlock.getVal = () => Boolean(input.checked);
             }
+
+            statInputBlocks.push(statInputBlock);
 
             statInputBlock.append(stat.context);
 
@@ -159,6 +191,22 @@ class WUCreateItemTab extends HTMLElement
 
         this._step2ContentWrapper.appendChild(statInputBlocksContainer);
         this._step2ContentWrapper.appendChild(btnStep2Continue);
+
+
+        // STEP 3
+        const btnStep3FinishEvent = () =>
+        {
+            this.hide();
+        };
+
+        this._step3ContentWrapper = document.createElement('step-3-content-wrapper');
+        const btnStep3Finish = new WUButton('Continue', '../img/icons/stats/advance.svg', btnStep3FinishEvent);
+
+        this._step3ContentWrapper.style.display = 'none';
+
+        this.appendChild(this._step3ContentWrapper);
+
+        this._step3ContentWrapper.appendChild(btnStep3Finish);
 
 
         // END
@@ -178,7 +226,7 @@ class WUCreateItemTab extends HTMLElement
 
     show ()
     {
-        //this.style.visibility = '';
+        this.style.visibility = '';
         this._step1ContentWrapper.style.display = '';
         this._step2ContentWrapper.style.display = 'none';
     }

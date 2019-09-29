@@ -10,6 +10,7 @@ class WUButton extends HTMLElement
         const img = new Image();
         img.hoverData = { text };
         img.src = src;
+        img.draggable = false;
 
         this.addEventListener('click', onclick);
 

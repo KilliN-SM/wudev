@@ -1,4 +1,5 @@
-class WUStatBlock extends HTMLElement
+
+$.defineHTMLElement('wu-stat-block', class WUStatBlock extends HTMLElement
 {
     constructor (statData, value)
     {
@@ -22,5 +23,4 @@ class WUStatBlock extends HTMLElement
         this.appendChild(icon);
         this.appendChild(text);
     }
-}
-window.customElements.define('wu-stat-block', WUStatBlock);
+});

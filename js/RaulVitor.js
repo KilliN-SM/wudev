@@ -68,6 +68,12 @@
         return true;
     },
 
+    defineHTMLElement: function (a, b)
+    {
+        window[b.name] = b;
+        window.customElements.define(a, b);
+    },
+
     /*
 
     // Check if the object is DOM :boolean

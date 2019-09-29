@@ -12,6 +12,7 @@ class WUItemSlot extends HTMLElement
         this.type = type;
         this._tips = $.dom('tips');
         this._gfx = new Image();
+        this._gfx.draggable = false;
 
         $.toDataURL(icon, data =>
         {

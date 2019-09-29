@@ -88,7 +88,7 @@ class WUPlusNSettingsTab extends HTMLElement
         const switchDivineTier = newSwitchContainer('Divine Tier', $.getLS('divine_tier'), switchDivineTierEvent);
         const buttonCustomItems = new WUButton('Custom Items', './img/general/customitems.png', buttonCustomItemsEvent);
         const buttonMechsList = new WUButton('Your Mechs', './img/general/mech.svg', buttonMechsListEvent);
-        const buttonClearCache = new WUButton('Clear cache and refresh', './img/general/x.svg', () => window.location.reload(true));
+        const buttonClearCache = new WUButton('Clear cache and refresh', './img/general/refresh.svg', () => window.location.reload(true));
         const buttonCloseTab = new WUButton('Close', './img/general/x.svg', () => this.hide());
 
         buttonCloseTab.classList.add('close');
