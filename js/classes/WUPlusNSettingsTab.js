@@ -1,18 +1,17 @@
-class WUSwitchButton extends HTMLElement
+$.defineHTMLElement('wu-switch-button', class WUSwitchButton extends HTMLElement
 {
     constructor (checked, oninput)
     {
         super();
 
         this.appendChild($.dom('input', { type:'checkbox', checked, oninput }));
-        this.appendChild($.dom('runnable-track'));
-        this.appendChild($.dom('togglable-thumb'));
+        this.appendChild(document.createElement('runnable-track'));
+        this.appendChild(document.createElement('togglable-thumb'));
     }
-}
-window.customElements.define('wu-switch-button', WUSwitchButton);
+});
 
 
-class WUSwitchContainer extends HTMLElement
+$.defineHTMLElement('wu-switch-container', class WUSwitchContainer extends HTMLElement
 {
     constructor (innerText, checked, oninput)
     {
@@ -21,11 +20,10 @@ class WUSwitchContainer extends HTMLElement
         this.appendChild(new WUSwitchButton(checked, oninput));
         this.appendChild($.dom('text', { innerText }));
     }
-}
-window.customElements.define('wu-switch-container', WUSwitchContainer);
+});
 
 
-class WUPlusNSettingsTab extends HTMLElement
+$.defineHTMLElement('wu-plus-n-settings-tab', class WUPlusNSettingsTab extends HTMLElement
 {
     constructor ()
     {
@@ -38,13 +36,11 @@ class WUPlusNSettingsTab extends HTMLElement
             const label = document.createElement('label');
             const switchButton = new WUSwitchButton(checked, oninput);
             const switchContext = document.createElement('switch-context');
-            //const hitbox = document.createElement('hitbox');
+            //const hitbox = $.dom('hitbox', { hoverData:{ text } });
             
             label.className = 'switch-container';
 
             switchContext.innerText = text;
-
-            //hitbox.hoverData = { text };
 
             label.appendChild(switchButton);
             label.appendChild(switchContext);
@@ -88,7 +84,7 @@ class WUPlusNSettingsTab extends HTMLElement
         const switchDivineTier = newSwitchContainer('Divine Tier', $.getLS('divine_tier'), switchDivineTierEvent);
         const buttonCustomItems = new WUButton('Custom Items', './img/general/customitems.png', buttonCustomItemsEvent);
         const buttonMechsList = new WUButton('Your Mechs', './img/general/mech.svg', buttonMechsListEvent);
-        const buttonClearCache = new WUButton('Clear cache and refresh', './img/general/refresh.svg', () => window.location.reload(true));
+        const buttonClearCache = new WUButton('Refresh', './img/general/refresh.svg', () => window.location.reload(true));
         const buttonCloseTab = new WUButton('Close', './img/general/x.svg', () => this.hide());
 
         buttonCloseTab.classList.add('close');
@@ -107,9 +103,7 @@ class WUPlusNSettingsTab extends HTMLElement
         window.workshop.appendChild(tabCustomItems);
         //window.workshop.appendChild(tabMechsList);
 
-        this.addEventListener('click', e => {
-            if (e.target === this) this.hide();
-        });
+        this.addEventListener('click', e => (e.target === this) && this.hide());
 
         this.hide();
     }
@@ -123,5 +117,4 @@ class WUPlusNSettingsTab extends HTMLElement
     {
         this.style.visibility = 'hidden';
     }
-}
-window.customElements.define('wu-plus-n-settings-tab', WUPlusNSettingsTab);
+});

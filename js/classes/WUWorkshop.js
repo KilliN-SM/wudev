@@ -1,4 +1,4 @@
-class WUWorkshop extends HTMLElement
+$.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
 {
     constructor ()
     {
@@ -159,18 +159,42 @@ class WUWorkshop extends HTMLElement
         return [...this.customItems, ...this.officialItems];
     }
 
-    defineCustomItem (item)
+    defineCustomItem (item, callback)
     {
         $.setLS('custom_items', [...$.getLS('custom_items'), item]);
         $.toDataURL(item.url, data =>
         {
-            item.src = data;
-            this.customItems.push(item);
+            $.testImg(data, valid =>
+            {
+                if (valid) item.src = data;
+                else
+                {
+                    item.src = this.notexture;
+                    item.width = 100;
+                    item.height = 100;
+                }
+
+                this.customItems.push(item);
+
+                callback();
+            });
         });
     }
 
     deleteCustomItem (item)
     {
+        const setup = $.arrayMap(this.itemSlots, slot => slot.currentItem);
+
+        for (let i = this.itemSlots.length; i--;) if (this.itemSlots[i].currentItem === item) this.itemSlots[i].clear();
+        
+        if ($.arrayMap(this.itemSlots, slot => slot.currentItem) !== setup)
+        {
+            this.updateMechSummary();
+            this.updateActiveMech();
+            if (item.type > 4) this.updateMechDisplay();
+        }
+
+
         this.customItems.splice(this.customItems.indexOf(item), 1);
 
         delete item.src; // Items have no 'src' property on Local Storage
@@ -182,6 +206,8 @@ class WUWorkshop extends HTMLElement
         {
             const LSitem = LSCustomItems[i];
 
+            console.log(JSON.stringify(LSitem), itemStr)
+
             if (JSON.stringify(LSitem) === itemStr)
             {
                 LSCustomItems.splice(LSCustomItems.indexOf(item), 1);
@@ -190,5 +216,4 @@ class WUWorkshop extends HTMLElement
             }
         }
     }
-}
-window.customElements.define('wu-workshop', WUWorkshop);
+});

@@ -1,4 +1,4 @@
-class WUCreateItemTab extends HTMLElement
+$.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElement
 {
     constructor ()
     {
@@ -6,201 +6,19 @@ class WUCreateItemTab extends HTMLElement
 
         this.className = 'tab';
 
-        let item = {
-            custom: true,
-            tiers: [4, 5],
-            stats: {},
-        };
+        this.steps = [this._createStep0(), this._createStep1()];
 
-
-        // STEP 1
-
-        const elemOptions = ['Physical', 'Explosive', 'Electric'];
-        const typeOptions = [
-            'Torso', 'Leg', 'Side Weapon',
-            'Top Weapon', 'Drone', 'Charge Engine',
-            'Teleporter', 'Hook', 'Module'
-        ];
-
-
-        const btnStep1ContinueEvent = () =>
-        {
-            imgPreview.onload = () =>
-            {
-                this._step1ContentWrapper.style.display = 'none';
-                this._step2ContentWrapper.style.display = 'flex';
-            };
-            imgPreview.onerror = () =>
-            {
-                const src = inputImgSrc.value;
-
-                inputImgSrc.value = 'invalid!';
-
-                setTimeout(function ()
-                {
-                    if (inputImgSrc.value === 'invalid!')
-                    {
-                        inputImgSrc.value = src;
-                    }
-                }, 2000);
-            };
-            imgPreview.src = inputImgSrc.value;
-        };
-        
-        const inputImgSrcEvent = e =>
-        {
-            imgPreview.style.display = 'block';
-            imgPreview.src = e.target.value;
-        };
-
-
-        this._step1ContentWrapper = document.createElement('step-1-content-wrapper');
-        const nameInput = document.createElement('input');
-        const imgPreview = document.createElement('img');
-        const typeAndElementContainer = document.createElement('type-n-element-container');
-        const elemInput = document.createElement('select');
-        const typeInput = document.createElement('select');
-        const inputImgSrc = document.createElement('input');
-        const btnStep1Continue = new WUButton('Continue', '../img/icons/stats/advance.svg', btnStep1ContinueEvent);
-
-
-        this._step1ContentWrapper.className = 'box border';
-
-        nameInput.type = 'text';
-        nameInput.placeholder = 'Item Name';
-        nameInput.spellcheck = false;
-
-        imgPreview.style.display = 'none';
-        imgPreview.className = 'img-preview';
-
-        for (let i = 0; i < elemOptions.length; i++) elemInput.appendChild($.dom('option', { value:i+1, innerText:elemOptions[i] }));
-        for (let i = 4; i < typeOptions.length; i++) typeInput.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
-
-        inputImgSrc.type = 'text';
-        inputImgSrc.placeholder = 'Image Link';
-        inputImgSrc.spellcheck = false;
-        inputImgSrc.addEventListener('input', inputImgSrcEvent);
-
-        btnStep1Continue.classList.add('continue-btn');
-
-
-        this.appendChild(this._step1ContentWrapper);
-
-        typeAndElementContainer.appendChild(elemInput);
-        typeAndElementContainer.appendChild(typeInput);
-
-        this._step1ContentWrapper.appendChild(nameInput);
-        this._step1ContentWrapper.appendChild(imgPreview);
-        this._step1ContentWrapper.appendChild(typeAndElementContainer);
-        this._step1ContentWrapper.appendChild(inputImgSrc);
-        this._step1ContentWrapper.appendChild(btnStep1Continue);
+        for (let i = 0; i < this.steps.length; i++) this.appendChild(this.steps[i]);
 
 
         // STEP 2
-
-        const statNames = Object.keys(window.workshop.statsData);
-        const statInputBlocks = [];
-
-        const btnStep2ContinueEvent = () =>
-        {
-            item.name    = nameInput.value || '(unnamed)';
-            item.url     = inputImgSrc.value;
-            item.type    = Number(typeInput.value);
-            item.element = Number(elemInput.value);
-
-            for (let i = statInputBlocks.length; i--;)
-            {
-                const e = statInputBlocks[i];
-                const value = e.getVal();
-
-                if ((Array.isArray(value) && (value[0] || value[1])) || (value && typeof value === 'number') || value === true) item.stats[e.stat.name] = value;
-            }
-
-            if (item.type > 4)
-            {
-                window.workshop.defineCustomItem(item);
-                this.hide();
-            }
-
-            this._step2ContentWrapper.style.display = 'none';
-            this._step3ContentWrapper.style.display = 'grid';
-        };
-
-        this._step2ContentWrapper = document.createElement('step-2-content-wrapper');
-        const statInputBlocksContainer = document.createElement('stat-input-blocks-container');
-        const btnStep2Continue = new WUButton('Continue', '../img/icons/stats/advance.svg', btnStep2ContinueEvent);
-
-        this._step2ContentWrapper.className = 'box border';
-        this._step2ContentWrapper.style.display = 'none';
-
-        btnStep2Continue.classList.add('continue-btn');
-
-        for (let i = 0; i < statNames.length; i++)
-        {
-            const stat = window.workshop.statsData[statNames[i]];
-            const statInputBlock = document.createElement('stat-input-block');
-            const icon = document.createElement('img');
-
-            statInputBlock.inputs = [];
-            statInputBlock.stat = stat;
-
-            icon.src = stat.src;
-
-            statInputBlock.appendChild(icon);
-
-            if (stat.type === 'num')
-            {
-                for (let i = 0; i < stat.inputs; i++)
-                {
-                    const input = document.createElement('input');
-                    input.type = 'number';
-                    input.placeholder = '0';
-                    statInputBlock.inputs.push(input);
-                    if (statInputBlock.inputs.length > 1) statInputBlock.append('-');
-                    statInputBlock.appendChild(input);
-
-                    statInputBlock.getVal = () =>
-                    {
-                        if (statInputBlock.inputs.length > 1)
-                        {
-                            const val = [];
-
-                            for (let i = 0; i < statInputBlock.inputs.length; i++) val.push(Number(statInputBlock.inputs[i].value));
-
-                            return val;
-                        }
-                        else return Number(statInputBlock.inputs[0].value);
-                    };
-                }
-            }
-            else
-            {
-                const input = new WUSwitchButton()
-                statInputBlock.appendChild(input);
-                statInputBlock.getVal = () => Boolean(input.checked);
-            }
-
-            statInputBlocks.push(statInputBlock);
-
-            statInputBlock.append(stat.context);
-
-            statInputBlocksContainer.appendChild(statInputBlock);
-        }
-
-        this.appendChild(this._step2ContentWrapper);
-
-        this._step2ContentWrapper.appendChild(statInputBlocksContainer);
-        this._step2ContentWrapper.appendChild(btnStep2Continue);
-
-
-        // STEP 3
         const btnStep3FinishEvent = () =>
         {
             this.hide();
         };
 
         this._step3ContentWrapper = document.createElement('step-3-content-wrapper');
-        const btnStep3Finish = new WUButton('Continue', '../img/icons/stats/advance.svg', btnStep3FinishEvent);
+        const btnStep3Finish = new WUButton('Continue', './img/icons/stats/advance.svg', btnStep3FinishEvent);
 
         this._step3ContentWrapper.style.display = 'none';
 
@@ -211,10 +29,7 @@ class WUCreateItemTab extends HTMLElement
 
         // END
 
-        this.addEventListener('click', e =>
-        {
-            if (e.target === this) this.hide();
-        });
+        this.addEventListener('click', e => (e.target === this) && this.hide());
 
         this.hide();
     }
@@ -224,11 +39,190 @@ class WUCreateItemTab extends HTMLElement
         this.style.visibility = 'hidden';
     }
 
-    show ()
+    show (step = 0, item)
     {
         this.style.visibility = '';
-        this._step1ContentWrapper.style.display = '';
-        this._step2ContentWrapper.style.display = 'none';
+        this.steps[step].show(item);
+
+        for (let i = 0; i < this.steps.length; i++) if (i !== step) this.steps[i].hide();
     }
-}
-window.customElements.define('wu-create-item-tab', WUCreateItemTab);
+
+    _createStep0 ()
+    {
+        const cw = $.dom('step-0-content-wrapper', {
+            className: 'box border',
+            currentItem: null,
+            hide: () => cw.style.display = 'none',
+            show: function (item = { custom:true, tiers:[4, 5], stats:{} })
+            {
+                cw.style.display = 'block';
+                cw.currentItem = item;
+            },
+        });
+        const content = document.createElement('full-content');
+        const inputName = $.dom('input', { type:'text', spellcheck:false, placeholder:'name' });
+        const inputURL = $.dom('input', { type:'text', spellcheck:false, placeholder:'image link' });
+        const typeCont = document.createElement('type-n-element-container');
+        const inputType = $.dom('select', { oninput:e => cw.currentItem.type = Number(e.target.value) });
+        const inputElement = $.dom('select', { oninput:e => cw.currentItem.element = Number(e.target.value) });
+        const btnContinue = new WUButton('Continue', './img/icons/stats/advance.svg', () =>
+        {
+            const item = cw.currentItem;
+
+            item.name = inputName.value;
+            item.url = inputURL.value;
+            item.type = Number(inputType.value);
+            item.element = Number(inputElement.value);
+
+            this.show(1, cw.currentItem);
+        });
+
+        const elemOptions = ['Physical', 'Explosive', 'Electric'];
+        const typeOptions = ['Torso', 'Leg', 'Side Weapon', 'Top Weapon', 'Drone', 'Charge Engine', 'Teleporter', 'Hook', 'Module'];
+
+        for (let i = 4; i < typeOptions.length; i++) inputType.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
+        for (let i = 0; i < elemOptions.length; i++) inputElement.appendChild($.dom('option', { value:i+1, innerText:elemOptions[i] }));
+
+
+        content.appendChild(inputName);
+        content.appendChild(inputURL);
+
+        typeCont.appendChild(inputType);
+        typeCont.appendChild(inputElement);
+
+        content.appendChild(typeCont);
+        content.appendChild(btnContinue);
+
+        cw.appendChild(content);
+
+
+        return cw;
+    }
+
+    _createStep1 ()
+    {
+        const cw = $.dom('step-1-content-wrapper', {
+            className: 'box border',
+            currentItem: null,
+            hide: () => cw.style.display = 'none',
+            show: function (item)
+            {
+                cw.style.display = 'block';
+                cw.currentItem = item;
+            },
+        });
+        const content = document.createElement('full-content');
+        const statInputsArray = [];
+        const statInputsCont = document.createElement('stat-inputs');
+        const btnsCont = document.createElement('buttons-container');
+        const btnGoBack = new WUButton('Go Back', './img/icons/stats/retreat.svg', () => this.show(0, cw.currentItem));
+        const btnContinue = new WUButton('Continue', './img/icons/stats/advance.svg', () =>
+        {
+            const item = cw.currentItem;
+
+            for (let i = 0; i < statInputsArray.length; i++)
+            {
+                const statInput = statInputsArray[i];
+                const value = statInput.getValue();
+
+                if ((Array.isArray(value) && (value[0] || value[1])) || (!Array.isArray(value) && value)) item.stats[statInput.stat.name] = statInput.getValue();
+            }
+
+            if (item.type > 4)
+            {
+                //window.workshop.waitScreen.show();
+                window.workshop.defineCustomItem(item, () =>
+                {
+                    //window.workshop.waitScreen.hide();
+                    this.hide();
+                    document.querySelector('wu-custom-items-tab').show();
+                });
+            }
+            else this.show(2, item);
+        });
+
+        const statsData = window.workshop.statsData;
+        const statNames = Object.keys(statsData);
+
+        for (let i = 0; i < statNames.length; i++)
+        {
+            const stat = statsData[statNames[i]];
+            const icon = $.dom('img', { src:stat.src });
+            const statInput = $.dom('stat-input', {
+                inputs: [],
+                stat,
+                oninput: function (e)
+                {
+                    if (this.inputs.length === 1)
+                    {
+                        const value = stat.type === 'num' ? Number(e.target.value) : e.target.checked;
+                        if (value) cw.currentItem.stats[stat.name] = value;
+                        else delete cw.currentItem.stats[stat.name];
+                    }
+                    else
+                    {
+                        const values = [Number(this.inputs[0].value), Number(this.inputs[1].value)];
+                        if (values[0] || values[1]) cw.currentItem.stats[stat.name] = values;
+                        else delete cw.currentItem.stats[stat.name];
+                    }
+                }
+            });
+
+
+            statInput.getValue = function ()
+            {
+                return this.stat.type === 'boo' ? Boolean(this.inputs[0].checked) : this.inputs.length > 1 ? [this.inputs[0].value, this.inputs[1].value] : this.inputs[0].value
+            };
+
+
+            statInput.appendChild(icon);
+
+            if (stat.type === 'num')
+            {
+                const inputData = {
+                    type: 'number',
+                    placeholder: '0',
+                };
+                const input1 = $.dom('input', inputData);
+
+                statInput.inputs.push(input1);
+                statInput.appendChild(input1);
+
+                if (stat.inputs > 1)
+                {
+                    const input2 = $.dom('input', inputData);
+
+                    statInput.inputs.push(input2);
+                    statInput.append('-');
+                    statInput.appendChild(input2);
+                }
+            }
+            else
+            {
+                const input = new WUSwitchButton();
+                input.oninput = () => statInput.dispatchEvent(new Event('input'));
+
+                statInput.inputs.push(input);
+                statInput.appendChild(input);
+            }
+
+            statInput.append(stat.context);
+
+            statInputsArray.push(statInput);
+            statInputsCont.appendChild(statInput);
+        }
+
+
+        content.appendChild(statInputsCont);
+
+        btnsCont.appendChild(btnGoBack);
+        btnsCont.appendChild(btnContinue);
+
+        content.appendChild(btnsCont);
+
+        cw.appendChild(content);
+
+
+        return cw;
+    }
+});

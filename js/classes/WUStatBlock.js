@@ -11,6 +11,8 @@ $.defineHTMLElement('wu-stat-block', class WUStatBlock extends HTMLElement
 
         if (Array.isArray(value))
         {
+            value = [...value];
+            
             for (let i = 0; i < value.length; i++)
             {
                 if (!value[i] || value[i] === value[i - 1]) value.splice(i, 1);

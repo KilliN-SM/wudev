@@ -4,16 +4,26 @@
 {
     window.$ = {
 
-    // Create DOM element
-    dom: (tag, objData, nodeData) =>
+    dom: (tag, data, style) =>
     {
-        const div = document.createElement('div');
-        div.innerHTML = `<${tag}>`;
+        const elem = document.createElement(tag);
 
-        if (nodeData) Object.keys(nodeData).map(k => div.lastChild.setAttribute(k, nodeData[k]));
-        if (objData) Object.keys(objData).map(k => div.lastChild[k] = objData[k]);
+        if (data)
+        {
+            const props = Object.keys(data);
+            for (let i = 0; i < props.length; i++) elem[props[i]] = data[props[i]];
+        }
 
-        return div.lastChild;
+        return style ? this.css(elem, style) : elem;
+    },
+
+    css: function (elem, style)
+    {
+        const props = Object.keys(style);
+
+        for (let i = 0; i < props.length; i++) elem.style[props[i]] = style[props[i]];
+
+        return elem;
     },
 
     // Check if first argument equals any other argument
@@ -46,32 +56,58 @@
             reader.readAsDataURL(blob);
         }))
         .then(b64 => { callback(b64) }),
-    
-    css: function (element, style) {
-        const properties = Object.keys(style);
-        for (const p of properties) {
-            element.style[p] = style[p];
-        }
-        return element;
-    },
 
-    arrayEvery: function (array, test)
+    arrayEvery: function (array, f)
     {
         let i = 0;
         
         while (i < array.length)
         {
-            if (!test(array[i])) return false;
+            if (!f(array[i])) return false;
             i++;
         }
         
         return true;
     },
 
+    arrayMap: (array, f) =>
+    {
+        const final = [];
+        for (let i = 0; i < array.length; i++) final.push(f(array[i]));
+        return final;
+    },
+
+    arrayReverse: array =>
+    {
+        const final = [];
+        for (let i = array.length; i--;) final.push(array[i]);
+        return final;
+    },
+
     defineHTMLElement: function (a, b)
     {
         window[b.name] = b;
         window.customElements.define(a, b);
+    },
+
+    testImg: (src, callback) =>
+    {
+        const img = new Image();
+        const test = () =>
+        {
+            if (img.naturalWidth && img.naturalHeight)
+            {
+                clearInterval(listener)
+                callback(true);
+            }
+        };
+        const listener = setInterval(test, 100);
+        img.onerror = () =>
+        {
+            clearInterval(listener);
+            callback(false);
+        }
+        img.src = src;
     },
 
     /*
@@ -98,16 +134,6 @@
 
     // Get Element boundries :object
     bound: elm => elm.getBoundingClientRect(),
-
-    // Test if image src is valid and callbacks the image if it is :(DOM || undefined)
-    testImg: (src, callback) =>
-    {
-        const img = new Image();
-        const test = () => img.naturalWidth && img.naturalHeight && !clearInterval(listener) && callback(img);
-        const listener = setInterval(test, 10);
-        img.onerror = () => clearInterval(listener) || callback();
-        img.src = src;
-    },
 
     // Capitalize first leter of string :string
     capital: str => typeof str !== 'string' ? '' : str.charAt(0).toUpperCase() + str.slice(1),
