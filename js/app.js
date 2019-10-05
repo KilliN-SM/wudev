@@ -1401,7 +1401,7 @@ workshop.officialItems = [{
             expResDmg: 10,
             range: [4, 8],
             uses: 3,
-            heaCost: 81,
+            heaCost: 56,
         }
     }, {
         name: 'Iron Frenzy',
