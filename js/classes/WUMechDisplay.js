@@ -1,118 +1,260 @@
-class WUMechDisplay extends HTMLElement
+'use strict';
+
+$.defineHTMLElement('wu-mech-display', class WUMechDisplay extends HTMLElement
 {
     constructor (mech)
     {
         super();
 
-        const zMap = { torso:4, leg1:5, leg2:3, side1:7, side2:0, side3:8, side4:1, top1:6, top2:2, drone:9 };
+        this.scale = $.getLS('main_mech_scale') || $.setLS('main_mech_scale', 60);
+        this.setup = [];
+        this.parts = [];
+        this.partNames = ['torso', 'leg1', 'leg2', 'side1', 'side2', 'side3', 'side4', 'top1', 'top2', 'drone'];
+        this.mechPartsContainer = document.createElement('mech-parts');
+        this.wrapper = document.createElement('parts-container-wrapper');
 
-        this._scale    = $.getLS('main_mech_scale') || $.setLS('main_mech_scale', 70);
-        this._partNames = Object.keys(zMap);
-        this._parts     = [];
-
-        this._partsContainer = $.dom('mech-parts');
-
-        const scaleInput = $.dom('input',
-        {
+        const zIndexMap = [4, 5, 3, 7, 0, 8, 1, 6, 2, 9];
+        const inputScale = $.dom('input', {
             type: 'range',
             min: 1,
             max: 100,
-            value: (100 - 1) * (this.scale() / 100),
-            oninput: e => this.scale(Number(e.target.value)),
+            value: this.scale,
+            oninput: e => this.scaleTo(e.target.value),
         });
 
-        for (const name of this._partNames)
+        
+        for (let i = this.partNames.length; i--;)
         {
-            this._parts[name] = new MechPart();
-            this._parts[name].style.zIndex = 100 + zMap[name];
-            this._partsContainer.appendChild(this._parts[name]);
+            this.parts[i] = new WUMechPart();
+            this.parts[i].name = this.partNames[i];
+            this.parts[i].style.zIndex = zIndexMap[i];
+
+            this.mechPartsContainer.appendChild(this.parts[i]);
         }
 
-        const partsContainerWrapper = $.dom('parts-container-wrapper');
 
-        partsContainerWrapper.appendChild(this._partsContainer);
+        this.wrapper.appendChild(this.mechPartsContainer);
 
-        this.appendChild(partsContainerWrapper);
-        this.appendChild(scaleInput);
+        this.appendChild(this.wrapper);
+        this.appendChild(inputScale);
 
-        mech && this.setup(mech.setup);
-
+        
         window.addEventListener('resize', () => this.adjust());
+
+
+        if (mech) this.assemble(mech.setup);
     }
 
-    scale (percent)
+    assemble (setup)
     {
-        this._scale = percent || this._scale;
-        this._partsContainer.style.transform = `scale(${ this._scale / 100 })`;
-        $.setLS('main_mech_scale', this._scale);
-
-        return this._scale;
-    }
-
-    setup (_setup)
-    {
-        if (!_setup || !_setup[0]) 
+        if (!setup || !setup[0])
         {
-            this._partsContainer.style.visibility = 'hidden';
+            for (let i = this.parts.length; i--;) this.parts[i].style.display = 'none';
             return;
         }
-        else this._partsContainer.style.visibility = '';
 
-        const setup = [ ..._setup ];
-        setup.splice(1, 0, _setup[1]);
+        setup = [
+            setup[0], setup[1], setup[1], setup[2], setup[3],
+            setup[4], setup[5], setup[6], setup[7], setup[8],
+        ];
 
-        const partsArray     = Object.keys(this._parts).map(key => this._parts[key]);
-        const onImagesLoaded = setInterval(() =>
+        for (let i = this.parts.length; i--;)
         {
-            if ($.Array.every(partsArray, function (part) { return part.itemGfx.complete }))
-            {
-                clearInterval(onImagesLoaded);
-                this.adjust();
-            }
-        });
+            if (setup[i] !== this.parts[i].item) this.parts[i].style.display = 'none';
+            this.parts[i].setItem(setup[i]);
+        }
 
-        for (let i = 0; i < partsArray.length; i++) partsArray[i].setItem(setup[i]);
+        const onImagesReady = setInterval(() =>
+        {
+            if (!$.Array.every(this.parts, part => part.ready)) return;
+
+            this.adjust();
+            clearInterval(onImagesReady);
+        }, 25);
     }
 
-    adjust (scale)
+    adjust ()
     {
-        this.scale(scale);
+        if (!this.parts[0].item) return;
 
-        if (this._parts.torso.style.visibility === 'hidden') return;
-
-        const leg1  = this._parts.leg1;
-        const torso = this._parts.torso;
-        const drone = this._parts.drone;
-        const skipAttachment = ['leg1', 'torso', 'drone'];
-
-        if (leg1.style.visibility === 'hidden')
+        const
+            skipAttachment = ['leg1', 'torso', 'drone'],
+            leg1  = this.parts[1],
+            torso = this.parts[0],
+            drone = this.parts[9];
+        
+        torso.style.display = '';
+        
+        if (!leg1.item)
         {
-            skipAttachment.push('leg2');
-
-            torso.x = (this._partsContainer.offsetWidth - torso.w) / 2;
-            torso.y = this._partsContainer.offsetHeight - torso.h;
+            torso.x = (-torso.w) / 2;
+            torso.y = -torso.h;
         }
         else
         {
-            leg1.x = (this._partsContainer.offsetWidth - leg1.w - (torso.attachment.leg2.x - torso.attachment.leg1.x)) / 2;
-            leg1.y = this._partsContainer.offsetHeight - leg1.h;
+            leg1.style.display = '';
+            leg1.x = (-leg1.w - (torso.item.attachment.leg2.x - torso.item.attachment.leg1.x)) / 2;
+            leg1.y = -leg1.h;
 
-            torso.x = leg1.offsetLeft + (leg1.attachment.x - torso.attachment.leg1.x);
-            torso.y = leg1.offsetTop  + (leg1.attachment.y - torso.attachment.leg1.y);
+            torso.x = leg1.x + (leg1.item.attachment.x - torso.item.attachment.leg1.x);
+            torso.y = leg1.y + (leg1.item.attachment.y - torso.item.attachment.leg1.y);
         }
 
-        drone.x = torso.offsetLeft - drone.w - 25;
-        drone.y = torso.offsetTop  - drone.h - 25;
-
-        for (const name of this._partNames)
+        if (drone.item)
         {
-            const part = this._parts[name];
+            drone.style.display = '';
+            drone.x = torso.x - drone.w;
+            drone.y = torso.y - drone.h - 50;
+        }
 
-            if (skipAttachment.includes(name) || part.style.visibility === 'hidden') continue;
+        for (let i = this.parts.length; i--;)
+        {
+            const part = this.parts[i];
 
-            part.x = torso.offsetLeft + torso.attachment[name].x - part.attachment.x;
-            part.y = torso.offsetTop  + torso.attachment[name].y - part.attachment.y;
+            if (!part.item || skipAttachment.includes(part.name)) continue;
+
+            part.style.display = '';
+            part.x = torso.x + (torso.item.attachment[part.name].x - part.item.attachment.x);
+            part.y = torso.y + (torso.item.attachment[part.name].y - part.item.attachment.y);
+        }
+
+        this.scaleTo();
+    }
+
+    scaleTo (procent)
+    {
+        if (procent) this.scale = procent;
+
+        this.mechPartsContainer.style.transform = 'scale(' + this.scale / 100 + ')';
+        //this.mechPartsContainer.style.bottom = -(50 - this.scale / 2) + '%';
+    }
+});
+
+/*
+'use strict';
+
+$.defineHTMLElement('wu-mech-display', class WUMechDisplay extends HTMLElement
+{
+    constructor ()
+    {
+        super();
+
+        this.scale = $.getLS('main_mech_scale') || $.setLS('main_mech_scale', 60);
+        this.setup = [];
+        this.parts = [];
+        this.partNames = ['torso', 'leg1', 'leg2', 'side1', 'side2', 'side3', 'side4', 'top1', 'top2', 'drone'];
+        this.mechPartsContainer = document.createElement('mech-parts');
+        this.wrapper = document.createElement('parts-container-wrapper');
+
+        const zIndexMap = [4, 5, 3, 7, 0, 8, 1, 6, 2, 9];
+        const inputScale = $.dom('input', {
+            type: 'range',
+            min: 1,
+            max: 100,
+            value: this.scale,
+            oninput: e => this.scaleTo(e.target.value),
+        });
+
+
+        this.wrapper.__defineGetter__('w', function () { return this.getBoundingClientRect().width });
+        this.wrapper.__defineGetter__('h', function () { return this.getBoundingClientRect().height });
+
+        
+        for (let i = this.partNames.length; i--;)
+        {
+            this.parts[i] = new WUMechPart();
+            this.parts[i].name = this.partNames[i];
+            this.parts[i].style.zIndex = zIndexMap[i];
+
+            this.mechPartsContainer.appendChild(this.parts[i]);
+        }
+
+
+        this.wrapper.appendChild(this.mechPartsContainer);
+
+        this.appendChild(this.wrapper);
+        this.appendChild(inputScale);
+
+        
+        window.addEventListener('resize', () => this.adjust());
+    }
+
+    assemble (setup)
+    {
+        if (!setup || !setup[0]) return;
+
+        setup = [
+            setup[0], setup[1], setup[1], setup[2], setup[3],
+            setup[4], setup[5], setup[6], setup[7], setup[8],
+        ];
+
+        for (let i = this.parts.length; i--;)
+        {
+            if (setup[i] !== this.parts[i].item) this.parts[i].style.display = 'none';
+            this.parts[i].setItem(setup[i]);
+        }
+
+        const onImagesReady = setInterval(() =>
+        {
+            if (!$.Array.every(this.parts, part => part.ready)) return;
+
+            this.adjust();
+            clearInterval(onImagesReady);
+        }, 25);
+    }
+
+    adjust ()
+    {
+        if (!this.parts[0].item) return;
+
+        const
+            skipAttachment = ['leg1', 'torso', 'drone'],
+            leg1  = this.parts[1],
+            torso = this.parts[0],
+            drone = this.parts[9];
+        
+        torso.style.display = '';
+        
+        if (!leg1.item)
+        {
+            torso.x = (this.wrapper.w - torso.w) / 2;
+            torso.y = this.wrapper.h - torso.h;
+        }
+        else
+        {
+            leg1.style.display = '';
+            leg1.x = (this.wrapper.w - leg1.w - (torso.item.attachment.leg2.x - torso.item.attachment.leg1.x)) / 2;
+            leg1.y = this.wrapper.h - leg1.h;
+
+            torso.x = leg1.x + (leg1.item.attachment.x - torso.item.attachment.leg1.x);
+            torso.y = leg1.y + (leg1.item.attachment.y - torso.item.attachment.leg1.y);
+        }
+
+        if (drone.item)
+        {
+            drone.style.display = '';
+            drone.x = torso.x - drone.w;
+            drone.y = torso.y - drone.h - 50;
+        }
+
+        for (let i = this.parts.length; i--;)
+        {
+            const part = this.parts[i];
+
+            if (!part.item || skipAttachment.includes(part.name)) continue;
+
+            part.style.display = '';
+            part.x = torso.x + (torso.item.attachment[part.name].x - part.item.attachment.x);
+            part.y = torso.y + (torso.item.attachment[part.name].y - part.item.attachment.y);
         }
     }
-}
-window.customElements.define('wu-mech-display', WUMechDisplay);
+
+    scaleTo (procent)
+    {
+        if (procent) this.scale = procent;
+
+        this.mechPartsContainer.style.transform = 'scale(' + this.scale / 100 + ')';
+        this.mechPartsContainer.style.bottom = -(50 - this.scale / 2) + '%';
+    }
+});
+*/

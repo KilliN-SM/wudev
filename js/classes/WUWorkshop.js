@@ -10,7 +10,7 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         this.ready = false;
         this.itemSlots = [];
         this.topStatMap = {};
-        this.foo = {};
+        this.itemQuery = {};
         
 
         // Local Storage checking
@@ -90,7 +90,7 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
 
     updateMechDisplay ()
     {
-        this.mechDisplay.setup(this.itemSlots.map(slot => slot.currentItem));
+        this.mechDisplay.assemble(this.itemSlots.map(slot => slot.currentItem));
     }
 
     updateActiveMech ()
@@ -113,30 +113,25 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
     {
         const statNames = Object.keys(this.statsData);
 
-        let
-            i = this.officialItems.length,
-            j = this.customItems.length,
-            k = statNames.length;
-
         console.time('assets delay');
         
-        while (i--)
+        for (let i = this.officialItems.length; i--;)
         {
             const item = this.officialItems[i];
             const fixedName = item.name.replace(/\s/g, '');
             $.toDataURL('./img/items/' + fixedName + (item.svg ? '.svg' : '.png'), data => item.src = data);
-            this.foo[fixedName.toLowerCase()] = item;
+            this.itemQuery[fixedName.toLowerCase()] = item;
         }
 
-        while (j--)
+        for (let i = this.customItems.length; i--;)
         {
-            const item = this.customItems[j];
+            const item = this.customItems[i];
             $.toDataURL(item.url, data => item.src = data);
         }
 
-        while (k--)
+        for (let i = statNames.length; i--;)
         {
-            const stat = this.statsData[statNames[k]];
+            const stat = this.statsData[statNames[i]];
             $.toDataURL(`./img/icons/stats/${stat.name}.svg`, data => stat.src = data);
         }
 

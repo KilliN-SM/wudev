@@ -57,7 +57,7 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
         {
             const item = cw.currentItem;
 
-            item.name    = inputName.value;
+            item.name    = inputName.value || 'Foo' + (new Date()).getTime();
             item.url     = inputURL.value;
             item.type    = Number(inputType.value);
             item.element = Number(inputElement.value);
@@ -315,7 +315,7 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
                 };
             }
 
-            previewMech.setup(setup);
+            previewMech.assemble(setup);
         };
 
         const cw = $.dom('step-2-content-wrapper', {
@@ -341,24 +341,24 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
                 attachmentInputsCont.inputs[0].show(item);
 
                 let
-                    troso = workshop.foo.interceptor,
-                    legs  = workshop.foo.ironboots,
-                    side  = workshop.foo.mercy,
-                    top   = workshop.foo.mightycannon;
+                    troso = workshop.itemQuery.interceptor,
+                    legs  = workshop.itemQuery.ironboots,
+                    side  = workshop.itemQuery.mercy,
+                    top   = workshop.itemQuery.mightycannon;
 
                 if (item.element === 2)
                 {
-                    troso = workshop.foo.nightmare,
-                    legs  = workshop.foo.scorchingfeet,
-                    side  = workshop.foo.reckoning,
-                    top   = workshop.foo.desertsnake;
+                    troso = workshop.itemQuery.nightmare,
+                    legs  = workshop.itemQuery.scorchingfeet,
+                    side  = workshop.itemQuery.reckoning,
+                    top   = workshop.itemQuery.desertsnake;
                 }
                 else if (item.element === 3)
                 {
-                    troso = workshop.foo.sith,
-                    legs  = workshop.foo.chargedwalkers,
-                    side  = workshop.foo.bulldog,
-                    top   = workshop.foo.spinefall;
+                    troso = workshop.itemQuery.sith,
+                    legs  = workshop.itemQuery.chargedwalkers,
+                    side  = workshop.itemQuery.bulldog,
+                    top   = workshop.itemQuery.spinefall;
                 }
 
                 if (item.type === 1)
@@ -382,7 +382,7 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
             },
             reset: function ()
             {
-                previewMech.setup();
+                previewMech.assemble();
             },
         });
 

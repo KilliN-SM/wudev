@@ -118,7 +118,8 @@ hitbox {
   height: 100%;
   z-index: 9999;
 }
-hitbox.active {
+hitbox.active,
+hitbox:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -375,8 +376,10 @@ wu-mech-display input[type=range] {
 wu-mech-display mech-parts {
   position: absolute;
   display: block;
-  left: 50%;
+  width: 0;
+  height: 0;
   bottom: 0;
+  left: 50%;
 }
 wu-mech-part {
   position: absolute;
@@ -816,7 +819,7 @@ input[type=range]::-moz-range-thumb {
   }
 
   wu-item-data-panel {
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 15% 85%;
     grid-template-areas: 'a a' 'b c';
   }
 
