@@ -11,6 +11,8 @@ class WUItemDataPanel extends HTMLElement
         this.appendChild(this._name);
         this.appendChild(this._gfx);
         this.appendChild(this._sum);
+
+        this.setItem(null);
     }
 
     setItem (item)

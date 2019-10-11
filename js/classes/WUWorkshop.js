@@ -10,11 +10,7 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         this.ready = false;
         this.itemSlots = [];
         this.topStatMap = {};
-
-        this._selectItemTab = new WUSelectItemTab();
-
-        this.appendChild(new WUFloatingInfo());
-        this.appendChild(this._selectItemTab);
+        this.foo = {};
         
 
         // Local Storage checking
@@ -67,6 +63,13 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
 
             this.mechDisplay = new WUMechDisplay(this.mechsManager.active);
             this.appendChild(this.mechDisplay);
+
+            this.selectItemTab = new WUSelectItemTab();
+            this.customItemsTab = new WUCustomItemsTab();
+
+            this.appendChild(this.selectItemTab);
+            this.appendChild(this.customItemsTab);
+            this.appendChild(new WUFloatingInfo());
         }, 250);
     }
 
@@ -99,11 +102,6 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         this.mechsManager.save();
     }
 
-    selectItemTab (slot)
-    {
-        this._selectItemTab.show(slot);
-    }
-
     getItem (data)
     {
         const keys = Object.keys(data);
@@ -125,7 +123,9 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         while (i--)
         {
             const item = this.officialItems[i];
-            $.toDataURL('./img/items/' + item.name.replace(/\s/g, '') + (item.svg ? '.svg' : '.png'), data => item.src = data);
+            const fixedName = item.name.replace(/\s/g, '');
+            $.toDataURL('./img/items/' + fixedName + (item.svg ? '.svg' : '.png'), data => item.src = data);
+            this.foo[fixedName.toLowerCase()] = item;
         }
 
         while (j--)
@@ -140,9 +140,9 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
             $.toDataURL(`./img/icons/stats/${stat.name}.svg`, data => stat.src = data);
         }
 
-        const items = () => $.arrayEvery(this.items, item => item.src);
-        const slots = () => $.arrayEvery(this.itemSlots, slot => slot.ready);
-        const stats = () => $.arrayEvery(Object.keys(this.statsData), key => this.statsData[key].src);
+        const items = () => $.Array.every(this.items, item => item.src);
+        const slots = () => $.Array.every(this.itemSlots, slot => slot.ready);
+        const stats = () => $.Array.every(Object.keys(this.statsData), key => this.statsData[key].src);
 
         const onAssetsReady = setInterval(() =>
         {
@@ -159,39 +159,28 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         return [...this.customItems, ...this.officialItems];
     }
 
-    defineCustomItem (item, callback)
+    defineCustomItem (item)
     {
-        $.setLS('custom_items', [...$.getLS('custom_items'), item]);
-        $.toDataURL(item.url, data =>
-        {
-            $.testImg(data, valid =>
-            {
-                if (valid) item.src = data;
-                else
-                {
-                    item.src = this.notexture;
-                    item.width = 100;
-                    item.height = 100;
-                }
+        this.customItems.push(item);
 
-                this.customItems.push(item);
+        const srcLess = { ...item };
 
-                callback();
-            });
-        });
+        delete srcLess.src;
+
+        $.setLS('custom_items', [...$.getLS('custom_items'), srcLess]);
     }
 
     deleteCustomItem (item)
     {
-        const setup = $.arrayMap(this.itemSlots, slot => slot.currentItem);
+        const setup = $.Array.map(this.itemSlots, slot => slot.currentItem);
 
         for (let i = this.itemSlots.length; i--;) if (this.itemSlots[i].currentItem === item) this.itemSlots[i].clear();
         
-        if ($.arrayMap(this.itemSlots, slot => slot.currentItem) !== setup)
+        if ($.Array.map(this.itemSlots, slot => slot.currentItem) !== setup)
         {
             this.updateMechSummary();
             this.updateActiveMech();
-            if (item.type > 4) this.updateMechDisplay();
+            if (item.type < 6) this.updateMechDisplay();
         }
 
 
@@ -206,8 +195,6 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         {
             const LSitem = LSCustomItems[i];
 
-            console.log(JSON.stringify(LSitem), itemStr)
-
             if (JSON.stringify(LSitem) === itemStr)
             {
                 LSCustomItems.splice(LSCustomItems.indexOf(item), 1);
@@ -215,5 +202,14 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
                 break;
             }
         }
+    }
+
+    dismountMech ()
+    {
+        for (let i = 0; i < this.itemSlots.length; i++) this.itemSlots[i].clear();
+
+        this.updateActiveMech();
+        this.updateMechSummary();
+        this.updateMechDisplay();
     }
 });

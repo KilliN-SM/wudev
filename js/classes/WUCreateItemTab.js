@@ -6,31 +6,11 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
 
         this.className = 'tab';
 
-        this.steps = [this._createStep0(), this._createStep1()];
-
+        this.steps = [this._createStep0(), this._createStep1(), this._createStep2()];
+        
         for (let i = 0; i < this.steps.length; i++) this.appendChild(this.steps[i]);
 
-
-        // STEP 2
-        const btnStep3FinishEvent = () =>
-        {
-            this.hide();
-        };
-
-        this._step3ContentWrapper = document.createElement('step-3-content-wrapper');
-        const btnStep3Finish = new WUButton('Continue', './img/icons/stats/advance.svg', btnStep3FinishEvent);
-
-        this._step3ContentWrapper.style.display = 'none';
-
-        this.appendChild(this._step3ContentWrapper);
-
-        this._step3ContentWrapper.appendChild(btnStep3Finish);
-
-
-        // END
-
         this.addEventListener('click', e => (e.target === this) && this.hide());
-
         this.hide();
     }
 
@@ -52,37 +32,65 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
         const cw = $.dom('step-0-content-wrapper', {
             className: 'box border',
             currentItem: null,
-            hide: () => cw.style.display = 'none',
+            hide: function () { this.style.display = 'none' },
             show: function (item = { custom:true, tiers:[4, 5], stats:{} })
             {
-                cw.style.display = 'block';
-                cw.currentItem = item;
+                this.style.display = 'block';
+                this.currentItem = item;
+            },
+            reset: function ()
+            {
+                inputName.value    = '';
+                inputURL.value     = '';
+                inputType.value    = '1';
+                inputElement.value = '1';
             },
         });
-        const content = document.createElement('full-content');
-        const inputName = $.dom('input', { type:'text', spellcheck:false, placeholder:'name' });
-        const inputURL = $.dom('input', { type:'text', spellcheck:false, placeholder:'image link' });
-        const typeCont = document.createElement('type-n-element-container');
-        const inputType = $.dom('select', { oninput:e => cw.currentItem.type = Number(e.target.value) });
+        const btnCloseTab  = $.dom('close-tab-btn', { onclick:() => this.hide() });
+        const content      = document.createElement('full-content');
+        const inputName    = $.dom('input', { type:'text', spellcheck:false, placeholder:'name' });
+        const inputURL     = $.dom('input', { type:'text', spellcheck:false, placeholder:'image link' });
+        const typeCont     = document.createElement('type-n-element-container');
+        const inputType    = $.dom('select', { oninput:e => cw.currentItem.type = Number(e.target.value) });
         const inputElement = $.dom('select', { oninput:e => cw.currentItem.element = Number(e.target.value) });
-        const btnContinue = new WUButton('Continue', './img/icons/stats/advance.svg', () =>
+        const btnContinue  = new WUButton('Continue', './img/icons/stats/advance.svg', () =>
         {
             const item = cw.currentItem;
 
-            item.name = inputName.value;
-            item.url = inputURL.value;
-            item.type = Number(inputType.value);
+            item.name    = inputName.value;
+            item.url     = inputURL.value;
+            item.type    = Number(inputType.value);
             item.element = Number(inputElement.value);
 
-            this.show(1, cw.currentItem);
+            $.toDataURL(item.url, data =>
+            {
+                $.testImg(data, img =>
+                {
+                    if (img)
+                    {
+                        item.src    = data;
+                        item.width  = img.naturalWidth;
+                        item.height = img.naturalHeight;
+                    }
+                    else
+                    {
+                        item.src    = this.notexture;
+                        item.width  = 100;
+                        item.height = 100;
+                    }
+
+                    this.show(1, cw.currentItem);
+                });
+            });
         });
 
         const elemOptions = ['Physical', 'Explosive', 'Electric'];
         const typeOptions = ['Torso', 'Leg', 'Side Weapon', 'Top Weapon', 'Drone', 'Charge Engine', 'Teleporter', 'Hook', 'Module'];
 
-        for (let i = 4; i < typeOptions.length; i++) inputType.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
+        for (let i = 0; i < typeOptions.length; i++) inputType.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
         for (let i = 0; i < elemOptions.length; i++) inputElement.appendChild($.dom('option', { value:i+1, innerText:elemOptions[i] }));
 
+        cw.appendChild(btnCloseTab);
 
         content.appendChild(inputName);
         content.appendChild(inputURL);
@@ -104,11 +112,18 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
         const cw = $.dom('step-1-content-wrapper', {
             className: 'box border',
             currentItem: null,
-            hide: () => cw.style.display = 'none',
+            hide: function ()
+            {
+                this.style.display = 'none';
+            },
             show: function (item)
             {
-                cw.style.display = 'block';
-                cw.currentItem = item;
+                this.style.display = 'block';
+                this.currentItem = item;
+            },
+            reset: function ()
+            {
+                for (let i = statInputsArray.length; i--;) statInputsArray[i].clear();
             },
         });
         const content = document.createElement('full-content');
@@ -128,12 +143,10 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
                 if ((Array.isArray(value) && (value[0] || value[1])) || (!Array.isArray(value) && value)) item.stats[statInput.stat.name] = statInput.getValue();
             }
 
-            if (item.type > 4)
+            if (item.type > 5)
             {
-                //window.workshop.waitScreen.show();
                 window.workshop.defineCustomItem(item, () =>
                 {
-                    //window.workshop.waitScreen.hide();
                     this.hide();
                     document.querySelector('wu-custom-items-tab').show();
                 });
@@ -171,7 +184,17 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
 
             statInput.getValue = function ()
             {
-                return this.stat.type === 'boo' ? Boolean(this.inputs[0].checked) : this.inputs.length > 1 ? [this.inputs[0].value, this.inputs[1].value] : this.inputs[0].value
+                return this.stat.type === 'boo' ? Boolean(this.inputs[0].checked) : this.inputs.length > 1 ? [Number(this.inputs[0].value), Number(this.inputs[1].value)] : Number(this.inputs[0].value);
+            };
+            statInput.clear = function ()
+            {
+                if (this.inputs.length > 1)
+                {
+                    this.inputs[0].value = 0;
+                    this.inputs[1].value = 0;
+                }
+                else if (this.stat.type = 'boo') this.inputs[0].checked = false;
+                else this.inputs[0].value = 0;
             };
 
 
@@ -224,5 +247,224 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
 
 
         return cw;
+    }
+
+    _createStep2 ()
+    {
+        let setup;
+        let initialItemSize;
+
+        const newInput = () => $.dom('input', {
+            type: 'range',
+            max: 150,
+            min: -150,
+            value: 0,
+            hide: function () { this.style.display = 'none' },
+            show: function ()
+            {
+                this.value = 0;
+                this.style.display = 'block';
+            },
+            oninput: () => setItUp(),
+        });
+
+        const setItUp = () =>
+        {
+            const item = cw.currentItem;
+
+            item.width  = initialItemSize.width  * (Number(inputSize.value) / 100);
+            item.height = initialItemSize.height * (Number(inputSize.value) / 100);
+
+            if (item.type === 1)
+            {
+                const
+                    leg1X  = item.width  / 3    - Number(inputLegsHGap.value) + Number(inputLegsX.value),
+                    leg2X  = item.width  / 1.5  + Number(inputLegsHGap.value) + Number(inputLegsX.value),
+                    legsY  = item.height * 0.9  - Number(inputLegsY.value),
+                    side1X = item.width  / 3    - Number(inputSideHGap.value) + Number(inputSideX.value),
+                    side2X = item.width  / 1.5  + Number(inputSideHGap.value) + Number(inputSideX.value),
+                    side1Y = item.height * 0.45 - Number(inputSideVGap.value) + Number(inputSideY.value),
+                    side3Y = item.height * 0.7  + Number(inputSideVGap.value) + Number(inputSideY.value),
+                    top1X  = item.width  / 3    - Number(inputTopGap.value)   + Number(inputTopX.value),
+                    top2X  = item.width  / 1.5  + Number(inputTopGap.value)   + Number(inputTopX.value),
+                    topY   = item.height / 5    - Number(inputTopY.value);
+
+                item.attachment = {
+                    leg1:  { x:leg1X,  y:legsY },
+                    leg2:  { x:leg2X,  y:legsY },
+                    side1: { x:side1X, y:side1Y },
+                    side2: { x:side2X, y:side1Y },
+                    side3: { x:side1X, y:side3Y },
+                    side4: { x:side2X, y:side3Y },
+                    top1:  { x:top1X,  y:topY },
+                    top2:  { x:top2X,  y:topY },
+                };
+            }
+            else if (item.type === 2)
+            {
+                item.attachment = {
+                    x: item.width  / 2  + Number(inputX.value),
+                    y: item.height / 10 + Number(inputY.value),
+                };
+            }
+            else if (item.type === 3 || item.type === 4)
+            {
+                item.attachment = {
+                    x: item.width  / 6 + Number(inputX.value),
+                    y: item.height / 2 + Number(inputY.value),
+                };
+            }
+
+            previewMech.setup(setup);
+        };
+
+        const cw = $.dom('step-2-content-wrapper', {
+            className: 'box border',
+            currentItem: null,
+            hide: function ()
+            {
+                this.style.display = 'none';
+
+                for (let i = attachmentInputsCont.inputs.length; i--;) attachmentInputsCont.inputs[i].hide();
+            },
+            show: function (item)
+            {
+                initialItemSize = {
+                    width:  item.width,
+                    height: item.height,
+                };
+
+                this.style.display = 'block';
+                this.currentItem = item;
+                
+
+                attachmentInputsCont.inputs[0].show(item);
+
+                let
+                    troso = workshop.foo.interceptor,
+                    legs  = workshop.foo.ironboots,
+                    side  = workshop.foo.mercy,
+                    top   = workshop.foo.mightycannon;
+
+                if (item.element === 2)
+                {
+                    troso = workshop.foo.nightmare,
+                    legs  = workshop.foo.scorchingfeet,
+                    side  = workshop.foo.reckoning,
+                    top   = workshop.foo.desertsnake;
+                }
+                else if (item.element === 3)
+                {
+                    troso = workshop.foo.sith,
+                    legs  = workshop.foo.chargedwalkers,
+                    side  = workshop.foo.bulldog,
+                    top   = workshop.foo.spinefall;
+                }
+
+                if (item.type === 1)
+                {
+                    setup = [item, legs, side, side, side, side, top, top];
+
+                    for (let i = 3; i < 13; i++) attachmentInputsCont.inputs[i].show(item);
+                }
+                else if (item.type === 2 || item.type === 3 || item.type === 4)
+                {
+                    if (item.type === 2) setup = [troso, item, null, null, side, side];
+                    if (item.type === 3) setup = [troso, legs, item, item, side, side];
+                    if (item.type === 4) setup = [troso, legs, null, null, side, side, item, item];
+
+                    attachmentInputsCont.inputs[1].show(item);
+                    attachmentInputsCont.inputs[2].show(item);
+                }
+                else setup = [troso, legs, null, null, side, side, null, null, item];
+
+                setItUp();
+            },
+            reset: function ()
+            {
+                previewMech.setup();
+            },
+        });
+
+        const content = document.createElement('full-content');
+        const attachmentInputsCont = document.createElement('attachment-inputs-container');
+        const previewMech = new WUMechDisplay();
+        const btnsCont = document.createElement('buttons-container');
+        const btnGoBack = new WUButton('Go Back', './img/icons/stats/retreat.svg', () => this.show(1, cw.currentItem));
+        const btnContinue = new WUButton('Continue', './img/icons/stats/advance.svg', () =>
+        {
+            this.hide();
+            window.workshop.defineCustomItem(cw.currentItem);
+            window.workshop.customItemsTab.show();
+            this.reset();
+        });
+
+        const
+            inputSize     = newInput(),
+            inputX        = newInput(),
+            inputY        = newInput(),
+            inputLegsHGap = newInput(),
+            inputLegsX    = newInput(),
+            inputLegsY    = newInput(),
+            inputSideHGap = newInput(),
+            inputSideX    = newInput(),
+            inputSideVGap = newInput(),
+            inputSideY    = newInput(),
+            inputTopGap   = newInput(),
+            inputTopX     = newInput(),
+            inputTopY     = newInput();
+        
+        inputSize.show = function ()
+        {
+            this.min = 1;
+            this.max = 199;
+            this.value = 100;
+            this.style.display = 'block';
+        };
+
+        inputSize.show();
+        
+        attachmentInputsCont.inputs = [
+            inputSize,
+            inputX,
+            inputY,
+            inputLegsHGap,
+            inputLegsX,
+            inputLegsY,
+            inputSideHGap,
+            inputSideX,
+            inputSideVGap,
+            inputSideY,
+            inputTopGap,
+            inputTopX,
+            inputTopY,
+        ];
+
+        for (let i = 0; i < attachmentInputsCont.inputs.length; i++)
+        {
+            const input = attachmentInputsCont.inputs[i];
+            
+            input.hide();
+            
+            attachmentInputsCont.appendChild(input);
+        }
+
+
+        content.appendChild(attachmentInputsCont);
+        content.appendChild(previewMech);
+
+        btnsCont.appendChild(btnGoBack);
+        btnsCont.appendChild(btnContinue);
+
+        content.appendChild(btnsCont);
+
+        cw.appendChild(content);
+
+        return cw;
+    }
+
+    reset ()
+    {
+        for (let i = this.steps.length; i--;) this.steps[i].reset();
     }
 });

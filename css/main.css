@@ -1,18 +1,11 @@
 html, body { height:100%; margin:0 }
 body {
-  --c-text: #DDD;
-
   background-color: #000;
   background-image: url(../img/general/background.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
-
-  color: var(--c-text);
-
-  font-family: 'Chakra Petch', sans-serif;
-  font-size: 18px;
 
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
@@ -21,15 +14,19 @@ body {
 }
 
 app {
-  width: 100%;
-  height: 100%;
+  --c-text: #DDD;
   position: fixed;
-  left: 0;
-  top: 0;
-  overflow: hidden;
+  display: -webkit-flex;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Chakra Petch', sans-serif;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  color: var(--c-text);
 }
 
 loading-text {

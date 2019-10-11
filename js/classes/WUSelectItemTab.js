@@ -1,4 +1,4 @@
-class WUSelectItemTab extends HTMLElement
+$.defineHTMLElement('wu-select-item-tab', class WUSelectItemTab extends HTMLElement
 {
     constructor ()
     {
@@ -6,33 +6,35 @@ class WUSelectItemTab extends HTMLElement
 
         this.className = 'tab';
 
-        this._currentSlot = null;
-        this._itemBlocks = [];
-        this._list = document.createElement('item-list');
-        this._panel = new WUItemDataPanel();
-
-        this.appendChild(this._list);
-        this.appendChild(this._panel);
+        this.currentSlot = null;
+ 
+        $.appendAndRef(this, 'panel', new WUItemDataPanel());
+        $.appendAndRef(this, 'list',  new WUItemsList());
 
         this.addEventListener('click', e =>
         {
-            this.hide();
-
-            const previousItem = this._currentSlot.currentItem;
-            const item = e.target.currentItem || null;
-
-            this._currentSlot.setItem(item);
-
-            if (item !== previousItem)
+            if (e.target.nodeName === 'HITBOX')
             {
-                window.workshop.updateMechSummary();
-                window.workshop.updateActiveMech();
-
-                if (this._currentSlot.type < 6)
+                if (window.isTouchDevice)
                 {
-                    window.workshop.updateMechDisplay();
+                    if (e.target.className.includes('active')) this.selectItem(e.target.item);
+                    else
+                    {
+                        const active = this.list.querySelectorAll('hitbox.active');
+
+                        for (let i = active.length; i--;) if (active[i].className.includes('active')) active[i].classList.remove('active');
+
+                        e.target.classList.add('active');
+                    }
                 }
+                else this.selectItem(e.target.item);
             }
+            else this.selectItem(null);
+        });
+        this.addEventListener('mouseover', e =>
+        {
+            if (e.target.nodeName === 'HITBOX') this.panel.setItem(e.target.item);
+            else this.panel.setItem(this.currentSlot.currentItem);
         });
 
         this.hide();
@@ -41,57 +43,35 @@ class WUSelectItemTab extends HTMLElement
     hide ()
     {
         this.style.visibility = 'hidden';
+        this.list.clear();
     }
 
     show (slot)
     {
         this.style.visibility = '';
 
-        this._currentSlot = slot;
-        this._panel.setItem(slot.currentItem);
+        this.currentSlot = slot;
         
-        const items = window.workshop.items;
-        const itemsOfSlotType = {
-            1:[], // Physical
-            2:[], // Explosive
-            3:[]  // Electric
-        };
+        this.panel.setItem(slot.currentItem);
 
-        for (let i = 0; i < items.length; i++)
+        const items = $.Array.filter(window.workshop.items, item => item.type === slot.type);
+
+        this.list.set(items);
+    }
+
+    selectItem (item)
+    {
+        const previousItem = this.currentSlot.item;
+
+        this.currentSlot.setItem(item);
+        this.hide();
+
+        if (item !== previousItem)
         {
-            const item = items[i];
+            window.workshop.updateActiveMech();
+            window.workshop.updateMechSummary();
 
-            if (item.type === slot.type)
-            {
-                itemsOfSlotType[item.element].push(item);
-            }
-        }
-
-        const finalItemList = [...itemsOfSlotType[1], ...itemsOfSlotType[2], ...itemsOfSlotType[3]];
-
-        for (let i = 0; i < finalItemList.length; i++)
-        {
-            if (this._itemBlocks[i])
-            {
-                this._itemBlocks[i].show(finalItemList[i]);
-            }
-            else
-            {
-                const block = new WUItemBlock(finalItemList[i]);
-                block.onmouseover = () => this._panel.setItem(block.currentItem);
-                block.onmouseout  = () => this._panel.setItem(slot.currentItem);
-                this._itemBlocks.push(block);
-                this._list.appendChild(block);
-            }
-        }
-
-        if (this._itemBlocks.length > finalItemList.length)
-        {
-            for (let i = finalItemList.length; i < this._itemBlocks.length; i++)
-            {
-                this._itemBlocks[i].hide();
-            }
+            if (this.currentSlot.type < 6) window.workshop.updateMechDisplay();
         }
     }
-}
-window.customElements.define('wu-select-item-tab', WUSelectItemTab);
+});

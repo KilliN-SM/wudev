@@ -1,4 +1,4 @@
-class WUButton extends HTMLElement
+$.defineHTMLElement('wu-button', class WUButton extends HTMLElement
 {
     constructor (text, src, onclick)
     {
@@ -16,5 +16,4 @@ class WUButton extends HTMLElement
 
         this.appendChild(img);
     }
-}
-window.customElements.define('wu-button', WUButton);
+});

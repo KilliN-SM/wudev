@@ -18,7 +18,7 @@ class WUMechDisplay extends HTMLElement
             min: 1,
             max: 100,
             value: (100 - 1) * (this.scale() / 100),
-            oninput: e => this.adjust(Number(e.target.value)),
+            oninput: e => this.scale(Number(e.target.value)),
         });
 
         for (const name of this._partNames)
@@ -44,7 +44,6 @@ class WUMechDisplay extends HTMLElement
     {
         this._scale = percent || this._scale;
         this._partsContainer.style.transform = `scale(${ this._scale / 100 })`;
-        this._partsContainer.style.bottom = (99 - this._scale) * -.5 + '%';
         $.setLS('main_mech_scale', this._scale);
 
         return this._scale;
@@ -52,7 +51,12 @@ class WUMechDisplay extends HTMLElement
 
     setup (_setup)
     {
-        if (!_setup[0]) return;
+        if (!_setup || !_setup[0]) 
+        {
+            this._partsContainer.style.visibility = 'hidden';
+            return;
+        }
+        else this._partsContainer.style.visibility = '';
 
         const setup = [ ..._setup ];
         setup.splice(1, 0, _setup[1]);
@@ -60,7 +64,7 @@ class WUMechDisplay extends HTMLElement
         const partsArray     = Object.keys(this._parts).map(key => this._parts[key]);
         const onImagesLoaded = setInterval(() =>
         {
-            if ($.arrayEvery(partsArray, function (part) { return part.itemGfx.complete }))
+            if ($.Array.every(partsArray, function (part) { return part.itemGfx.complete }))
             {
                 clearInterval(onImagesLoaded);
                 this.adjust();
@@ -97,8 +101,8 @@ class WUMechDisplay extends HTMLElement
             torso.y = leg1.offsetTop  + (leg1.attachment.y - torso.attachment.leg1.y);
         }
 
-        drone.x = torso.offsetLeft - 50;
-        drone.y = torso.offsetTop  - 125;
+        drone.x = torso.offsetLeft - drone.w - 25;
+        drone.y = torso.offsetTop  - drone.h - 25;
 
         for (const name of this._partNames)
         {

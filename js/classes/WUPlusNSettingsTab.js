@@ -34,7 +34,7 @@ $.defineHTMLElement('wu-plus-n-settings-tab', class WUPlusNSettingsTab extends H
         function newSwitchContainer (text, checked, oninput)
         {
             const label = document.createElement('label');
-            const switchButton = new WUSwitchButton(checked, oninput);
+            const switchbtn = new WUSwitchButton(checked, oninput);
             const switchContext = document.createElement('switch-context');
             //const hitbox = $.dom('hitbox', { hoverData:{ text } });
             
@@ -42,7 +42,7 @@ $.defineHTMLElement('wu-plus-n-settings-tab', class WUPlusNSettingsTab extends H
 
             switchContext.innerText = text;
 
-            label.appendChild(switchButton);
+            label.appendChild(switchbtn);
             label.appendChild(switchContext);
             //label.appendChild(hitbox);
 
@@ -64,12 +64,12 @@ $.defineHTMLElement('wu-plus-n-settings-tab', class WUPlusNSettingsTab extends H
             $.setLS('arena_buffs_offset', Boolean(e.target.checked));
             window.workshop.updateMechSummary();
         };
-        const buttonCustomItemsEvent = () =>
+        const btnCustomItemsEvent = () =>
         {
             this.hide();
-            tabCustomItems.show();
+            window.workshop.customItemsTab.show();
         };
-        const buttonMechsListEvent = () =>
+        const btnMechsListEvent = () =>
         {
             this.hide();
             //tabMechsList.show();
@@ -77,30 +77,34 @@ $.defineHTMLElement('wu-plus-n-settings-tab', class WUPlusNSettingsTab extends H
 
 
         const contentWrapper = document.createElement('content-wrapper');
-        const tabCustomItems = new WUCustomItemsTab();
         //const tabMechsList = new WUMechsListTab();
         const switchArenaBuffs = newSwitchContainer('Arena Buffs', $.getLS('arena_buffs'), switchArenaBuffsEvent);
         const switchArenaBuffsOffset = newSwitchContainer('Arena Buffs Offset', $.getLS('arena_buffs_offset'), switchArenaBuffsOffsetEvent);
         const switchDivineTier = newSwitchContainer('Divine Tier', $.getLS('divine_tier'), switchDivineTierEvent);
-        const buttonCustomItems = new WUButton('Custom Items', './img/general/customitems.png', buttonCustomItemsEvent);
-        const buttonMechsList = new WUButton('Your Mechs', './img/general/mech.svg', buttonMechsListEvent);
-        const buttonClearCache = new WUButton('Refresh', './img/general/refresh.svg', () => window.location.reload(true));
-        const buttonCloseTab = new WUButton('Close', './img/general/x.svg', () => this.hide());
-
-        buttonCloseTab.classList.add('close');
+        const btnsCont = document.createElement('buttons-container');
+        const btnCustomItems = new WUButton('Custom Items', './img/general/customitems.png', btnCustomItemsEvent);
+        const btnMechsList = new WUButton('Your Mechs', './img/general/mech.svg', btnMechsListEvent);
+        const btnClearCache = new WUButton('Refresh', './img/general/refresh.svg', () => window.location.reload(true));
+        const btnDismountMech = new WUButton('Dismount Mech', './img/general/bin.png', () =>
+        {
+            this.hide();
+            window.workshop.dismountMech();
+        });
 
         this.appendChild(contentWrapper);
 
         contentWrapper.className = 'box border';
+
+        contentWrapper.appendChild($.dom('close-tab-btn', { onclick:() => this.hide() }));
         contentWrapper.appendChild(switchArenaBuffs);
         contentWrapper.appendChild(switchArenaBuffsOffset);
         contentWrapper.appendChild(switchDivineTier);
-        contentWrapper.appendChild(buttonCustomItems);
-        contentWrapper.appendChild(buttonMechsList);
-        contentWrapper.appendChild(buttonClearCache);
-        contentWrapper.appendChild(buttonCloseTab);
+        btnsCont.appendChild(btnCustomItems);
+        btnsCont.appendChild(btnMechsList);
+        btnsCont.appendChild(btnClearCache);
+        btnsCont.appendChild(btnDismountMech);
+        contentWrapper.appendChild(btnsCont);
 
-        window.workshop.appendChild(tabCustomItems);
         //window.workshop.appendChild(tabMechsList);
 
         this.addEventListener('click', e => (e.target === this) && this.hide());

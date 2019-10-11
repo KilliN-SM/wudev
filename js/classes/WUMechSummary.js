@@ -10,7 +10,6 @@ class WUMechSummary extends HTMLElement
 
         for (const stat of stats)
         {
-            if (!stat) console.error(`Unknown stat '${stat}'`);
             this.statNames.push(stat.name);
             this[stat.name] = new WUStatBlockQuoted(stat);
             this.appendChild(this[stat.name]);
@@ -44,7 +43,12 @@ class WUMechSummary extends HTMLElement
             if ($.getLS('arena_buffs'))
             {
                 const buffData  = statBlock.statData.buff;
-                const buffedVal = Math.round(eval(statMap[statName] + buffData.mode + buffData.amount));
+
+                let buffedVal = 0;
+
+                if (buffData.mode === '*') buffedVal = Math.round(statMap[statName] * buffData.amount);
+                if (buffData.mode === '+') buffedVal = Math.round(statMap[statName] + buffData.amount);
+
                 const buffExtra = buffedVal - statMap[statName];
 
                 hoverData = { text:`${statMap[statName]}<c1> + ${buffExtra} ${statBlock.statData.context} from Arena Buffs</c1>` };

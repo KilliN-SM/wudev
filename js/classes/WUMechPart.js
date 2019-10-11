@@ -39,6 +39,6 @@ $.defineHTMLElement('wu-mech-part', class MechPart extends HTMLElement
     set y (y) { this.style.top  = Number(y) + 'px' }
     get x ()  { return Number(this.style.left.replace(/[^\d|.]/g, '')) }
     get y ()  { return Number(this.style.top.replace(/[^\d|.]/g,  '')) }
-    get w ()  { return this.itemGfx.width  }
-    get h ()  { return this.itemGfx.height }
+    get w ()  { return this.itemGfx.getBoundingClientRect().width }
+    get h ()  { return this.itemGfx.getBoundingClientRect().height }
 });

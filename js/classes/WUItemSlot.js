@@ -24,7 +24,7 @@ class WUItemSlot extends HTMLElement
         this.appendChild(this._gfx);
         this.appendChild(this._tips);
 
-        this.onclick = () => window.workshop.selectItemTab(this);
+        this.onclick = () => window.workshop.selectItemTab.show(this);
     }
 
     setItem (item)
