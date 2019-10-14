@@ -251,6 +251,7 @@ wu-summary {
   flex-direction: row;
   align-content: start;
   flex-wrap: wrap;
+  overflow-y: auto;
 }
 wu-summary wu-stat-block {
   flex: auto;
@@ -260,6 +261,7 @@ wu-summary wu-stat-block {
   flex-direction: row;
   align-items: center;
   width: 47%;
+  min-width: 50px;
   height: 25px;
   margin: 2.5px;
   background-color: rgba(0, 0, 0, 0.5);
@@ -751,7 +753,7 @@ input[type=range]::-moz-range-thumb {
     grid-template-areas: 'a a' 'b c';
   }
 
-  wu-floating-info {
+  .pc-only {
     display: none;
   }
 }
@@ -823,7 +825,7 @@ input[type=range]::-moz-range-thumb {
     grid-template-areas: 'a a' 'b c';
   }
 
-  wu-floating-info {
+  .pc-only {
     display: none;
   }
 }

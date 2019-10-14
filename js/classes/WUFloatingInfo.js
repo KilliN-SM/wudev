@@ -7,6 +7,7 @@ class WUFloatingInfo extends HTMLElement
         this.currentData = null;
         this._text = document.createElement('text');
         this._bars = new WUSummary();
+        this.className = 'pc-only';
 
         this.appendChild(this._text);
         this.appendChild(this._bars);

@@ -6,7 +6,7 @@ class WUStatBlockQuoted extends HTMLElement
 
         this._icon  = document.createElement('img');
         this._value = document.createElement('value');
-        this._quote = document.createElement('quote');
+        this._quote = $.dom('quote', { className:'pc-only' });
 
         this.hoverData = { text:data.context };
         this.statData = data;

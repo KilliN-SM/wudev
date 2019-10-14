@@ -93,7 +93,9 @@ $.defineHTMLElement('wu-plus-n-settings-tab', class WUPlusNSettingsTab extends H
 
         this.appendChild(contentWrapper);
 
+
         contentWrapper.className = 'box border';
+        switchArenaBuffsOffset.classList.add('pc-only');
 
         contentWrapper.appendChild($.dom('close-tab-btn', { onclick:() => this.hide() }));
         contentWrapper.appendChild(switchArenaBuffs);
