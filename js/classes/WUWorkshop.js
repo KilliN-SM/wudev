@@ -111,6 +111,20 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
 
     init ()
     {
+        const match = location.hash.match(/#[^#]*/g);
+
+        if (match)
+        {
+            const item = JSON.parse(atob(match[0].split(':')[1]));
+
+            if (window.confirm('Do you want to import "' + item.name + '"?'))
+            {
+                this.defineCustomItem(item);
+                console.log(item);
+            }
+        }
+        
+
         const statNames = Object.keys(this.statsData);
 
         console.time('assets delay');
