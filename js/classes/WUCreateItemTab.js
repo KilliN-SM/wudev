@@ -87,7 +87,11 @@ $.defineHTMLElement('wu-create-item-tab', class WUCreateItemTab extends HTMLElem
         const elemOptions = ['Physical', 'Explosive', 'Electric'];
         const typeOptions = ['Torso', 'Leg', 'Side Weapon', 'Top Weapon', 'Drone', 'Charge Engine', 'Teleporter', 'Hook', 'Module'];
 
-        for (let i = 0; i < typeOptions.length; i++) inputType.appendChild($.dom('option', { value:i+1, innerText:typeOptions[i] }));
+        for (let i = 0; i < typeOptions.length; i++)
+        {
+            const option = $.dom('option', { value:i+1, innerText:typeOptions[i] });
+            inputType.appendChild(option);
+        }
         for (let i = 0; i < elemOptions.length; i++) inputElement.appendChild($.dom('option', { value:i+1, innerText:elemOptions[i] }));
 
         cw.appendChild(btnCloseTab);

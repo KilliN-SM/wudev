@@ -2561,6 +2561,29 @@ workshop.officialItems = [{
             jumpReq: true,
         },
         attachment: { x:63, y:35 }
+    }, {
+        name: 'Broken Devourer',
+        svg: true,
+        type: 3,
+        element: 2,
+        tiers: [2, 5],
+        stats: {
+            weight: 26,
+            expDmg: [155, 390],
+            heaDmg: 93,
+            expResDmg: 12,
+            range: [2, 4],
+            push: 1,
+            uses: 1,
+            backFire: 123,
+            eneCost: 13,
+            heaCost: 81,
+        },
+        divineBuff: {
+            phyDmg: [159, 400],
+            heaDmg: 96,
+        },
+        attachment: { x:40, y:50 }
     }
 ];
 
