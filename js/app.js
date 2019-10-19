@@ -105,6 +105,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Archimonde',
+        svg: true,
         type: 1,
         element: 1,
         tiers: [3, 5],
@@ -131,6 +132,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Avenger',
+        svg: true,
         type: 1,
         element: 1,
         tiers: [2, 5],
@@ -206,6 +208,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Brutality',
+        svg: true,
         type: 1,
         element: 2,
         tiers: [2, 5],
@@ -232,6 +235,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Windigo',
+        svg: true,
         type: 1,
         element: 2,
         tiers: [2, 5],
@@ -258,6 +262,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Zarkares',
+        svg: true,
         type: 1,
         element: 2,
         tiers: [2, 5],
@@ -284,6 +289,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Molten Platinum Vest',
+        svg: true,
         type: 1,
         element: 2,
         tiers: [3, 5],
@@ -310,6 +316,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Sabretooth',
+        svg: true,
         type: 1,
         element: 2,
         tiers: [4, 5],
@@ -362,6 +369,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Naga',
+        svg: true,
         type: 1,
         element: 3,
         tiers: [2, 5],
@@ -388,6 +396,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'GrimReaper',
+        svg: true,
         type: 1,
         element: 3,
         tiers: [2, 5],
@@ -456,6 +465,7 @@ workshop.officialItems = [{
         attachment: { x:60, y:13 }
     }, {
         name: 'Rolling Beasts',
+        svg: true,
         type: 2,
         element: 1,
         attachment: { x:111, y:22 },
@@ -470,6 +480,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Grave Diggers',
+        svg: true,
         type: 2,
         element: 1,
         attachment: { x:57, y:22 },
@@ -485,6 +496,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'The Claw',
+        svg: true,
         type: 2,
         element: 1,
         attachment: { x:116, y:24 },
@@ -497,6 +509,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Scorching Feet',
+        svg: true,
         type: 2,
         element: 2,
         attachment: { x:60, y:13 },
@@ -513,6 +526,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Devouring Paws',
+        svg: true,
         type: 2,
         element: 2,
         attachment: { x:62, y:22 },
@@ -529,6 +543,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Dynamite Boots',
+        svg: true,
         type: 2,
         element: 2,
         attachment: { x:52, y:19 },
@@ -561,6 +576,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Dynamic Stompers',
+        svg: true,
         type: 2,
         element: 3,
         attachment: { x:64, y:27 },
@@ -577,6 +593,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Sparked Runners',
+        svg: true,
         type: 2,
         element: 3,
         attachment: { x:115, y:22 },
@@ -592,6 +609,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Lightning Supporters',
+        svg: true,
         type: 2,
         element: 3,
         attachment: { x:78, y:20 },
@@ -1598,6 +1616,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Void',
+        svg: true,
         type: 5,
         element: 1,
         tiers: [2, 5],
@@ -1610,6 +1629,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'HurlBat',
+        svg: true,
         type: 5,
         element: 1,
         tiers: [2, 5],
@@ -1623,6 +1643,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Greedy',
+        svg: true,
         type: 5,
         element: 1,
         tiers: [3, 5],
@@ -1635,7 +1656,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'DustMaker',
-        type: 5,
+        svg: true,
         element: 1,
         tiers: [3, 5],
         stats: {
@@ -1648,6 +1669,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Backstabber',
+        svg: true,
         type: 5,
         element: 1,
         tiers: [3, 5],
@@ -1686,6 +1708,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Clash',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [2, 5],
@@ -1698,6 +1721,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Nemo',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [2, 5],
@@ -1710,6 +1734,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Swoop',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [3, 5],
@@ -1723,6 +1748,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Murmur',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [3, 5],
@@ -1735,6 +1761,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'FlameWave',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [3, 5],
@@ -1747,6 +1774,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'HeatPoint',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [2, 5],
@@ -1760,6 +1788,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Fire Fly',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [2, 5],
@@ -1773,6 +1802,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Snack',
+        svg: true,
         type: 5,
         element: 3,
         tiers: [2, 5],
@@ -1785,6 +1815,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Torment',
+        svg: true,
         type: 5,
         element: 3,
         tiers: [2, 5],
@@ -1797,6 +1828,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'WindForge',
+        svg: true,
         type: 5,
         element: 3,
         tiers: [3, 5],
@@ -1809,6 +1841,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Anguish',
+        svg: true,
         type: 5,
         element: 3,
         tiers: [3, 5],
@@ -1821,6 +1854,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Shockwave',
+        svg: true,
         type: 5,
         element: 3,
         tiers: [3, 5],
@@ -1833,6 +1867,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Face Shocker',
+        svg: true,
         type: 5,
         element: 3,
         tiers: [2, 5],
@@ -2088,6 +2123,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Flame Spear',
+        svg: true,
         type: 5,
         element: 2,
         tiers: [3, 5],
@@ -2101,6 +2137,7 @@ workshop.officialItems = [{
         }
     }, {
         name: 'Rusty Energy Armor',
+        svg: true,
         type: 1,
         element: 3,
         tiers: [3, 5],
@@ -2158,6 +2195,7 @@ workshop.officialItems = [{
         attachment: { x:40, y:50 }
     }, {
         name: 'Energy Free Armor',
+        svg: true,
         type: 1,
         element: 1,
         tiers: [3, 5],
@@ -2584,6 +2622,24 @@ workshop.officialItems = [{
             heaDmg: 96,
         },
         attachment: { x:40, y:50 }
+    }, {
+        name: 'Overcooking Oven',
+        svg: true,
+        type: 3,
+        element: 2,
+        tiers: [3, 5],
+        stats: {
+            weight: 43,
+            expDmg: [1, 2],
+            heaDmg: 1,
+            heaCapDmg: 1,
+            range: [1, 2],
+            uses: 2,
+            backFire: 1,
+            eneCost: 1,
+            heaCost: 1,
+        },
+        attachment: { x:63, y:35 }
     }
 ];
 
