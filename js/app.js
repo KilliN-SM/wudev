@@ -2630,14 +2630,18 @@ workshop.officialItems = [{
         tiers: [3, 5],
         stats: {
             weight: 43,
-            expDmg: [1, 2],
-            heaDmg: 1,
-            heaCapDmg: 1,
+            expDmg: [144, 232],
+            heaDmg: 177,
+            heaCapDmg: 48,
             range: [1, 2],
             uses: 2,
-            backFire: 1,
-            eneCost: 1,
-            heaCost: 1,
+            backFire: 152,
+            eneCost: 31,
+            heaCost: 19,
+        },
+        divineBuff: {
+            expDmg: [153, 246],
+            heaCapDmg: 187,
         },
         attachment: { x:63, y:35 }
     }

@@ -11,6 +11,16 @@ $.defineHTMLElement('wu-workshop', class WUWorkshop extends HTMLElement
         this.itemSlots = [];
         this.topStatMap = {};
         this.itemQuery = {};
+
+        /*
+        this.LSKeys = {
+            ARENABUFFS: '__wu_arena_buffs__',
+            ARENABUFFSOFFSET: '__wu_arena_buffs_offset__',
+            DIVINETIER: '__wu_divine_tier__',
+            MAINMECHSCALE: '__wu_main_mech_scale__',
+            CUSTOMITEMS: '__wu_custom_items__',
+        };
+        */
         
 
         // Local Storage checking
